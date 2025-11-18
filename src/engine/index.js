@@ -1,5 +1,7 @@
 const twgl = require("twgl.js");
 
+const Drawable = require("./drawable.js");
+
 class GGM3Engine {
   constructor(canvas) {
     this.canvas = canvas;
@@ -8,6 +10,23 @@ class GGM3Engine {
     }
     this.initCanvas();
     this.editMode = false;
+    this.drawables = [];
+    this.sprites = [];
+  }
+
+  newDrawable(canvas) {
+    var drawable = new Drawable(this, canvas, this.drawables.length);
+    this.drawables.push(drawable);
+  }
+
+  disposeDrawable(drawable) {
+    drawable.dispose();
+    this.drawables = this.drawables.filter((d) => d.id !== drawable.id);
+  }
+
+  disposeAllDrawables() {
+    var t = this;
+    Array.from(this.drawables).forEach((d) => t.disposeDrawable(d));
   }
 
   turnOnEditing() {
