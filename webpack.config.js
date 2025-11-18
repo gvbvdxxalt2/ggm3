@@ -11,6 +11,13 @@ module.exports = {
   devServer: {
     allowedHosts: "all",
     port: 3958,
+    client: {
+      overlay: {
+        errors: true, // Keep displaying errors
+        warnings: false, // Disable displaying warnings
+        runtimeErrors: true, // Keep displaying runtime errors
+      },
+    },
   },
   cache: {
     type: "filesystem",
@@ -37,7 +44,31 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /scratch-blocks[\\/].+\.js$/,
+        use: [
+          {
+            loader: "imports-loader",
+            options: {
+              // This is the new syntax for 'this=>window'
+              wrapper: "window",
+            },
+          },
+        ],
+      },
+      {
         test: /\.css$/i,
+        use: [
+          {
+            loader: "raw-loader",
+            options: {
+              esModule: false,
+            },
+          },
+        ],
+        type: "javascript/auto", // Fix for raw-loader
+      },
+      {
+        test: /\.xml$/i,
         use: [
           {
             loader: "raw-loader",

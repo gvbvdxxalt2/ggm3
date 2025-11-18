@@ -1,5 +1,7 @@
-require("./dom/index.js");
-require("./blocks.js");
-window.ScratchBlocks = window.Blockly;
+if (window.Blockly) {
+  window.ScratchBlocks = window.Blockly;
+} else {
+  throw new Error("Blockly global definition is missing.");
+}
 
-window.alert(Object.keys(window.Blockly));
+require("./main.js");

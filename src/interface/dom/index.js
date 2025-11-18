@@ -11,6 +11,9 @@ elements.appendElementsFromJSON(document.body, [
   {
     element: "div",
     className: "appContainer",
-    children: [require("./menubar.js")],
+    children: [
+      require("./menubar.js"), //Menu bar
+      require("./left.js"), //Left panel
+    ],
   },
 ]);

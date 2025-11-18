@@ -60,5 +60,43 @@ body {
 
 .leftPanel {
   width: 50svw;
-  height: calc(100svh - 40px);
+  height: calc(100svh - 50px);
+  position: fixed;
+  top: 50px;
+  left: 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tabsArea {
+  display: flex;
+  flex-grow: 0;
+  flex-shrink: 0;
+  height: fit-content;
+  width: 100%;
+  overflow: auto;
+}
+
+.blocklyDiv {
+  flex-grow: 1;
+  width: 100%;
+}
+
+.tabButton {
+  all: unset;
+  color: #ffffff;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  padding: 0 8px;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.tabButton:hover {
+  background: #363636;
+  cursor: pointer;
 }

@@ -1,4 +1,16 @@
 module.exports = {
   elements: "div",
-  className: "",
+  className: "leftPanel",
+  children: [
+    {
+      element: "div",
+      className: "tabArea",
+      gid: "tabs",
+    },
+    {
+      element: "div",
+      className: "blocklyDiv",
+      gid: "blocklyDiv",
+    },
+  ],
 };
