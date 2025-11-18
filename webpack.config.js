@@ -26,6 +26,7 @@ module.exports = {
   devtool: false,
   entry: {
     interface: "./src/interface/index.js",
+    webgltest: "./src/interface/webgltest.js",
   },
   optimization: {
     splitChunks: {
@@ -100,6 +101,22 @@ module.exports = {
         ],
       },
       {
+        test: /\.vert$/i,
+        use: [
+          {
+            loader: "raw-loader",
+          },
+        ],
+      },
+      {
+        test: /\.frag$/i,
+        use: [
+          {
+            loader: "raw-loader",
+          },
+        ],
+      },
+      {
         test: /\.otf$/i,
         use: [
           {
@@ -115,6 +132,12 @@ module.exports = {
       title: `Gvbvdxx Game Maker 3`,
       template: "./src/base_html.html",
       chunks: ["interface"],
+    }),
+    new HtmlWebpackPlugin({
+      filename: `test.html`,
+      title: `WebGL test`,
+      template: "./src/base_html.html",
+      chunks: ["webgltest"],
     }),
     new CopyWebpackPlugin({
       patterns: [

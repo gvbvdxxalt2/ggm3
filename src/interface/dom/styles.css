@@ -6,7 +6,7 @@ body {
   background: #363636;
   width: 100svw;
   height: 100svh;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   overflow: unset;
@@ -22,7 +22,6 @@ body {
   background: #525252;
   overflow: auto;
   transition: 0.2s;
-  border-radius: 5px;
 }
 
 .menuBarItemLogo {
@@ -50,7 +49,6 @@ body {
   user-select: none;
   padding: 0 8px;
   font-weight: bold;
-  border-radius: 5px;
 }
 
 .menuBarItem:hover {
@@ -59,7 +57,7 @@ body {
 }
 
 .leftPanel {
-  width: 50svw;
+  width: calc(100svw - 640px);
   height: calc(100svh - 50px);
   position: fixed;
   top: 50px;
@@ -68,23 +66,50 @@ body {
   flex-direction: column;
 }
 
-.tabsArea {
+.rightPanel {
+  width: 640px;
+  height: calc(100svh - 50px);
+  position: fixed;
+  top: 50px;
+  right: 0px;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.projectControls {
+  width: 100%;
+  height: 200px;
+}
+
+.projectCanvas {
+  width: 640px;
+  height: 360px;
+  background: #ffffff;
+  border-radius: 4px;
+}
+
+.tabArea {
   display: flex;
   flex-grow: 0;
   flex-shrink: 0;
   height: fit-content;
   width: 100%;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
-.blocklyDiv {
-  flex-grow: 1;
-  width: 100%;
+.tabIcon {
+  height: 20px;
+  width: 20px;
+  object-fit: contain;
+  margin-right: 5px;
 }
 
 .tabButton {
   all: unset;
-  color: #ffffff;
+  color: #c7c7c7;
+  width: fit-content;
   height: 50px;
   display: flex;
   align-items: center;
@@ -93,10 +118,31 @@ body {
   user-select: none;
   padding: 0 8px;
   font-weight: bold;
-  border-radius: 5px;
+  flex-grow: 0;
+  transform: translateY(5px);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 .tabButton:hover {
-  background: #363636;
+  background: #8f8f8f;
   cursor: pointer;
+  color: #ffffff;
+  transform: translateY(4px);
+}
+
+.tabButton[selected] {
+  background: #8f8f8f;
+  cursor: unset;
+  color: #ffffff;
+  transform: translateY(0px);
+}
+
+.tabWindow {
+  background: #8f8f8f;
+  flex-grow: 1;
+  width: 100%;
+  color: #000000;
+  display: block;
+  overflow: auto;
 }

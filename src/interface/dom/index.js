@@ -14,6 +14,7 @@ elements.appendElementsFromJSON(document.body, [
     children: [
       require("./menubar.js"), //Menu bar
       require("./left.js"), //Left panel
+      require("./right.js"), //Right panel
     ],
   },
 ]);

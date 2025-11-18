@@ -24,6 +24,7 @@
   "dependencies": {
     "prettier": "^3.6.2",
     "simple-peer": "^9.11.1",
+    "twgl.js": "^7.0.0",
     "webpack-dev-server": "^5.2.2"
   },
   "license": "MIT",

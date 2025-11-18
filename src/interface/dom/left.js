@@ -5,12 +5,19 @@ module.exports = {
     {
       element: "div",
       className: "tabArea",
-      gid: "tabs",
+      gid: "tabArea",
     },
     {
       element: "div",
-      className: "blocklyDiv",
-      gid: "blocklyDiv",
+      className: "tabWindow",
+      gid: "tabWindow",
+      children: [
+        {
+          element: "div",
+          className: "blocklyDiv",
+          gid: "blocklyDiv",
+        },
+      ],
     },
   ],
 };
