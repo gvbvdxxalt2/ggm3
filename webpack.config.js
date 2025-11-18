@@ -32,11 +32,7 @@ module.exports = {
     filename: "[name].bundle.js",
   },
   performance: {
-    hints: "warning",
-    assetFilter: function (assetFilename) {
-      //Ignore warnings for media assets which are typically large files.
-      return assetFilename.endsWith(".js") || assetFilename.endsWith(".css");
-    },
+    /*hints: "warning",*/
   },
   module: {
     rules: [
