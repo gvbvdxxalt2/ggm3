@@ -1,0 +1,64 @@
+body {
+  font-family: arial;
+}
+
+.appContainer {
+  background: #363636;
+  width: 100svw;
+  height: 100svh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: unset;
+}
+
+.menuBar {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 50px;
+  background: #525252;
+  overflow: auto;
+  transition: 0.2s;
+  border-radius: 5px;
+}
+
+.menuBarItemLogo {
+  all: unset;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  padding: 0 10px;
+}
+
+.menuBarItemLogoImg {
+  height: 30px;
+}
+
+.menuBarItem {
+  all: unset;
+  color: #ffffff;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  padding: 0 8px;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.menuBarItem:hover {
+  background: #363636;
+  cursor: pointer;
+}
+
+.leftPanel {
+  width: 50svw;
+  height: calc(100svh - 40px);
+}
