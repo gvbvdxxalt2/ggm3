@@ -47,9 +47,7 @@ const spriteProgramInfo = twgl.createProgramInfo(gl, [
 // --- 3. Create geometry that matches the Scratch shader ---
 
 // Scratch's quad is centered at (0,0) and goes from -0.5 to +0.5
-const position = [
-  -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5,
-];
+const position = [-0, -0, 1, -0, -0, 1, -0, 1, 1, -0, 1, 1];
 
 // Scratch's texcoords are Y-flipped (0,1 is top-left)
 const texcoord = [
@@ -94,6 +92,8 @@ img.onload = function () {
   const texHeight = 256;
   canvas2d.width = texWidth;
   canvas2d.height = texHeight;
+  ctx.fillStyle = "red";
+  ctx.fillRect(0, 0, texWidth, texHeight);
   ctx.drawImage(img, 0, 0, texWidth, texHeight);
   // --------------------------------------------------
 
@@ -126,13 +126,10 @@ img.onload = function () {
 
     // Calculate a model matrix
     let modelMatrix = twgl.m4.identity();
-    modelMatrix = twgl.m4.translate(modelMatrix, [
-      gl.canvas.width / 2,
-      gl.canvas.height / 2,
-      0,
-    ]);
+    modelMatrix = twgl.m4.translate(modelMatrix, [0, 0, 0]);
     // Scale sprite to 100x100 pixels
     modelMatrix = twgl.m4.scale(modelMatrix, [100, 100, 1]);
+    //modelMatrix = twgl.m4.rotateZ(modelMatrix, time * 0.5);
 
     // Define uniforms (must be inside the loop for animations)
     const uniforms = {

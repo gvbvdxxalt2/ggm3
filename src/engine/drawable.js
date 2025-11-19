@@ -1,23 +1,5 @@
 var twgl = require("twgl.js");
 
-const position = [
-  -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5,
-];
-const texcoord = [
-  0,
-  0, // Bottom-left vertex maps to (0,0)
-  1,
-  0, // Bottom-right vertex maps to (1,0)
-  0,
-  1, // Top-left vertex maps to (0,1)
-  0,
-  1, // Top-left vertex maps to (0,1)
-  1,
-  0, // Bottom-right vertex maps to (1,0)
-  1,
-  1, // Top-right vertex maps to (1,1)
-];
-
 class Drawable {
   static getImageCanvas(img, scale = 1) {
     var canvas = document.createElement("canvas");
@@ -47,8 +29,9 @@ class Drawable {
       this.gl.deleteTexture(this.texture);
     }
 
-    this.texture = twgl.createTexture(gl, {
+    this.texture = twgl.createTexture(this.gl, {
       src: this.canvas,
+      mag: this.gl.NEAREST
     });
 
     this.isOutdated = false;

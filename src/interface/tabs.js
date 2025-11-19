@@ -1,5 +1,6 @@
 var elements = require("../gp2/elements.js");
 var AElement = require("../gp2/aelement.js");
+var blocks = require("./blocks.js");
 
 var tabArea = elements.getGPId("tabArea");
 function createTabElementJSON(label, src, whenClick, isSelected) {
@@ -62,11 +63,40 @@ function updateTabs() {
   );
 }
 
+var blocklyDiv = elements.getGPId("blocklyDiv");
+
+function setWorkspaceVisibility(visible) {
+  blocklyDiv.hidden = !visible;
+
+  var workspace = blocks.getCurrentWorkspace();
+  if (!workspace) {
+    return;
+  }
+  workspace.setVisible(visible);
+}
+
+var costumesContainer = elements.getGPId("costumesContainer");
+
+function updateVisibility() {
+  if (currentTab == "SCRIPT") {
+    setWorkspaceVisibility(true);
+    //costumesContainer.hidden = true;
+  }
+  if (currentTab == "COSTUMES") {
+    setWorkspaceVisibility(false);
+    //costumesContainer.hidden = false;
+  }
+}
+
 function switchTab(id) {
+  if (currentTab == id) {
+    return;
+  }
   currentTab = id;
   updateTabs();
+  updateVisibility();
 }
 
 updateTabs();
 
-module.exports = {};
+module.exports = { updateTabs, updateVisibility };
