@@ -43,11 +43,13 @@ class Sprite {
       return;
     }
     this.runningStacks[firstBlockID].stop();
+    delete this.runningStacks[firstBlockID];
   }
 
-  addStackListener(name, blockID) {
+  addStackListener(name, blockID, func) {
     if (this.listeners[name]) {
       this.listeners[name].push(blockID);
+      this.hatFunctions[blockID] = func;
     }
   }
 
@@ -56,6 +58,9 @@ class Sprite {
     var thread = new Thread(firstBlockID, this);
     this.runningStacks[firstBlockID] = thread;
     return thread;
+  }
+  removeThread(firstBlockID) {
+    delete this.runningStacks[firstBlockID];
   }
 
   getFunction(code) {

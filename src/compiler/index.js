@@ -1,11 +1,11 @@
 var { blockToJSON, workspaceToJSON } = require("./blocktojson.js");
 var JavascriptTranslation = require("./blocks");
 var StarterBlocks = require("./blocks/starters.js");
-function getInput(blockJson, name) {
+function getInput(blockJson, name, options) {
   for (var input of blockJson.inputs) {
     if (input.name == name) {
       console.log(input.block);
-      return compileBlockFromJSON(input.block);
+      return compileBlockFromJSON(input.block, options);
     }
   }
   return null;
@@ -19,12 +19,23 @@ function getField(blockJson, name) {
   return null;
 }
 
-function compileBlockFromJSON(json) {
+function compileBlockFromJSON(json, options = {}) {
   if (JavascriptTranslation[json.type]) {
-    var output = JavascriptTranslation[json.type](json, {
-      getInput,
-      getField,
-    });
+    var output = JavascriptTranslation[json.type](
+      json,
+      {
+        getInput,
+        getField,
+      },
+      options
+    );
+    if ("function" === typeof output) {
+      if (json.next) {
+        return output(compileBlockFromJSON(json.next, options));
+      } else {
+        return output("");
+      }
+    }
   } else {
     console.warn(
       "Unable to compile block " +
@@ -34,13 +45,13 @@ function compileBlockFromJSON(json) {
     return;
   }
   if (json.next) {
-    output += compileBlockFromJSON(json.next);
+    output += compileBlockFromJSON(json.next, options);
   }
   return output;
 }
 
-function compileBlock(block) {
-  return compileBlockFromJSON(blockToJSON(block));
+function compileBlock(block, options) {
+  return compileBlockFromJSON(blockToJSON(block), options);
 }
 
 function isStarterBlock(block) {
@@ -48,15 +59,7 @@ function isStarterBlock(block) {
   return StarterBlocks.indexOf(json.type) !== -1;
 }
 
-function compileBlockStartImmediateJSON(json) {
-  var json = blockToJSON(block);
-  if (StarterBlocks.indexOf(json.type) !== -1) {
-    return compileBlockStartImmediate(json.next);
-  }
-}
-
 module.exports = {
   compileBlock,
-  compileBlockStartImmediate,
   isStarterBlock,
 };

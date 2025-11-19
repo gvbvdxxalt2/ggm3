@@ -8,6 +8,7 @@ class Thread {
 
   stop() {
     this.running = false;
+    this.sprite.removeThread(this.id);
   }
 
   waitForNextFrame() {

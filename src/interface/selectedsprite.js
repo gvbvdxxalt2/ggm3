@@ -87,7 +87,8 @@ function loadCode(spr) {
   workspace.addChangeListener(function (e) {
     spr.blocklyXML = Blockly.Xml.workspaceToDom(workspace);
     if (e.element == "stackclick") {
-      console.log(compiler.compileBlock(workspace.getBlockById(e.blockId)));
+      var code = compiler.compileBlock(workspace.getBlockById(e.blockId));
+      window.alert(code);
     }
   });
 }

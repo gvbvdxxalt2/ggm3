@@ -17,7 +17,7 @@ function generateToolbox(defaultX, defaultY) {
         </block>
     </category>
     <category name="Events" id="events" colour="#4C97FF" secondaryColour="#3373CC">
-        <block type="event_whenstartclicked"></block>
+        <block type="event_whengamestarts"></block>
     </category>
     `;
 
