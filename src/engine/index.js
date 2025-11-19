@@ -24,6 +24,10 @@ class GGM3Engine {
     this.startRenderLoop();
   }
 
+  deleteSprite(name) {
+    this.sprites = this.sprites.filter((a) => {});
+  }
+
   createEmptySprite() {
     this.sprites.push(new Sprite(this, "Sprite " + (this.sprites.length + 1)));
   }
@@ -100,7 +104,7 @@ class GGM3Engine {
     var canvas = this.canvas;
     canvas.width = 640;
     canvas.height = 360;
-    const contextAttribs = {alpha: false, stencil: true, antialias: false};
+    const contextAttribs = { alpha: false, stencil: true, antialias: false };
     var gl =
       canvas.getContext("webgl", contextAttribs) ||
       canvas.getContext("experimental-webgl", contextAttribs) ||

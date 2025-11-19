@@ -74,10 +74,9 @@ function setWorkspaceVisibility(visible) {
     return;
   }
   if (visible) {
-    blocks.createFreshWorkspace();
-    selectedSprite.loadCode(selectedSprite.getCurSprite());
+    workspace.setVisible(true);
   } else {
-    workspace.dispose();
+    workspace.setVisible(false);
   }
 }
 
@@ -86,11 +85,11 @@ var costumesContainer = elements.getGPId("costumesContainer");
 function updateVisibility() {
   if (currentTab == "SCRIPT") {
     setWorkspaceVisibility(true);
-    //costumesContainer.hidden = true;
+    costumesContainer.hidden = true;
   }
   if (currentTab == "COSTUMES") {
     setWorkspaceVisibility(false);
-    //costumesContainer.hidden = false;
+    costumesContainer.hidden = false;
   }
 }
 

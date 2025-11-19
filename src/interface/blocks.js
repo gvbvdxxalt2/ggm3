@@ -4,12 +4,7 @@ window.ScratchBlocks = window.Blockly;
 
 var blocklyDiv = elements.getGPId("blocklyDiv");
 
-var toolbox = elements.createElementsFromJSON([
-  {
-    element: "xml",
-    dangerouslySetInnerHTML: require("./toolbox.xml"),
-  },
-])[0];
+var toolboxGenerator = require("./toolbox.js");
 
 var workspace = null;
 
@@ -17,9 +12,24 @@ function getCurrentWorkspace() {
   return workspace;
 }
 
-function createFreshWorkspace() {
+function createFreshWorkspace(spr) {
   if (workspace) {
     workspace.dispose();
+  }
+  if (spr) {
+    var toolbox = elements.createElementsFromJSON([
+      {
+        element: "xml",
+        dangerouslySetInnerHTML: toolboxGenerator(spr.x, spr.y),
+      },
+    ])[0];
+  } else {
+    var toolbox = elements.createElementsFromJSON([
+      {
+        element: "xml",
+        dangerouslySetInnerHTML: toolboxGenerator(),
+      },
+    ])[0];
   }
   workspace = Blockly.inject(blocklyDiv, {
     comments: true,

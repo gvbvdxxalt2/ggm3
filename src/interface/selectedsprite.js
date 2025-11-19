@@ -40,6 +40,11 @@ function updateSpritesContainer() {
             element: "span",
             textContent: spr.name,
           },
+          {
+            element: "button",
+            className: "greyButtonStyle",
+            textContent: "Delete",
+          },
         ],
       };
     })
@@ -47,7 +52,10 @@ function updateSpritesContainer() {
 }
 
 function loadCode(spr) {
-  blocks.createFreshWorkspace();
+  if (!spr) {
+    return;
+  }
+  blocks.createFreshWorkspace(spr);
   var workspace = blocks.getCurrentWorkspace();
   if (spr.blocklyXML) {
     Blockly.Xml.domToWorkspace(spr.blocklyXML, workspace);
@@ -69,7 +77,6 @@ function setCurrentSprite(index) {
   spriteYPosInput.value = currentSelectedSprite.y;
   updateSpritesContainer();
   loadCode(currentSelectedSprite);
-  tabs.updateVisibility();
   costumeViewer.reloadCostumes(currentSelectedSprite);
 }
 
