@@ -178,6 +178,21 @@ function loadCode(spr) {
       }
     }
   });
+
+  var flyoutWorkspace = workspace.getFlyout().getWorkspace();
+  flyoutWorkspace.addChangeListener(function (e) {
+    if (e.element == "click") {
+      var root = workspace.getBlockById(e.blockId).getRootBlock();
+      if (!spr.runningStacks[root.id]) {
+        var code = compiler.compileBlockWithThreadForced(root);
+        //window.alert(code);
+        spr.runFunction(code);
+      } else {
+        spr.runningStacks[root.id].stop();
+      }
+    }
+  });
+
   for (var id of Object.keys(spr.runningStacks)) {
     if (workspace.getBlockById(id)) {
       workspace.glowStack(id, true);
