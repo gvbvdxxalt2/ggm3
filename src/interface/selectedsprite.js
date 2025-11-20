@@ -196,15 +196,20 @@ function loadCode(spr) {
     if (disposingWorkspace) {
       return;
     }
-    if (typeof endTimeouts[id] !== "undefined") {
-      clearTimeout(endTimeouts[id]);
-    }
-    endTimeouts[id] = setTimeout(() => { //Breif flash so it indicates its running something (like a block that runs immediatley).
-      delete endTimeouts[id];
-      if (workspace.getBlockById(id)) {
-        workspace.glowStack(id, false);
+    if (workspace.getBlockById(id)) {
+      //Only do it if it exists.
+      if (typeof endTimeouts[id] !== "undefined") {
+        clearTimeout(endTimeouts[id]);
       }
-    },1000/30);
+      endTimeouts[id] = setTimeout(() => {
+        //Breif flash so it indicates its running something (like a block that runs immediatley).
+        delete endTimeouts[id];
+        if (workspace.getBlockById(id)) {
+          //Just a double check so that no breaking happens when its deleted before the timeout finishes.
+          workspace.glowStack(id, false);
+        }
+      }, 1000 / 30);
+    }
   };
 
   setTimeout(function () {
