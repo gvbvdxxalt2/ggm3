@@ -1,1 +1,1 @@
-module.exports = ["event_whenstartclicked"];
+module.exports = [];

@@ -31,6 +31,19 @@ class GGM3Engine {
     this.startRenderLoop();
   }
 
+  stopGame() {
+    for (var sprite of this.sprites) {
+      sprite.stopAllScripts();
+    }
+  }
+
+  startGame() {
+    this.stopGame();
+    for (var sprite of this.sprites) {
+      sprite.emitStackListener("started");
+    }
+  }
+
   deleteSprite(name) {
     this.sprites = this.sprites.filter((a) => {});
   }

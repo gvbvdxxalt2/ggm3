@@ -1,6 +1,7 @@
 var JavascriptTranslation = {};
 var utilFunctions = require("./util-functions.js");
 
+require("./starters.js").push("event_whengamestarts"); //When game starts is a on-event block.
 JavascriptTranslation["event_whengamestarts"] = function (
   jsonblock,
   utils,
@@ -12,7 +13,7 @@ JavascriptTranslation["event_whengamestarts"] = function (
   return function (insideCode) {
     if (options.EXECUTE_BLOCKS) {
       //Means ONLY execute blocks, don't add listeners to the sprite.
-      return `${utilFunctions.newThread(jsonblock)}${insideCode}thread.stop();`;
+      return `${insideCode}`;
     } else {
       return `sprite.addStackListener(
         "started",
@@ -20,7 +21,7 @@ JavascriptTranslation["event_whengamestarts"] = function (
         async function () {
         ${utilFunctions.newThread(jsonblock)}
         ${insideCode}
-        thread.stop();
+        ${utilFunctions.endThread(jsonblock)}
       });`;
     }
   };

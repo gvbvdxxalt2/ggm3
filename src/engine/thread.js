@@ -4,11 +4,20 @@ class Thread {
     this.sprite = sprite;
     this.running = true;
     this.screenRefresh = true;
+    this._hasStopped = false;
+    this.withoutRefresh = false;
+  }
+
+  turnOnWithoutRefresh() {
+    this.withoutRefresh = true;
   }
 
   stop() {
     this.running = false;
-    this.sprite.removeThread(this.id);
+    if (!this._hasStopped) {
+      this._hasStopped = true;
+      this.sprite.removeThread(this.id);
+    }
   }
 
   waitForNextFrame() {
@@ -19,6 +28,45 @@ class Thread {
       });
     } else {
       return new Promise((a) => a());
+    }
+  }
+
+  waitSeconds(seconds) {
+    var _this = this;
+    return new Promise((resolve) => {
+      if (!_this.running) {
+        resolve();
+      }
+      var milliseconds = seconds * 1000;
+      var start = performance.now();
+      var interval = setInterval(() => {
+        var now = performance.now();
+        if (!_this.running) {
+          clearInterval(interval);
+          resolve();
+        }
+        if (now - start > milliseconds) {
+          clearInterval(interval);
+          resolve();
+        }
+      });
+    });
+  }
+
+  async repeatTimes(times, func) {
+    var i = 0;
+    while (i < times) {
+      await func();
+      if (!this.withoutRefresh) {
+        await this.waitForNextFrame();
+      }
+      if (!this.running) {
+        return;
+      }
+      i += 1;
+    }
+    if (!this.running) {
+      return;
     }
   }
 }

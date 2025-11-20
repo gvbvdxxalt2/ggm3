@@ -284,6 +284,28 @@ body {
   color: white;
 }
 
+.projectControls {
+  background: #8f8f8f;
+  border-radius: 5px;
+  width: 100%;
+  flex-grow: 0;
+  flex-shrink: 0;
+  height: fit-content;
+  display: flex;
+}
+
+.projectButton {
+  padding: 5px;
+  font-size: 20px;
+  user-select: none;
+  margin-right: 2px;
+}
+
+.projectButton:hover {
+  cursor: pointer;
+  color: white;
+}
+
 [hidden] {
   display: none;
 }

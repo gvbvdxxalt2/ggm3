@@ -8,6 +8,8 @@ var engine = require("./curengine.js");
 var tabs = require("./tabs.js");
 var selectedSprite = require("./selectedsprite.js");
 
+require("./enginecontrol.js");
+
 engine.createEmptySprite();
 engine.createEmptySprite();
 engine.createEmptySprite();

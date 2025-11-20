@@ -75,27 +75,81 @@ function updateSpritesContainer() {
   );
 }
 
+var workspace = null;
+
 function loadCode(spr) {
   if (!spr) {
     return;
   }
   blocks.createFreshWorkspace(spr);
-  var workspace = blocks.getCurrentWorkspace();
+  workspace = blocks.getCurrentWorkspace();
   if (spr.blocklyXML) {
     Blockly.Xml.domToWorkspace(spr.blocklyXML, workspace);
   }
+  var currentBlocks = {};
   workspace.addChangeListener(function (e) {
     spr.blocklyXML = Blockly.Xml.workspaceToDom(workspace);
+    if (e.blockId) {
+      if (!workspace.getBlockById(e.blockId)) {
+        if (currentBlocks[e.blockId]) {
+          //Stop the block and remove the hat event if it exists.
+          var thread = currentSelectedSprite.runningStacks[e.blockId];
+          if (thread) {
+            thread.stop();
+          }
+        }
+        currentSelectedSprite.removeStackListener(e.blockId);
+        delete currentBlocks[e.blockId];
+      } else {
+        currentBlocks[e.blockId] = true;
+
+        var thread = currentSelectedSprite.runningStacks[e.blockId];
+        if (thread) {
+          thread.stop();
+        }
+
+        //Compile the block if its edited.
+        var firstBlock = workspace.getBlockById(e.blockId).getRootBlock();
+        var code = compiler.compileBlock(firstBlock);
+        currentSelectedSprite.runFunction(code);
+      }
+    }
     if (e.element == "stackclick") {
-      var code = compiler.compileBlock(workspace.getBlockById(e.blockId));
-      window.alert(code);
+      if (!currentSelectedSprite.runningStacks[e.blockId]) {
+        var code = compiler.compileBlockWithThreadForced(
+          workspace.getBlockById(e.blockId)
+        );
+        //window.alert(code);
+        currentSelectedSprite.runFunction(code);
+      } else {
+        currentSelectedSprite.runningStacks[e.blockId].stop();
+      }
     }
   });
+  for (var id of Object.keys(currentSelectedSprite.runningStacks)) {
+    if (workspace.getBlockById(id)) {
+      workspace.glowStack(id, true);
+    }
+  }
+  currentSelectedSprite.threadStartListener = function (id) {
+    if (workspace.getBlockById(id)) {
+      workspace.glowStack(id, true);
+    }
+  };
+  currentSelectedSprite.threadEndListener = function (id) {
+    if (workspace.getBlockById(id)) {
+      workspace.glowStack(id, false);
+    }
+  };
 }
 
 function setCurrentSprite(index) {
   if (currentSelectedSpriteIndex == index) {
     return;
+  }
+  if (currentSelectedSprite) {
+    currentSelectedSprite.threadStartListener = null;
+    currentSelectedSprite.threadEndListener = null;
   }
   currentSelectedSpriteIndex = index;
   currentSelectedSprite = engine.sprites[index];

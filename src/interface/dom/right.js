@@ -3,6 +3,11 @@ module.exports = {
   className: "rightPanel",
   children: [
     {
+      element: "div",
+      className: "projectControls",
+      gid: "projectControls",
+    },
+    {
       element: "canvas",
       gid: "projectCanvas",
       className: "projectCanvas",

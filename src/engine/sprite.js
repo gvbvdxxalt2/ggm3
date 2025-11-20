@@ -24,9 +24,14 @@ class Sprite {
     this.angle = 0;
 
     this.hatFunctions = {};
-    this.listeners = {};
+    this.listeners = {
+      started: [],
+    };
     this.runningStacks = {};
     this.frameListeners = [];
+
+    this.threadEndListener = null;
+    this.threadStartListener = null;
   }
 
   _addFrameListener(resolve) {
@@ -46,10 +51,39 @@ class Sprite {
     delete this.runningStacks[firstBlockID];
   }
 
+  removeStackListener(blockID) {
+    for (var listener of Object.keys(this.listeners)) {
+      if (this.listeners[listener].indexOf(blockID) !== -1) {
+        this.listeners[listener] = this.listeners[listener].filter(
+          (id) => id !== blockID
+        );
+      }
+    }
+
+    delete this.hatFunctions[blockID];
+  }
+
   addStackListener(name, blockID, func) {
+    this.removeStackListener(blockID);
     if (this.listeners[name]) {
       this.listeners[name].push(blockID);
       this.hatFunctions[blockID] = func;
+    }
+  }
+
+  emitStackListener(name, ...args) {
+    if (this.listeners[name]) {
+      for (var blockID of this.listeners[name]) {
+        if (this.hatFunctions[blockID]) {
+          this.hatFunctions[blockID](...args);
+        }
+      }
+    }
+  }
+
+  stopAllScripts() {
+    for (var thread of Object.keys(this.runningStacks)) {
+      this.stopScript(thread);
     }
   }
 
@@ -57,16 +91,28 @@ class Sprite {
     this.stopScript(firstBlockID);
     var thread = new Thread(firstBlockID, this);
     this.runningStacks[firstBlockID] = thread;
+    if (this.threadStartListener) {
+      this.threadStartListener(firstBlockID);
+    }
     return thread;
   }
   removeThread(firstBlockID) {
+    if (this.threadEndListener) {
+      this.threadEndListener(firstBlockID);
+    }
     delete this.runningStacks[firstBlockID];
   }
 
   getFunction(code) {
     //Used by compiling.
-    var func = eval("(async function () {" + code + "})");
+    //window.alert(code);
+    var func = eval("(async function (sprite) {" + code + "})");
     return func.bind(this);
+  }
+
+  runFunction(code) {
+    var func = this.getFunction(code);
+    func(this);
   }
 
   addCostume(dataURL) {

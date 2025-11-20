@@ -19,6 +19,22 @@ function generateToolbox(defaultX, defaultY) {
     <category name="Events" id="events" colour="#4C97FF" secondaryColour="#3373CC">
         <block type="event_whengamestarts"></block>
     </category>
+    <category name="Control" id="Control" colour="#4C97FF" secondaryColour="#3373CC">
+        <block type="control_wait">
+            <value name="DURATION">
+                <shadow type="math_number">
+                    <field name="NUM">1</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="control_repeat">
+            <value name="TIMES">
+                <shadow type="math_number">
+                    <field name="NUM">10</field>
+                </shadow>
+            </value>
+        </block>
+    </category>
     `;
 
   return xml;
