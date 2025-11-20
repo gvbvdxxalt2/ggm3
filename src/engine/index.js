@@ -69,27 +69,36 @@ class GGM3Engine {
   startRenderLoop() {
     const _this = this;
 
-    // --- Framerate Capping Logic ---
-
-    // We store frameDuration in milliseconds (e.g., 1000ms / 60fps = 16.66ms)
-    // We can't set this.frameDuration in the constructor,
-    // because this.frameRate might be changed later.
-
-    // 'previous' will track the timestamp of the last *rendered* frame
     let previous = performance.now();
-    // -------------------------------
+    let lag = 0.0;
 
     function loop(now) {
       requestAnimationFrame(loop);
+
       const frameDuration = 1000 / _this.frameRate;
-      const delta = now - previous;
 
-      if (delta >= frameDuration) {
-        previous = previous + frameDuration;
+      // Calculate time since last frame
+      let delta = now - previous;
+      previous = now;
 
-        _this._iTime += delta / 1000;
+      // --- THE FIX ---
+      // If delta is huge (like switching tabs), cap it.
+      // This prevents the game from trying to simulate
+      // thousands of frames and locking up.
+      // We'll cap it at 1 second.
+      if (delta > 1000) {
+        delta = 1000;
+      }
 
-        _this.render(delta);
+      // Add the (capped) delta to our lag accumulator
+      lag += delta;
+
+      // Run update logic in fixed steps
+      // This loop will run 0 or more times
+      while (lag >= frameDuration) {
+        // Pass the *fixed* step to the update logic
+        _this.render(frameDuration);
+        lag -= frameDuration;
       }
     }
 
@@ -208,6 +217,8 @@ class GGM3Engine {
     twgl.resizeCanvasToDisplaySize(gl.canvas);
     gl.clearColor(1, 1, 1, 0); // Use 0,0,0,0 to respect canvas style background
     gl.clear(gl.COLOR_BUFFER_BIT);
+
+    this._iTime += elapsed / 1000;
 
     var _this = this;
     this.sprites.forEach((spr) => {
