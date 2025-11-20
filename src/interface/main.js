@@ -7,10 +7,11 @@ require("./dom/index.js");
 var engine = require("./curengine.js");
 var tabs = require("./tabs.js");
 var selectedSprite = require("./selectedsprite.js");
+var defaultProject = require("./defaultproject.js");
 
 require("./enginecontrol.js");
 
-engine.createEmptySprite();
-engine.createEmptySprite();
-engine.createEmptySprite();
-selectedSprite.setCurrentSprite(0);
+(async function () {
+  await defaultProject.loadDefaultProject();
+  selectedSprite.setCurrentSprite(0);
+})();

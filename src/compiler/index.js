@@ -12,7 +12,7 @@ function getInput(blockJson, name, options) {
   }
   return null;
 }
-function getField(blockJson, name) {
+function getField(blockJson, name, options) {
   for (var field of blockJson.fields) {
     if (field.name == name) {
       return field.value;
@@ -44,7 +44,7 @@ function compileBlockFromJSON(json, options = {}) {
         json.type +
         " because it doesn't exist in the translator."
     );
-    return;
+    var output = "";
   }
   if (json.next) {
     output += compileBlockFromJSON(json.next, options);

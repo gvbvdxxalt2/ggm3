@@ -76,6 +76,9 @@ function setWorkspaceVisibility(visible) {
   }
   if (visible) {
     workspace.setVisible(true);
+    setTimeout(function () {
+      Blockly.svgResize(workspace);
+    }, 0);
   } else {
     workspace.setVisible(false);
   }

@@ -54,7 +54,7 @@ class Thread {
   }
 
   async repeatTimes(times, func) {
-    var i = 0;
+    var i = 1;
     while (i < times) {
       await func();
       if (!this.withoutRefresh) {

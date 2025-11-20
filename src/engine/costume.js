@@ -30,6 +30,13 @@ class Costume {
     this.id = Date.now() + "_" + Math.round(Math.random() * 9999999);
   }
 
+  getFinalRotationCenter() {
+    return [
+      this.preferedScale * this.rotationCenterX,
+      this.preferedScale * this.rotationCenterY,
+    ];
+  }
+
   loadImage() {
     if (this.img) {
       this.img.src = "";
@@ -39,6 +46,8 @@ class Costume {
     var img = document.createElement("img");
     this.img = img;
     img.onload = function () {
+      _this.rotationCenterX = img.width / 2;
+      _this.rotationCenterY = img.height / 2;
       _this.renderImageAtScale(_this.preferedScale);
       if (_this.resolveFunction) {
         _this.resolveFunction(true);

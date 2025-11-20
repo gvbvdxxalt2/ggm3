@@ -12,6 +12,8 @@ var currentSelectedSpriteIndex = null;
 var spriteNameInput = elements.getGPId("spriteNameInput");
 var spriteXPosInput = elements.getGPId("spriteXPosInput");
 var spriteYPosInput = elements.getGPId("spriteYPosInput");
+var spriteDirectionInput = elements.getGPId("spriteDirectionInput");
+var spriteSizeInput = elements.getGPId("spriteSizeInput");
 
 var spritesContainer = elements.getGPId("spritesContainer");
 
@@ -64,7 +66,10 @@ function updateSpritesContainer() {
               {
                 event: "click",
                 func: function (elm) {
-                  setCurrentSprite(i);
+                  if (engine.sprites.length > 1) {
+                    engine.deleteSprite(spr);
+                    setCurrentSprite(0);
+                  }
                 },
               },
             ],
@@ -76,11 +81,14 @@ function updateSpritesContainer() {
 }
 
 var workspace = null;
+var disposingWorkspace = false;
 
 function loadCode(spr) {
   if (!spr) {
     return;
   }
+  disposingWorkspace = true;
+  Blockly.Events.disable();
   blocks.createFreshWorkspace(spr);
   workspace = blocks.getCurrentWorkspace();
   if (spr.blocklyXML) {
@@ -88,59 +96,76 @@ function loadCode(spr) {
   }
   var currentBlocks = {};
   workspace.addChangeListener(function (e) {
+    if (disposingWorkspace) {
+      //window.alert(JSON.stringify(e));
+      //disposingWorkspace = false;
+      return;
+    }
     spr.blocklyXML = Blockly.Xml.workspaceToDom(workspace);
-    if (e.blockId) {
+    if (e.element == "click") {
+      if (!spr.runningStacks[e.blockId]) {
+        var code = compiler.compileBlockWithThreadForced(
+          workspace.getBlockById(e.blockId).getRootBlock()
+        );
+        //window.alert(code);
+        spr.runFunction(code);
+      } else {
+        spr.runningStacks[e.blockId].stop();
+      }
+    } else if (e.blockId && e.element !== "stackclick") {
       if (!workspace.getBlockById(e.blockId)) {
         if (currentBlocks[e.blockId]) {
           //Stop the block and remove the hat event if it exists.
-          var thread = currentSelectedSprite.runningStacks[e.blockId];
+          var thread = spr.runningStacks[e.blockId];
           if (thread) {
             thread.stop();
           }
         }
-        currentSelectedSprite.removeStackListener(e.blockId);
+        spr.removeStackListener(e.blockId);
         delete currentBlocks[e.blockId];
       } else {
         currentBlocks[e.blockId] = true;
 
-        var thread = currentSelectedSprite.runningStacks[e.blockId];
+        var thread = spr.runningStacks[e.blockId];
         if (thread) {
           thread.stop();
         }
 
         //Compile the block if its edited.
         var firstBlock = workspace.getBlockById(e.blockId).getRootBlock();
-        var code = compiler.compileBlock(firstBlock);
-        currentSelectedSprite.runFunction(code);
-      }
-    }
-    if (e.element == "stackclick") {
-      if (!currentSelectedSprite.runningStacks[e.blockId]) {
-        var code = compiler.compileBlockWithThreadForced(
-          workspace.getBlockById(e.blockId)
-        );
-        //window.alert(code);
-        currentSelectedSprite.runFunction(code);
-      } else {
-        currentSelectedSprite.runningStacks[e.blockId].stop();
+        var code = compiler.compileBlock(firstBlock); //This only generates the block or returns an empty string if its not a event (hat) block.
+        spr.runFunction(code); //Usually this code would generate some type of addEventListener which is safe to run a lot.
       }
     }
   });
-  for (var id of Object.keys(currentSelectedSprite.runningStacks)) {
+  for (var id of Object.keys(spr.runningStacks)) {
     if (workspace.getBlockById(id)) {
       workspace.glowStack(id, true);
     }
   }
-  currentSelectedSprite.threadStartListener = function (id) {
+  spr.threadStartListener = function (id) {
+    if (disposingWorkspace) {
+      return;
+    }
     if (workspace.getBlockById(id)) {
       workspace.glowStack(id, true);
     }
   };
-  currentSelectedSprite.threadEndListener = function (id) {
+  spr.threadEndListener = function (id) {
+    if (disposingWorkspace) {
+      return;
+    }
     if (workspace.getBlockById(id)) {
       workspace.glowStack(id, false);
     }
   };
+
+  setTimeout(function () {
+    Blockly.svgResize(workspace);
+  }, 0);
+
+  disposingWorkspace = false;
+  Blockly.Events.enable();
 }
 
 function setCurrentSprite(index) {
@@ -150,6 +175,12 @@ function setCurrentSprite(index) {
   if (currentSelectedSprite) {
     currentSelectedSprite.threadStartListener = null;
     currentSelectedSprite.threadEndListener = null;
+    if (workspace) {
+      // Get the current scrollbar positions
+      const metrics = workspace.getMetrics();
+      currentSelectedSprite.scrollX = metrics.scrollLeft;
+      currentSelectedSprite.scrollY = metrics.scrollTop;
+    }
   }
   currentSelectedSpriteIndex = index;
   currentSelectedSprite = engine.sprites[index];
@@ -181,6 +212,18 @@ spriteYPosInput.addEventListener("input", () => {
   }
   currentSelectedSprite.y = +spriteYPosInput.value || 0;
 });
+spriteDirectionInput.addEventListener("input", () => {
+  if (!currentSelectedSprite) {
+    return;
+  }
+  currentSelectedSprite.direction = +spriteDirectionInput.value || 0;
+});
+spriteSizeInput.addEventListener("input", () => {
+  if (!currentSelectedSprite) {
+    return;
+  }
+  currentSelectedSprite.size = +spriteSizeInput.value || 0;
+});
 
 function getCurSprite() {
   return currentSelectedSprite;
@@ -195,14 +238,28 @@ setInterval(() => {
       spriteNameInput.value = currentSelectedSprite.name;
     }
     if (
-      spriteXPosInput.value.trim() !== currentSelectedSprite.x.toString().trim()
+      Math.round(+spriteXPosInput.value || 0) !==
+      Math.round(currentSelectedSprite.x)
     ) {
-      spriteXPosInput.value = currentSelectedSprite.x.toString().trim();
+      spriteXPosInput.value = Math.round(currentSelectedSprite.x);
     }
     if (
-      spriteYPosInput.value.trim() !== currentSelectedSprite.y.toString().trim()
+      Math.round(+spriteYPosInput.value || 0) !==
+      Math.round(currentSelectedSprite.y)
     ) {
-      spriteYPosInput.value = currentSelectedSprite.y.toString().trim();
+      spriteYPosInput.value = Math.round(currentSelectedSprite.y);
+    }
+    if (
+      Math.round(+spriteDirectionInput.value || 0) !==
+      Math.round(currentSelectedSprite.direction)
+    ) {
+      spriteDirectionInput.value = Math.round(currentSelectedSprite.direction);
+    }
+    if (
+      Math.round(+spriteSizeInput.value || 0) !==
+      Math.round(currentSelectedSprite.size)
+    ) {
+      spriteSizeInput.value = Math.round(currentSelectedSprite.size);
     }
   }
 }, 1000 / 30);

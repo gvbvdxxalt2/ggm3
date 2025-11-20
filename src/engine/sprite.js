@@ -32,6 +32,26 @@ class Sprite {
 
     this.threadEndListener = null;
     this.threadStartListener = null;
+
+    this.direction = 90; //Wrapper around this.angle
+  }
+
+  moveSteps(steps) {
+    var rad = this.angle * (Math.PI / 180);
+    this.x += Math.cos(rad) * steps;
+    this.y -= Math.sin(rad) * steps;
+  }
+
+  wrapClamp(n, min, max) {
+    const range = max - min + 1;
+    return n - Math.floor((n - min) / range) * range;
+  }
+
+  set direction(v) {
+    this.angle = this.wrapClamp(v, -179, 180) - 90;
+  }
+  get direction() {
+    return this.angle + 90;
   }
 
   _addFrameListener(resolve) {
@@ -137,6 +157,19 @@ class Sprite {
   deleteCostume(costume) {
     costume.dispose();
     this.costumes = this.costumes.filter((c) => c.id !== costume.id);
+  }
+
+  dispose() {
+    for (var costume of this.costumes) {
+      this.deleteCostume(costume);
+    }
+    this.costumes = [];
+    this.id = null;
+    this.engine = null;
+  }
+
+  delete() {
+    this.engine.deleteSprite(this);
   }
 }
 

@@ -29,4 +29,58 @@ elements.setInnerJSON(elements.getGPId("projectControls"), [
       },
     ],
   },
+  {
+    element: "div",
+    style: {
+      marginRight: "auto",
+    },
+  },
+  {
+    element: "div",
+    className: "projectButton",
+    GPWhenCreated: (elm) => {
+      if (engine.editMode) {
+        elements.setInnerJSON(elm, [
+          {
+            element: "img",
+            src: "icons/grab.svg",
+          },
+        ]);
+      } else {
+        elements.setInnerJSON(elm, [
+          {
+            element: "img",
+            src: "icons/nograb.svg",
+          },
+        ]);
+      }
+    },
+    eventListeners: [
+      {
+        event: "click",
+        func: function () {
+          if (engine.editMode) {
+            engine.turnOffEditing();
+          } else {
+            engine.turnOnEditing();
+          }
+          if (engine.editMode) {
+            elements.setInnerJSON(this, [
+              {
+                element: "img",
+                src: "icons/grab.svg",
+              },
+            ]);
+          } else {
+            elements.setInnerJSON(this, [
+              {
+                element: "img",
+                src: "icons/nograb.svg",
+              },
+            ]);
+          }
+        },
+      },
+    ],
+  },
 ]);

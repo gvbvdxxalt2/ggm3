@@ -15,6 +15,48 @@ function generateToolbox(defaultX, defaultY) {
                 </shadow>
             </value>
         </block>
+        <block type="motion_changexby">
+            <value name="DX">
+            <shadow type="math_number">
+                <field name="NUM">10</field>
+            </shadow>
+        </value>
+        </block>
+        <block type="motion_changeyby">
+        <value name="DY">
+        <shadow type="math_number">
+            <field name="NUM">10</field>
+        </shadow>
+    </value>
+    </block>
+    <block type="motion_pointindirection">
+    <value name="DIRECTION">
+        <shadow type="math_angle">
+            <field name="NUM">90</field>
+        </shadow>
+    </value>
+    </block>
+    <block type="motion_turnright">
+    <value name="DEGREES">
+        <shadow type="math_number">
+            <field name="NUM">15</field>
+        </shadow>
+    </value>
+    </block>
+    <block type="motion_turnleft">
+    <value name="DEGREES">
+        <shadow type="math_number">
+            <field name="NUM">15</field>
+        </shadow>
+    </value>
+    </block>
+    <block type="motion_movesteps">
+    <value name="STEPS">
+        <shadow type="math_number">
+            <field name="NUM">10</field>
+        </shadow>
+    </value>
+    </block>
     </category>
     <category name="Events" id="events" colour="#4C97FF" secondaryColour="#3373CC">
         <block type="event_whengamestarts"></block>
@@ -34,6 +76,8 @@ function generateToolbox(defaultX, defaultY) {
                 </shadow>
             </value>
         </block>
+    </category>
+    <category name="Variables" id="data" colour="#FF8C1A" secondaryColour="#DB6E00" custom="VARIABLE">
     </category>
     `;
 

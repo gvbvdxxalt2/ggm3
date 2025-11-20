@@ -1,3 +1,9 @@
+:root {
+  --game-viewport-width: 640px;
+  --game-viewport-height: 360px;
+  --game-viewport-scale: 1;
+}
+
 body {
   font-family: arial;
 }
@@ -62,7 +68,9 @@ body {
 }
 
 .leftPanel {
-  width: calc(100svw - 640px);
+  width: calc(
+    100svw - calc(var(--game-viewport-width) * var(--game-viewport-scale))
+  );
   height: calc(100svh - 50px);
   position: fixed;
   top: 50px;
@@ -72,7 +80,7 @@ body {
 }
 
 .rightPanel {
-  width: 640px;
+  width: calc(var(--game-viewport-width) * var(--game-viewport-scale));
   height: calc(100svh - 50px);
   position: fixed;
   top: 50px;
@@ -92,6 +100,8 @@ body {
   border-radius: 4px;
   flex-shrink: 0;
   flex-grow: 0;
+  width: calc(var(--game-viewport-width) * var(--game-viewport-scale));
+  height: calc(var(--game-viewport-height) * var(--game-viewport-scale));
 }
 
 .tabArea {
@@ -161,10 +171,11 @@ body {
   border-radius: 4px;
   min-height: 30px;
   height: fit-content;
-  display: block;
+  display: flex;
   padding: 4px 4px;
   flex-shrink: 0;
   flex-grow: 0;
+  flex-wrap: wrap;
 }
 
 .spritesContainer {
@@ -212,6 +223,8 @@ body {
   width: fit-content;
   color: white;
   width: 100px;
+  border-radius: 2px;
+  background: #595959;
 }
 
 .costumesContainer {
@@ -308,4 +321,15 @@ body {
 
 [hidden] {
   display: none;
+}
+
+.spriteInputContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  background: #8f8f8f;
+  margin: 3px;
 }

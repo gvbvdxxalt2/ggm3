@@ -21,21 +21,26 @@ function reloadCostumes(spr) {
             var input = document.createElement("input");
             input.type = "file";
             input.accept = ".webp, .png, .bmp, .svg, .jpg, .jpeg";
+            input.multiple = true;
             input.onchange = function () {
               if (input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = async function () {
-                  input.value = "";
-                  input.remove();
+                for (var _file of input.files) {
+                  (async function (file) {
+                    var reader = new FileReader();
+                    reader.onload = async function () {
+                      input.value = "";
+                      input.remove();
 
-                  try {
-                    await spr.addCostume(reader.result);
-                    reloadCostumes(spr);
-                  } catch (e) {
-                    window.alert(e);
-                  }
-                };
-                reader.readAsDataURL(input.files[0]);
+                      try {
+                        await spr.addCostume(reader.result);
+                        reloadCostumes(spr);
+                      } catch (e) {
+                        window.alert(e);
+                      }
+                    };
+                    reader.readAsDataURL(file);
+                  })(_file);
+                }
               } else {
                 input.value = "";
                 input.remove();

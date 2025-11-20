@@ -17,37 +17,93 @@ module.exports = {
       className: "selectedSpriteContainer",
       children: [
         {
-          element: "span",
-          className: "selectedSpriteLabel",
-          textContent: "Name:",
+          element: "div",
+          className: "spriteInputContainer",
+          children: [
+            {
+              element: "span",
+              className: "selectedSpriteLabel",
+              textContent: "Name:",
+            },
+            {
+              element: "input",
+              className: "selectedSpriteInput",
+              value: "Sprite",
+              gid: "spriteNameInput",
+            },
+          ],
         },
         {
-          element: "input",
-          className: "selectedSpriteInput",
-          value: "Sprite",
-          gid: "spriteNameInput",
+          element: "div",
+          className: "spriteInputContainer",
+          children: [
+            {
+              element: "span",
+              className: "selectedSpriteLabel",
+              textContent: "X:",
+            },
+            {
+              element: "input",
+              className: "selectedSpriteInput",
+              value: "Sprite",
+              type: "number",
+              gid: "spriteXPosInput",
+            },
+          ],
         },
         {
-          element: "span",
-          className: "selectedSpriteLabel",
-          textContent: "X (Position):",
+          element: "div",
+          className: "spriteInputContainer",
+          children: [
+            {
+              element: "span",
+              className: "selectedSpriteLabel",
+              textContent: "Y:",
+            },
+            {
+              element: "input",
+              className: "selectedSpriteInput",
+              value: "Sprite",
+              type: "number",
+              gid: "spriteYPosInput",
+            },
+          ],
         },
         {
-          element: "input",
-          type: "number",
-          className: "selectedSpriteInput",
-          gid: "spriteXPosInput",
+          element: "div",
+          className: "spriteInputContainer",
+          children: [
+            {
+              element: "span",
+              className: "selectedSpriteLabel",
+              textContent: "Direction:",
+            },
+            {
+              element: "input",
+              className: "selectedSpriteInput",
+              value: "Sprite",
+              type: "number",
+              gid: "spriteDirectionInput",
+            },
+          ],
         },
         {
-          element: "span",
-          className: "selectedSpriteLabel",
-          textContent: "Y (Position):",
-        },
-        {
-          element: "input",
-          type: "number",
-          className: "selectedSpriteInput",
-          gid: "spriteYPosInput",
+          element: "div",
+          className: "spriteInputContainer",
+          children: [
+            {
+              element: "span",
+              className: "selectedSpriteLabel",
+              textContent: "Size:",
+            },
+            {
+              element: "input",
+              className: "selectedSpriteInput",
+              value: "Sprite",
+              type: "number",
+              gid: "spriteSizeInput",
+            },
+          ],
         },
       ],
     },

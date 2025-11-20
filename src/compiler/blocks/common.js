@@ -6,4 +6,9 @@ JavascriptTranslation["math_number"] = function (jsonblock, utils, options) {
   return JSON.stringify(+NUM || 0);
 };
 
+JavascriptTranslation["math_angle"] = function (jsonblock, utils, options) {
+  var NUM = utils.getField(jsonblock, "NUM");
+  return JSON.stringify(+NUM || 0);
+};
+
 module.exports = JavascriptTranslation;

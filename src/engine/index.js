@@ -44,12 +44,26 @@ class GGM3Engine {
     }
   }
 
-  deleteSprite(name) {
-    this.sprites = this.sprites.filter((a) => {});
+  deleteSprite(sprite) {
+    if (!sprite.id) {
+      return;
+    }
+    sprite.dispose();
+    this.sprites = this.sprites.filter((s) => s.id !== sprite.id);
+  }
+
+  emptyProject() {
+    var _this = this;
+    this.sprites.forEach((s) => {
+      _this.deleteSprite(s);
+    });
+    this.sprites = [];
   }
 
   createEmptySprite() {
-    this.sprites.push(new Sprite(this, "Sprite " + (this.sprites.length + 1)));
+    var spr = new Sprite(this, "Sprite " + (this.sprites.length + 1));
+    this.sprites.push(spr);
+    return spr;
   }
 
   startRenderLoop() {
@@ -217,12 +231,13 @@ class GGM3Engine {
       var costume = spr.costumes[spr.costumeIndex];
       var drawable = costume.drawable;
       if (costume.drawable) {
+        var center = costume.getFinalRotationCenter();
         const modelMatrix = calculateMatrix({
-          x: spr.x,
-          y: spr.y,
+          x: spr.x + this.canvas.width / 2,
+          y: -spr.y + this.canvas.height / 2,
           rotation: spr.angle * (Math.PI / 180),
-          rotationCenterX: costume.rotationCenterX,
-          rotationCenterY: costume.rotationCenterY,
+          rotationCenterX: center[0],
+          rotationCenterY: center[1],
           textureWidth: costume.canvas.width,
           textureHeight: costume.canvas.height,
           scaleX: spr.scaleX * (spr.size / 100),
