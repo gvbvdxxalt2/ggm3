@@ -54,8 +54,14 @@ class Thread {
   }
 
   async repeatTimes(times, func) {
+    if (!this.running) {
+      return;
+    }
     var i = 1;
     while (i < times) {
+      if (!this.running) {
+        return;
+      }
       await func();
       if (!this.withoutRefresh) {
         await this.waitForNextFrame();

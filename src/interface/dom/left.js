@@ -1,5 +1,5 @@
 module.exports = {
-  elements: "div",
+  element: "div",
   className: "leftPanel",
   children: [
     {

@@ -13,8 +13,14 @@ elements.appendElementsFromJSON(document.body, [
     className: "appContainer",
     children: [
       require("./menubar.js"), //Menu bar
-      require("./left.js"), //Left panel
-      require("./right.js"), //Right panel
+      {
+        element: "div",
+        className: "panelContainer",
+        children: [
+          require("./left.js"), //Left panel
+          require("./right.js"), //Right panel
+        ]
+      }
     ],
   },
 ]);

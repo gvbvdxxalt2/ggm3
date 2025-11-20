@@ -44,6 +44,7 @@ elements.setInnerJSON(elements.getGPId("projectControls"), [
           {
             element: "img",
             src: "icons/grab.svg",
+            className: "projectButtonImg"
           },
         ]);
       } else {
@@ -51,10 +52,12 @@ elements.setInnerJSON(elements.getGPId("projectControls"), [
           {
             element: "img",
             src: "icons/nograb.svg",
+            className: "projectButtonImg"
           },
         ]);
       }
     },
+    title: "Toggle dragging sprites",
     eventListeners: [
       {
         event: "click",
@@ -69,6 +72,7 @@ elements.setInnerJSON(elements.getGPId("projectControls"), [
               {
                 element: "img",
                 src: "icons/grab.svg",
+                className: "projectButtonImg"
               },
             ]);
           } else {
@@ -76,6 +80,7 @@ elements.setInnerJSON(elements.getGPId("projectControls"), [
               {
                 element: "img",
                 src: "icons/nograb.svg",
+                className: "projectButtonImg"
               },
             ]);
           }

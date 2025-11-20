@@ -10,12 +10,12 @@ body {
 
 .appContainer {
   background: #363636;
-  width: 100svw;
+  width: 100%;
   height: 100svh;
   position: fixed;
   top: 0;
   left: 0;
-  overflow: unset;
+  overflow: auto;
 }
 
 .blocklyDiv {
@@ -25,9 +25,6 @@ body {
 
 .menuBar {
   display: flex;
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   min-height: 50px;
   background: #525252;
@@ -67,27 +64,41 @@ body {
   cursor: pointer;
 }
 
-.leftPanel {
-  width: calc(
-    100svw - calc(var(--game-viewport-width) * var(--game-viewport-scale))
-  );
+.panelContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100svw;
   height: calc(100svh - 50px);
-  position: fixed;
+  position: absolute;
   top: 50px;
   left: 0px;
+  min-height: 500px;
+  min-width: 1180px;
+}
+
+.leftPanel {
+  height: calc(100svh - 50px);
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 }
 
 .rightPanel {
-  width: calc(var(--game-viewport-width) * var(--game-viewport-scale));
+  width: fit-content;
   height: calc(100svh - 50px);
-  position: fixed;
-  top: 50px;
-  right: 0px;
+  overflow: auto;
+  box-sizing: border-box;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.rightPanelContent {
+  width:  fit-content;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  overflow: auto;
+  min-height: 700px;
+  box-sizing: border-box;
 }
 
 .projectControls {
@@ -312,6 +323,12 @@ body {
   font-size: 20px;
   user-select: none;
   margin-right: 2px;
+}
+
+.projectButtonImg {
+  height: 16px;
+  width: 16px;
+  object-fit: contain;
 }
 
 .projectButton:hover {

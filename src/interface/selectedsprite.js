@@ -95,6 +95,21 @@ function loadCode(spr) {
     Blockly.Xml.domToWorkspace(spr.blocklyXML, workspace);
   }
   var currentBlocks = {};
+  var currentBlockParentIDs = {};
+
+  function compileFromBlockID (blockId) {
+    var thread = spr.runningStacks[blockId];
+    if (thread) {
+      thread.stop();
+    }
+
+    //Compile the block if its edited.
+    var block = workspace.getBlockById(blockId);
+    var firstBlock = block.getRootBlock();
+    var code = compiler.compileBlock(firstBlock); //This only generates the block or returns an empty string if its not a event (hat) block.
+    spr.runFunction(code); //Usually this code would generate some type of addEventListener which is safe to run a lot.
+  }
+
   workspace.addChangeListener(function (e) {
     if (disposingWorkspace) {
       //window.alert(JSON.stringify(e));
@@ -103,14 +118,15 @@ function loadCode(spr) {
     }
     spr.blocklyXML = Blockly.Xml.workspaceToDom(workspace);
     if (e.element == "click") {
-      if (!spr.runningStacks[e.blockId]) {
+      var root = workspace.getBlockById(e.blockId).getRootBlock();
+      if (!spr.runningStacks[root.id]) {
         var code = compiler.compileBlockWithThreadForced(
-          workspace.getBlockById(e.blockId).getRootBlock()
+          root
         );
         //window.alert(code);
         spr.runFunction(code);
       } else {
-        spr.runningStacks[e.blockId].stop();
+        spr.runningStacks[root.id].stop();
       }
     } else if (e.blockId && e.element !== "stackclick") {
       if (!workspace.getBlockById(e.blockId)) {
@@ -132,9 +148,10 @@ function loadCode(spr) {
         }
 
         //Compile the block if its edited.
-        var firstBlock = workspace.getBlockById(e.blockId).getRootBlock();
-        var code = compiler.compileBlock(firstBlock); //This only generates the block or returns an empty string if its not a event (hat) block.
-        spr.runFunction(code); //Usually this code would generate some type of addEventListener which is safe to run a lot.
+        var block = workspace.getBlockById(e.blockId);
+        var firstBlock = block.getRootBlock();
+        currentBlockParentIDs[e.blockId] = firstBlock.id;
+        compileFromBlockID(e.blockId);
       }
     }
   });

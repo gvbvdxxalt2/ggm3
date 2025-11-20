@@ -22,6 +22,7 @@ class GGM3Engine {
       this.canvas = document.createElement("canvas");
     }
     this.editMode = false;
+    this._editDragging = null;
     this.drawables = [];
     this.sprites = [];
     this.frameRate = 60;
@@ -209,13 +210,13 @@ class GGM3Engine {
 
     this._gl_projectionMatrix = projectionMatrix;
 
-    //this.generateWhitePixelTexture();
+    twgl.resizeCanvasToDisplaySize(gl.canvas);
+
     this.render();
   }
 
   render(elapsed) {
     var { canvas, gl } = this;
-    twgl.resizeCanvasToDisplaySize(gl.canvas);
     gl.clearColor(1, 1, 1, 0); // Use 0,0,0,0 to respect canvas style background
     gl.clear(gl.COLOR_BUFFER_BIT);
 
@@ -226,6 +227,11 @@ class GGM3Engine {
       _this.tickSprite(spr);
       _this.renderSprite(spr);
     });
+    if (this.editMode) {
+      this.tickEditMode();
+    } else {
+      this._editDragging = null;
+    }
   }
 
   changeMousePosition(cx, cy) {
@@ -239,6 +245,14 @@ class GGM3Engine {
 
   tickSprite(sprite) {
     sprite.emitFrameListeners();
+  }
+
+  tickEditMode () {
+    if (this._editDragging) {
+
+    } else {
+
+    }
   }
 
   renderSprite(spr) {
