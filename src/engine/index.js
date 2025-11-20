@@ -87,7 +87,7 @@ class GGM3Engine {
       if (delta >= frameDuration) {
         previous = previous + frameDuration;
 
-        _this._iTime += delta;
+        _this._iTime += delta / 1000;
 
         _this.render(delta);
       }
@@ -253,14 +253,12 @@ class GGM3Engine {
           u_skin: drawable.texture,
           u_projectionMatrix: _gl_projectionMatrix,
 
-          u_whirl: 0,
-          u_color: 0,
           u_ghost: 1,
-          iTime: _iTime / 1000,
-          u_wave_xwave: 3,
-          u_wave_ywave: 4,
-          u_wave_xtime: 10,
-          u_wave_ytime: 20,
+          /*iTime: _iTime,
+          u_wave_xwave: 30,
+          u_wave_ywave: 40,
+          u_wave_xtime: 30,
+          u_wave_ytime: 50,*/
         };
 
         //window.alert(JSON.stringify(uniforms));

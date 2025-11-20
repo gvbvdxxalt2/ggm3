@@ -2,8 +2,6 @@ var VERTEX_SHADER = require("./sprite.vert").default;
 var FRAGMENT_SHADER_OG = require("./sprite.frag").default;
 
 var FRAGMENT_SHADER = `
-#define ENABLE_whirl
-#define ENABLE_color
 #define ENABLE_ghost
 #define ENABLE_wavy
 ${FRAGMENT_SHADER_OG}
