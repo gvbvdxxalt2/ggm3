@@ -228,7 +228,7 @@ class GGM3Engine {
     });
   }
 
-  changeMousePosition(cy, cy) {
+  changeMousePosition(cx, cy) {
     this.mouseMask.x = (+cx || 0) - this.canvas.width / 2;
     this.mouseMask.y = (+cy || 0) - this.canvas.height / 2;
   }
