@@ -2,7 +2,7 @@ function generateToolbox(defaultX, defaultY) {
   var xml = "";
 
   xml += `
-    <category name="Position" id="position" colour="#4C97FF" secondaryColour="#3373CC">
+    <category name="Motion" id="motion" colour="${Blockly.Colours.motion.primary}" secondaryColour="${Blockly.Colours.motion.secondary}">
     <block type="motion_gotoxy">
             <value name="X">
                 <shadow type="math_number">
@@ -58,10 +58,14 @@ function generateToolbox(defaultX, defaultY) {
     </value>
     </block>
     </category>
-    <category name="Events" id="events" colour="#4C97FF" secondaryColour="#3373CC">
+    <category name="Events" id="events" colour="${Blockly.Colours.event.primary}" secondaryColour="${Blockly.Colours.event.secondary}">
         <block type="event_whengamestarts"></block>
     </category>
-    <category name="Control" id="Control" colour="#4C97FF" secondaryColour="#3373CC">
+    <category name="Sensing" id="sensing" colour="${Blockly.Colours.sensing.primary}" secondaryColour="${Blockly.Colours.sensing.secondary}">
+        <block type="sensing_mousex"></block>
+        <block type="sensing_mousey"></block>
+    </category>
+    <category name="Control" id="Control" colour="${Blockly.Colours.control.primary}" secondaryColour="${Blockly.Colours.control.secondary}">
         <block type="control_wait">
             <value name="DURATION">
                 <shadow type="math_number">

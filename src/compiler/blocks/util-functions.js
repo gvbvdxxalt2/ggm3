@@ -9,6 +9,6 @@ module.exports = {
     return `thread.stop();`;
   },
   aliveCheck: function (blockjson) {
-    return `try{if (!thread.running) {thread.stop();return;}}catch(e){}`;
+    return `try{if (!thread.running) {thread.stop();return thread;}}catch(e){}`;
   },
 };

@@ -32,6 +32,13 @@ class GGM3Engine {
     this.startRenderLoop();
   }
 
+  get mouseX() {
+    return this.mouseMask.x;
+  }
+  get mouseY() {
+    return this.mouseMask.y;
+  }
+
   stopGame() {
     for (var sprite of this.sprites) {
       sprite.stopAllScripts();

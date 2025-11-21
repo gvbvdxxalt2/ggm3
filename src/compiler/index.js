@@ -1,6 +1,7 @@
 var { blockToJSON, workspaceToJSON } = require("./blocktojson.js");
 var JavascriptTranslation = require("./blocks");
 var StarterBlocks = require("./blocks/starters.js");
+var outputBlocks = require("./blocks/output_blocks.js");
 var utilFunctions = require("./blocks/util-functions.js");
 
 function getInput(blockJson, name, options) {
@@ -61,6 +62,13 @@ function compileBlock(block, options) {
 
 function compileBlockWithThreadForced(block, options) {
   var blockjson = blockToJSON(block);
+  if (isOutputBlock(block)) {
+    return (
+      utilFunctions.newThread(blockjson) +
+      `thread.output = ${compileBlockFromJSON(blockjson)};` +
+      utilFunctions.endThread(blockjson)
+    );
+  }
   return (
     utilFunctions.newThread(blockjson) +
     compileBlockFromJSON(blockToJSON(block), {
@@ -76,8 +84,14 @@ function isStarterBlock(block) {
   return StarterBlocks.indexOf(json.type) !== -1;
 }
 
+function isOutputBlock(block) {
+  var json = blockToJSON(block);
+  return outputBlocks.indexOf(json.type) !== -1;
+}
+
 module.exports = {
   compileBlock,
   isStarterBlock,
+  isOutputBlock,
   compileBlockWithThreadForced,
 };

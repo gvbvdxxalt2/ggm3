@@ -142,13 +142,13 @@ class Sprite {
   getFunction(code) {
     //Used by compiling.
     //window.alert(code);
-    var func = eval("(async function (sprite) {" + code + "})");
+    var func = eval("(async function (sprite,engine) {" + code + "})");
     return func.bind(this);
   }
 
-  runFunction(code) {
+  async runFunction(code) {
     var func = this.getFunction(code);
-    func(this);
+    return await func(this, this.engine);
   }
 
   addCostume(dataURL) {
