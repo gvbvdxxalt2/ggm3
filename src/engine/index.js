@@ -161,11 +161,11 @@ class GGM3Engine {
   generateMouseMask() {
     var c = document.createElement("canvas");
     var ctx = c.getContext("2d");
-    c.width = 1;
-    c.height = 1;
+    c.width = 2;
+    c.height = 2;
     ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, 1, 1);
-    this.mouseMask = new CollisionSprite(ctx.getImageData(0, 0, 1, 1));
+    ctx.fillRect(0, 0, 2, 2);
+    this.mouseMask = new CollisionSprite(ctx.getImageData(0, 0, 2, 2));
     this.mouseMask.isDown = false;
     c.width = 0;
     c.height = 0;
