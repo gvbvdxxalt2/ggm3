@@ -75,11 +75,11 @@ function updateSpritesContainer() {
                 func: function (elm) {
                   if (engine.sprites.length > 1) {
                     var newIndex = currentSelectedSpriteIndex;
-                    if (currentSelectedSprite == spr.id) {
-                      newIndex -= 1;
-                    }
                     engine.deleteSprite(spr);
-                    setCurrentSprite(newIndex);
+                    if (currentSelectedSpriteIndex > engine.sprites.length - 1) {
+                      newIndex = engine.sprites.length - 1;
+                    }
+                    setCurrentSprite(newIndex, true);
                     updateSpritesContainer();
                   }
                 },
@@ -262,9 +262,11 @@ function loadCode(spr) {
   Blockly.Events.enable();
 }
 
-function setCurrentSprite(index) {
-  if (currentSelectedSpriteIndex == index) {
-    return;
+function setCurrentSprite(index, forced) {
+  if (!forced) {
+    if (currentSelectedSpriteIndex == index) {
+      return;
+    }
   }
   if (currentSelectedSprite) {
     currentSelectedSprite.threadStartListener = null;

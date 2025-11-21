@@ -45,6 +45,44 @@ JavascriptTranslation["operator_divide"] = function (
   return `((+(${NUM1}) || 0) / (+(${NUM2}) || 0))`;
 };
 
+outputBlocks.push("operator_sign");
+JavascriptTranslation["operator_sign"] = function (jsonblock, utils, options) {
+  var NUM = utils.getInput(jsonblock, "NUM", options);
+  return `Math.sign(+(${NUM}) || 0)`;
+};
+
+outputBlocks.push("operator_fixed");
+JavascriptTranslation["operator_fixed"] = function (jsonblock, utils, options) {
+  var NUM = utils.getInput(jsonblock, "NUM", options);
+  var DECIMALS = utils.getInput(jsonblock, "DECIMALS", options);
+  return `(+(${NUM}) || 0).toFixed(+(${DECIMALS}) || 0)`;
+};
+
+outputBlocks.push("operator_mathop");
+JavascriptTranslation["operator_mathop"] = function (jsonblock, utils, options) {
+  var OPERATOR = utils.getField(jsonblock, "OPERATOR", options);
+  var NUM = utils.getInput(jsonblock, "NUM", options);
+  var numberCode = `(+(${NUM}) || 0)`;
+  switch (OPERATOR) {
+    case 'abs': return `Math.abs(${numberCode})`;
+    case 'floor': return `Math.floor(${numberCode})`;
+    case 'ceiling': return `Math.ceil(${numberCode})`;
+    case 'sqrt': return `Math.sqrt(${numberCode})`;
+    case 'sin': return `Math.round(Math.sin((Math.PI * ${numberCode}) / 180) * 1e10) / 1e10`;
+    case 'cos': return `Math.round(Math.cos((Math.PI * ${numberCode}) / 180) * 1e10) / 1e10`;
+    case 'tan': return `MathUtil.tan(${numberCode})`;
+    case 'asin': return `(Math.asin(${numberCode}) * 180) / Math.PI`;
+    case 'acos': return `(Math.acos(${numberCode}) * 180) / Math.PI`;
+    case 'atan': return `(Math.atan(${numberCode}) * 180) / Math.PI`;
+    case 'ln': return `Math.log(${numberCode})`;
+    case 'log': return `Math.log(${numberCode}) / Math.LN10`;
+    case 'e ^': return `Math.exp(${numberCode})`;
+    case '10 ^': return `Math.pow(10, ${numberCode})`;
+    case '20 ^': return `Math.pow(20, ${numberCode})`;
+    }
+    return `0`;
+};
+
 //Randomizing:
 
 outputBlocks.push("operator_random");
@@ -104,5 +142,6 @@ JavascriptTranslation["operator_not"] = function (jsonblock, utils, options) {
   var OPERAND = utils.getInput(jsonblock, "OPERAND", options);
   return `(!(${OPERAND}))`;
 };
+
 
 module.exports = JavascriptTranslation;

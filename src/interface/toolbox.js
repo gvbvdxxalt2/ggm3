@@ -144,7 +144,7 @@ function generateToolbox(defaultX, defaultY) {
                 </shadow>
             </value>
         </block>
-        <block type="operator_random" gap="30">
+        <block type="operator_random">
             <value name="FROM">
                 <shadow type="math_number">
                     <field name="NUM">0</field>
@@ -153,6 +153,32 @@ function generateToolbox(defaultX, defaultY) {
             <value name="TO">
                 <shadow type="math_number">
                     <field name="NUM">10</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="operator_sign">
+            <value name="NUM">
+                <shadow type="math_number">
+                    <field name="NUM">0</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="operator_fixed">
+            <value name="NUM">
+                <shadow type="math_number">
+                    <field name="NUM">0</field>
+                </shadow>
+            </value>
+            <value name="DECIMALS">
+                <shadow type="math_number">
+                    <field name="NUM">2</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="operator_mathop" gap="30">
+            <value name="NUM">
+                <shadow type="math_number">
+                    <field name="NUM">0</field>
                 </shadow>
             </value>
         </block>
@@ -191,6 +217,9 @@ function generateToolbox(defaultX, defaultY) {
         <block type="operator_and"></block>
         <block type="operator_or"></block>
         <block type="operator_not"></block>
+    </category>
+    <category name="Looks" id="looks" colour="${Blockly.Colours.looks.primary}" secondaryColour="${Blockly.Colours.looks.secondary}">
+
     </category>
     <category name="Variables" id="data" colour="#FF8C1A" secondaryColour="#DB6E00" custom="GGM3_VARIABLE">
     </category>

@@ -275,13 +275,29 @@ class GGM3Engine {
     sprite.emitFrameListeners();
   }
 
+  getTopSprites () {
+
+  }
+
   tickEditMode() {
     if (this._editDragging) {
+
     } else {
+      if (this.mouseIsDown) {
+        if (!this._previousMouseDown) {
+          this._previousMouseDown = true;
+
+        }
+      } else {
+        this._previousMouseDown = false;
+      }
     }
   }
 
   renderSprite(spr) {
+    if (spr.hidden) {
+      return;
+    }
     var {
       gl,
       _gl_spriteProgramInfo,

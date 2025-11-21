@@ -40,6 +40,9 @@ class Sprite {
     this._variable_ids_ = [];
     this.variables = {};
 
+    this.zIndex = 0;
+    this.hidden = false;
+
     this.costumeMap = {}; //Used to switch costumes by name quickly.
   }
 

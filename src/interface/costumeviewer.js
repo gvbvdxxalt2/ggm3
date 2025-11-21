@@ -89,6 +89,7 @@ function reloadCostumes(spr) {
                   event: "change",
                   func: function () {
                     costume.name = this.value.trim();
+                    spr.ensureUniqueCostumeNames();
                     reloadCostumes(spr);
                   },
                 },
