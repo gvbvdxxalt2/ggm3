@@ -3,9 +3,7 @@
   "version": "0.1.0",
   "description": "Gvbvdxx Game Maker 3 is a game programming and designing software by gvbvdxx.",
   "scripts": {
-    "build": "npm run clean && webpack --colors --bail",
-    "build-no-clean": "webpack --colors --bail",
-    "clean": "rimraf ./build && mkdirp build && rimraf ./dist && mkdirp dist",
+    "build": "webpack --colors --bail",
     "start": "webpack-dev-server",
     "watch": "webpack --colors --watch",
     "format": "prettier --write \"src/**/*.js\""
