@@ -27,6 +27,15 @@ class GGM3Engine {
     this.sprites = [];
     this.frameRate = 60;
     this._iTime = 0;
+    this.keyNames = {
+	  //Use lowercase because that's what it expects.
+	  " ": "spacebar",
+      "arrowleft": "leftarrow",
+      "arrowright": "rightarrow",
+      "arrowup": "arrowup",
+      "arrowdown": "arrowdown"
+    };
+    this.keysPressed = {};
     this.initCanvas();
     this.generateMouseMask();
     this.startRenderLoop();
@@ -270,6 +279,15 @@ class GGM3Engine {
   changeMouseDown(down) {
     this.mouseMask.isDown = !!down;
   }
+
+	updateKeyPressed(key, down) {
+		if (down) {
+			var keyName = key.toLowerCase();
+			if (this.keyNames[key.toLowerCase()]) {
+				keyName = this.keyNames[key.toLowerCase()];
+			}
+		}
+	}
 
   tickSprite(sprite) {
     sprite.emitFrameListeners();
