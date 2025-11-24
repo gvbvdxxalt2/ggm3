@@ -19,9 +19,9 @@ JavascriptTranslation["event_whengamestarts"] = function (
         "started",
         ${JSON.stringify(jsonblock.id)},
         async function () {
-        ${utilFunctions.newThread(jsonblock)}
+        ${utilFunctions.startThreadStack(jsonblock)}
         ${insideCode}
-        ${utilFunctions.endThread(jsonblock)}
+        ${utilFunctions.endThreadStack(jsonblock)}
       });`;
     }
   };

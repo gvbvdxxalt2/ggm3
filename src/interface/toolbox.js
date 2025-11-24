@@ -247,6 +247,7 @@ function generateToolbox(defaultX, defaultY) {
             </value>
         </block>
         <block type="looks_size"></block>
+		<!--<block type="error_test"></block>-->
     </category>
     <category name="Variables" id="data" colour="#FF8C1A" secondaryColour="#DB6E00" custom="GGM3_VARIABLE">
     </category>

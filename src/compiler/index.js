@@ -73,19 +73,19 @@ function compileBlockWithThreadForced(block, options) {
   var blockjson = blockToJSON(block);
   if (isOutputBlock(block)) {
     return (
-      utilFunctions.newThread(blockjson) +
+      utilFunctions.startThreadStack(blockjson) +
       `thread.output = ${compileBlockFromJSON(blockjson)};` +
-      utilFunctions.endThread(blockjson) +
+      utilFunctions.endThreadStack(blockjson) +
       "return thread;"
     );
   }
   return (
-    utilFunctions.newThread(blockjson) +
+    utilFunctions.startThreadStack(blockjson) +
     compileBlockFromJSON(blockToJSON(block), {
       ...options,
       EXECUTE_BLOCKS: true,
     }) +
-    utilFunctions.endThread(blockjson)
+    utilFunctions.endThreadStack(blockjson)
   );
 }
 

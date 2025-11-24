@@ -17,3 +17,13 @@ Blockly.Blocks['looks_hidden'] = {
       });
     }
   };
+/*Throw error test thats used to check if error handling works, not used by actual game stuff.*/
+  Blockly.Blocks['error_test'] = {
+    init: function() {
+      this.jsonInit({
+        "message0": "Throw error",
+        "category": Blockly.Categories.looks,
+        "extensions": ["colours_looks", "shape_statement"]
+      });
+    }
+  };
