@@ -16,9 +16,13 @@ class Costume {
     this.name = name || "Costume";
     this.resolveFunction = resolveFunction;
     this.mask = null;
+	this.loaded = false;
   }
 
   renderImageAtScale() {
+	if (this.disposed) {
+	  return;
+	}
     if (this.drawable) {
       this.engine.disposeDrawable(this.drawable); //Make sure we aren't leaking memory when resetting the drawable.
     }
@@ -32,6 +36,8 @@ class Costume {
     this.mask = new CollisionSprite(ctx.getImageData(0,0,canvas.width,canvas.height));
 
     this.drawable = this.engine.newDrawable(canvas);
+	this.loading = false;
+	this.loaded = true;
   }
 
   getFinalRotationCenter() {
@@ -42,6 +48,10 @@ class Costume {
   }
 
   loadImage() {
+	if (this.disposed) {
+	  return;
+	}
+	this.loading = true;
     if (this.img) {
       this.img.src = "";
     }
@@ -58,7 +68,7 @@ class Costume {
         _this.resolveFunction = null;
       }
     };
-    img.error = function () {
+    img.onerror = function () {
       if (_this.resolveFunction) {
         _this.resolveFunction(false);
         _this.resolveFunction = null;
@@ -69,18 +79,53 @@ class Costume {
 
   onDraw() {}
 
+	deloadCostume () {
+		if (this.disposed) {
+			return;
+		}
+		if (this.img) {
+		  this.img.onload = function () {};
+		  this.img.onerror = function () {};
+	      this.img.src = "";
+	      this.img = null;
+	    }
+		if (this.drawable) {
+	      this.engine.disposeDrawable(this.drawable);
+		  this.drawable = null;
+	    }
+		this.loading = false;
+		this.loaded = false;
+	}
+
+	loadCostume () {
+		if (this.disposed) {
+			return;
+		}
+		if (this.loading) {
+			return;
+		}
+		if (this.loaded) {
+			return;
+		}
+		this.loadImage();
+	}
+
   dispose() {
+	this.disposed = true;
     if (this.drawable) {
       this.engine.disposeDrawable(this.drawable);
     }
     if (this.img) {
-      this.img.src = null;
+	  this.img.onload = function () {};
+	  this.img.onerror = function () {};
+      this.img.src = "";
       this.img = null;
     }
     this.canvas.width = 1;
     this.canvas.height = 1;
     this.canvas.remove();
     this.resolveFunction = null;
+	this.drawable = null;
   }
 }
 

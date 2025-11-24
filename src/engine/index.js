@@ -103,6 +103,29 @@ class GGM3Engine {
     return spr;
   }
 
+	duplicateSprite (fromSprite) {
+		var newSprite = this.createEmptySprite();
+		newSprite.name = fromSprite.name;
+		this.makeUniqueSpriteNames();
+
+		newSprite.x = fromSprite.x + 10;
+		newSprite.y = fromSprite.y - 10;
+		newSprite.angle = fromSprite.angle;
+		newSprite.scaleX = fromSprite.scaleX;
+		newSprite.scaleY = fromSprite.scaleY;
+		newSprite.size = fromSprite.size;
+		newSprite.costumeIndex = fromSprite.costumeIndex;
+
+		fromSprite.costumes.forEach(async (fromCostume) => {
+			var costume = await newSprite.addCostume(fromCostume.dataURL);
+			costume.name = fromCostume.name;
+			costume.rotationCenterX = fromCostume.rotationCenterX;
+			costume.rotationCenterY = fromCostume.rotationCenterY;
+			costume.preferedScale = fromCostume.preferedScale;
+			costume.renderImageAtScale();
+		});
+	}
+
   startRenderLoop() {
     const _this = this;
 
@@ -366,6 +389,7 @@ class GGM3Engine {
       var costume = spr.costumes[spr.costumeIndex];
       var drawable = costume.drawable;
       if (costume.drawable) {
+		costume.drawable.update(); //This updates the costume texture if needed.
         var center = costume.getFinalRotationCenter();
         var modelMatrix = calculateMatrix({
           x: spr.x + this.canvas.width / 2,

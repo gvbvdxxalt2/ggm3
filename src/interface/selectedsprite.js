@@ -5,6 +5,7 @@ var engine = require("./curengine.js");
 var blocks = require("./blocks.js");
 var costumeViewer = require("./costumeviewer.js");
 var compiler = require("../compiler");
+var {loadBlockMenus} = require("./blockmenuloader.js");
 
 var currentSelectedSprite = null;
 var currentSelectedSpriteIndex = null;
@@ -87,6 +88,27 @@ function updateSpritesContainer() {
               },
             ],
           },
+			{
+            element: "button",
+            className: "greyButtonStyle",
+            textContent: "Duplicate",
+            style: {
+              fontSize: "15px",
+              marginRight: "5px",
+            },
+            eventListeners: [
+              {
+                event: "click",
+                func: function (elm) {
+                  if (engine.sprites.length > 1) {
+                    var newIndex = currentSelectedSpriteIndex;
+                    engine.duplicateSprite(spr);
+                    updateSpritesContainer();
+                  }
+                },
+              },
+            ],
+          },
         ],
       };
     })
@@ -100,6 +122,7 @@ function loadCode(spr) {
   if (!spr) {
     return;
   }
+  loadBlockMenus(spr);
   disposingWorkspace = true;
   Blockly.Events.disable();
   blocks.createFreshWorkspace(spr);
@@ -287,7 +310,9 @@ function setCurrentSprite(index, forced) {
   spriteYPosInput.value = currentSelectedSprite.y;
   updateSpritesContainer();
   loadCode(currentSelectedSprite);
-  costumeViewer.reloadCostumes(currentSelectedSprite);
+  costumeViewer.reloadCostumes(currentSelectedSprite, function () {
+	  setCurrentSprite(index, true);
+  });
 }
 
 spriteNameInput.addEventListener("input", () => {

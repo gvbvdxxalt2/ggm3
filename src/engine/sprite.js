@@ -46,6 +46,16 @@ class Sprite {
     this.costumeMap = {}; //Used to switch costumes by name quickly.
   }
 
+	getCostume(v) {
+		if (isNaN(+v)) {
+			
+		}
+	}
+
+	loadCostume(number) {
+		
+	}
+
   get costume() {
     if (this.costumes[this.costumeIndex]) {
       return this.costumes[this.costumeIndex];

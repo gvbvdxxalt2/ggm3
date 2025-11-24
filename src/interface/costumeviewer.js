@@ -5,7 +5,7 @@ var costumesContainer = elements.getGPId("costumesContainer");
 var costumesHeaderContainer = elements.getGPId("costumesHeaderContainer");
 var costumesSelectorContainer = elements.getGPId("costumesSelectorContainer");
 
-function reloadCostumes(spr) {
+function reloadCostumes(spr, reloadTabCallback = function () {}) {
   elements.setInnerJSON(costumesHeaderContainer, [
     {
       element: "button",
@@ -33,6 +33,7 @@ function reloadCostumes(spr) {
 
                       try {
                         await spr.addCostume(reader.result);
+						reloadTabCallback(spr);
                         reloadCostumes(spr);
                       } catch (e) {
                         window.alert(e);
