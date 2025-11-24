@@ -8,6 +8,7 @@ class Costume {
     this.rotationCenterX = 0;
     this.rotationCenterY = 0;
     this.preferedScale = 1;
+    this.currentScale = 1;
     this.canvas = document.createElement("canvas");
     this.id = Date.now() + "_" + Math.round(Math.random() * 9999999);
 
@@ -39,12 +40,13 @@ class Costume {
     this.drawable = this.engine.newDrawable(canvas);
     this.loading = false;
     this.loaded = true;
+    this.currentScale = this.preferedScale;
   }
 
   getFinalRotationCenter() {
     return [
-      this.preferedScale * this.rotationCenterX,
-      this.preferedScale * this.rotationCenterY,
+      this.currentScale * this.rotationCenterX,
+      this.currentScale * this.rotationCenterY,
     ];
   }
 

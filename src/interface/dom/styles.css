@@ -321,7 +321,7 @@ body {
   height: 100%;
   flex-grow: 0;
   flex-shrink: 0;
-  overflow: scroll;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -339,7 +339,7 @@ body {
   border-width: 2px;
   border-style: solid;
   border-color: #000000;
-  margin-bottom: 2px;
+  margin: 2px;
   user-select: none;
   font-weight: bold;
 }
@@ -351,6 +351,62 @@ body {
 .pivotCostumeButton[selected] {
   border-color: #ffffff;
   cursor: unset;
+}
+
+.pivotEditor {
+  flex-grow: 1;
+  background: #212121;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.pivotEditorMenuBar {
+  flex-grow: 0;
+  flex-shrink: 0;
+  height: fit-content;
+  width: 100%;
+  display: flex;
+  overflow: auto;
+}
+
+.pivotEditorContainer {
+  flex-grow: 1;
+  position: relative;
+  overflow: auto;
+}
+
+.pivotEditorImageContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: fit-content;
+  height: fit-content;
+  display: block;
+}
+
+.pivotEditorMenuInput {
+  all: unset;
+  color: #ffffff;
+  font-weight: bold;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.pivotEditorDot {
+  background: #000000;
+  border-style: solid;
+  border-color: #ffffff;
+  box-sizing: border-box;
+  border-width: 2px;
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  transform: translate(-50%, -50%);
 }
 
 .costumesHeaderContainer {

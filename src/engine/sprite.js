@@ -63,6 +63,24 @@ class Sprite {
     }
   }
 
+  setCostumeRenderScale (costumeRef,scale) {
+    var costume = this.getCostume(costumeRef);
+    var scaleNumber = +scale || 0;
+    if (scaleNumber < 0.001) {
+      scaleNumber = 0.001;
+    }
+    if (costume) {
+      costume.preferedScale = scaleNumber;
+    }
+  }
+
+  blockRerenderCostume (costumeRef,scale) {
+    var costume = this.getCostume(costumeRef);
+    if (costume) {
+      costume.renderImageAtScale();
+    }
+  }
+
   isCostumeLoaded(costumeRef) {
     var costume = this.getCostume(costumeRef);
     if (costume) {
@@ -113,12 +131,12 @@ class Sprite {
     if (!mask) {
       return;
     }
-    mask.scaleX = ((this.size / 100) * this.scaleX) / costume.preferedScale;
-    mask.scaleY = ((this.size / 100) * this.scaleY) / costume.preferedScale;
+    mask.scaleX = ((this.size / 100) * this.scaleX) / costume.currentScale;
+    mask.scaleY = ((this.size / 100) * this.scaleY) / costume.currentScale;
     mask.x = this.x;
     mask.y = -this.y; //Negative because Y is inverted in GGM3 coordinates.
-    mask.centerX = costume.rotationCenterX * costume.preferedScale;
-    mask.centerY = costume.rotationCenterY * costume.preferedScale;
+    mask.centerX = costume.rotationCenterX * costume.currentScale;
+    mask.centerY = costume.rotationCenterY * costume.currentScale;
     mask.angle = this.angle;
   }
 

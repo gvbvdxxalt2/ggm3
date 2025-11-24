@@ -49,7 +49,7 @@ Blockly.Blocks["loader_deloadcostume"] = {
 Blockly.Blocks["loader_rendercostumescale"] = {
   init: function () {
     this.jsonInit({
-      message0: "Set costume %1 render scale %2",
+      message0: "Set costume %1 to render at scale %2",
       args0: [
         {
           type: "input_value",
@@ -78,6 +78,23 @@ Blockly.Blocks["loader_setrenderscale"] = {
       ],
       colour: "#0066a1",
       extensions: ["shape_statement"],
+    });
+  },
+};
+
+
+Blockly.Blocks["loader_costume_scale"] = {
+  init: function () {
+    this.jsonInit({
+      message0: "Costume %1 scale",
+      args0: [
+        {
+          type: "input_value",
+          name: "COSTUME",
+        },
+      ],
+      colour: "#0066a1",
+      extensions: ["output_number"],
     });
   },
 };

@@ -36,4 +36,24 @@ JavascriptTranslation["loader_deloadcostume"] = function (
   return `await sprite.blockDeloadCostume(${COSTUME});`;
 };
 
+JavascriptTranslation["loader_rendercostumescale"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
+  var COSTUME = utils.getInput(jsonblock, "COSTUME", options);
+  var SCALE = utils.getInput(jsonblock, "SCALE", options);
+  return `sprite.setCostumeRenderScale(${COSTUME},${SCALE});`;
+};
+
+JavascriptTranslation["loader_setrenderscale"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
+  var COSTUME = utils.getInput(jsonblock, "COSTUME", options);
+  var SCALE = utils.getInput(jsonblock, "SCALE", options);
+  return `sprite.blockRerenderCostume(${COSTUME});`;
+};
+
 module.exports = JavascriptTranslation;

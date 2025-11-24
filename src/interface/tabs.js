@@ -2,6 +2,8 @@ var elements = require("../gp2/elements.js");
 var AElement = require("../gp2/aelement.js");
 var blocks = require("./blocks.js");
 var selectedSprite = require("./selectedsprite.js");
+var costumeViewer = require("./costumeviewer.js");
+var costumePivot = require("./costumepivoteditor.js");
 
 var tabArea = elements.getGPId("tabArea");
 function createTabElementJSON(label, src, whenClick, isSelected) {
@@ -106,6 +108,7 @@ function updateVisibility() {
   }
   if (currentTab == "COSTUME_PIVOT") {
     costumePivotContainer.hidden = false;
+    costumePivot.reloadCostumes(selectedSprite.getCurSprite());
   }
 }
 

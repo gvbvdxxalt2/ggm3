@@ -408,8 +408,8 @@ class GGM3Engine {
           rotationCenterY: center[1],
           textureWidth: costume.canvas.width,
           textureHeight: costume.canvas.height,
-          scaleX: spr.scaleX * (spr.size / 100),
-          scaleY: spr.scaleY * (spr.size / 100),
+          scaleX: (spr.scaleX * (spr.size / 100)) / costume.currentScale,
+          scaleY: (spr.scaleY * (spr.size / 100)) / costume.currentScale,
         });
 
         //var modelMatrix = twgl.m4.identity();

@@ -90,6 +90,26 @@ function generateToolbox(defaultX, defaultY) {
 				<shadow type="loader_costume"></shadow>
 			</value>
 		</block>
+        <block type="loader_rendercostumescale">
+            <value name="COSTUME">
+				<shadow type="loader_costume"></shadow>
+			</value>
+			<value name="SCALE">
+				<shadow type="math_number">
+                    <field name="NUM">3</field>
+                </shadow>
+			</value>
+		</block>
+        <block type="loader_setrenderscale">
+            <value name="COSTUME">
+				<shadow type="loader_costume"></shadow>
+			</value>
+		</block>
+        <block type="loader_costume_scale">
+            <value name="COSTUME">
+				<shadow type="loader_costume"></shadow>
+			</value>
+		</block>
     </category>
     <category name="Control" id="Control" colour="${Blockly.Colours.control.primary}" secondaryColour="${Blockly.Colours.control.secondary}">
         <block type="control_wait">
