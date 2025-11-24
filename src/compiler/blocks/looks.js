@@ -56,6 +56,7 @@ JavascriptTranslation["looks_ystretch_to"] = function (jsonblock, utils, options
   };
 
 
+
 /* Throw error test thats used to check if error handling works, not used by actual game stuff */
 JavascriptTranslation["error_test"] = function (jsonblock, utils, options) {
     return `throw new Error("This is an error reported by the block");`;
