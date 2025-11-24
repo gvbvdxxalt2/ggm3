@@ -67,7 +67,7 @@ class Sprite {
     mask.scaleX = ((this.size/100)*this.scaleX)/costume.preferedScale;
     mask.scaleY = ((this.size/100)*this.scaleY)/costume.preferedScale;
     mask.x = this.x;
-    mask.y = this.y;
+    mask.y = -this.y; //Negative because Y is inverted in GGM3 coordinates.
     mask.centerX = costume.rotationCenterX*costume.preferedScale;
     mask.centerY = costume.rotationCenterY*costume.preferedScale;
     mask.angle = this.angle;
