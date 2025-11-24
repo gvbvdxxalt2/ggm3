@@ -45,3 +45,39 @@ Blockly.Blocks["loader_deloadcostume"] = {
     });
   },
 };
+
+Blockly.Blocks["loader_rendercostumescale"] = {
+  init: function () {
+    this.jsonInit({
+      message0: "Set costume %1 render scale %2",
+      args0: [
+        {
+          type: "input_value",
+          name: "COSTUME",
+        },
+        {
+          type: "input_value",
+          name: "SCALE",
+        },
+      ],
+      colour: "#0066a1",
+      extensions: ["shape_statement"],
+    });
+  },
+};
+
+Blockly.Blocks["loader_setrenderscale"] = {
+  init: function () {
+    this.jsonInit({
+      message0: "Render costume %1 at set scale",
+      args0: [
+        {
+          type: "input_value",
+          name: "COSTUME",
+        },
+      ],
+      colour: "#0066a1",
+      extensions: ["shape_statement"],
+    });
+  },
+};
