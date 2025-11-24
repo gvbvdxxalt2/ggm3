@@ -280,12 +280,12 @@ class GGM3Engine {
     this.mouseMask.isDown = !!down;
   }
 
-	updateKeyPressed(key, down) {
+	changeKeyPressed(key, down) {
+		var keyName = key.toLowerCase();
+		if (this.keyNames[keyName]) {
+			keyName = this.keyNames[keyName];
+		}
 		if (down) {
-			var keyName = key.toLowerCase();
-			if (this.keyNames[key.toLowerCase()]) {
-				keyName = this.keyNames[key.toLowerCase()];
-			}
 			this.keysPressed[keyName] = true;
 		} else {
 			delete this.keysPressed[keyName];
