@@ -126,7 +126,6 @@ body {
   top: 50px;
   left: 0px;
   min-height: 500px;
-  min-width: 1180px;
 }
 
 .leftPanel {
@@ -134,6 +133,7 @@ body {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  min-width: 0;
 }
 
 .rightPanel {
@@ -358,19 +358,25 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;
-  overflow: visible;
+  flex-shrink: 1;  /* <-- 1. ALLOWS this element to shrink */
+  min-width: 0;      /* <-- 2. THE KEY: Allows it to shrink smaller than its content */
+  overflow: hidden;    /* <-- 3. Prevents children from spilling out */
   position: relative;
 }
 
 .pivotEditorMenuBar {
   flex-grow: 0;
   flex-shrink: 0;
-  height: 32px;
+  height: 64px;
   width: 100%;
-  display: block;
-  overflow: auto;
+  display: flex;      /* <-- Puts all items in one horizontal row */
+  overflow-x: auto;   /* <-- Adds horizontal scroll */
+  overflow-y: hidden; /* <-- Prevents vertical scroll */
   align-items: center;
+}
+
+.pivotEditorMenuBar > * {
+  flex-shrink: 0;
 }
 
 .pivotEditorContainer {

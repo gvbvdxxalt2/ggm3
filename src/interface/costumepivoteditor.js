@@ -12,6 +12,8 @@ var pivotEditorImageContainer = elements.getGPId("pivotEditorImageContainer");
 var pivotEditorImage = elements.getGPId("pivotEditorImage");
 var pivotEditorDot = elements.getGPId("pivotEditorDot");
 
+var centerImagePivotEditor = elements.getGPId("centerImagePivotEditor");
+
 var tempImg = null;
 
 function getMousePosition(event, onElement, size) {
@@ -175,6 +177,12 @@ function reloadCostumes(spr, reloadTabCallback = function () {}) {
       pivotEditorDot.style.left = `${costume.rotationCenterX * zoomScale}px`;
       pivotEditorDot.style.top = `${costume.rotationCenterY * zoomScale}px`;
     };
+
+      centerImagePivotEditor.onclick = function (e) {
+        costume.rotationCenterX = tempImg.width/2;
+        costume.rotationCenterY = tempImg.height/2;
+        updateSize();
+      };
     }
 
     updateEditor();

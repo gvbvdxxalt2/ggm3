@@ -84,7 +84,8 @@ module.exports = {
                 {
                     element: "button",
                     textContent: "Center image",
-                    className: "grayButtonStyle"
+                    className: "greyButtonStyle",
+                    gid: "centerImagePivotEditor"
                 }
             ]
           },
