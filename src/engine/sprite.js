@@ -311,16 +311,8 @@ class Sprite {
     var costume = new Costume(
       this.engine,
       url,
-      name ? name : "Costume " + (_this.costumes.length + 1),
-      function (success) {
-        if (success) {
-          resolve(costume);
-        } else {
-          reject("");
-        }
-      },
+      name ? name : "Costume " + (_this.costumes.length + 1)
     );
-    costume.loadCostume();
     this.costumes.push(costume);
     this.ensureUniqueCostumeNames();
   }
