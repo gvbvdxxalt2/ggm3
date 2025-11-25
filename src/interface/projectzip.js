@@ -16,6 +16,8 @@ async function saveProjectToZip() {
       size: sprite.size,
       blocklyXML: sprite.blocklyXML ? Blockly.Xml.domToText(sprite.blocklyXML) : null,
       name: sprite.name,
+      zIndex: sprite.zIndex,
+      costumeIndex: sprite.costumeIndex
     };
     var ci = 0;
     for (var costume of sprite.costumes) {
@@ -101,6 +103,8 @@ async function loadProjectFromZip(arrayBuffer) {
       size: spriteJson.size,
       blocklyXML: spriteJson.blocklyXML ? Blockly.Xml.textToDom(spriteJson.blocklyXML) : null,
       name: spriteJson.name,
+      costumeIndex: spriteJson.costumeIndex,
+      zIndex: sprite.zIndex
     });
   }
   
