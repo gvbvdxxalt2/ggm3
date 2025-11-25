@@ -297,7 +297,10 @@ function setCurrentSprite(index, forced) {
       currentSelectedSprite._editor_scrollX = workspace.scrollX;
       currentSelectedSprite._editor_scrollY = workspace.scrollY;
       currentSelectedSprite._editor_scale = workspace.scale;
-      currentSelectedSprite.blocklyXML = Blockly.Xml.workspaceToDom(workspace);
+      if (currentSelectedSprite._editor_loaded) {
+        currentSelectedSprite.blocklyXML = Blockly.Xml.workspaceToDom(workspace);
+      }
+      currentSelectedSprite._editor_loaded = true;
     }
   }
   currentSelectedSpriteIndex = index;
