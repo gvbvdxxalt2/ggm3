@@ -7,9 +7,6 @@ JavascriptTranslation["event_whengamestarts"] = function (
   utils,
   options,
 ) {
-  var X = utils.getInput(jsonblock, "X");
-  var Y = utils.getInput(jsonblock, "Y");
-
   return function (insideCode) {
     if (options.EXECUTE_BLOCKS) {
       //Means ONLY execute blocks, don't add listeners to the sprite.

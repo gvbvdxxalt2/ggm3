@@ -8,7 +8,7 @@ var JavascriptTranslation = {
   ...require("./operators.js"),
   ...require("./looks.js"),
   ...require("./loader.js"),
-  ...require("./custom.js")
+  ...require("./custom.js"),
 };
 
 module.exports = JavascriptTranslation;

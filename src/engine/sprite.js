@@ -26,6 +26,7 @@ class Sprite {
     this.hatFunctions = {};
     this.listeners = {
       started: [],
+      clonestart: [],
     };
     this.runningStacks = {};
     this.frameListeners = [];
@@ -54,12 +55,14 @@ class Sprite {
     this.clones = [];
   }
 
-  removeCloneFromList (clone) {
-    this.clones = this.clones.filter((otherClone) => clone.id !== otherClone.id);
+  removeCloneFromList(clone) {
+    this.clones = this.clones.filter(
+      (otherClone) => clone.id !== otherClone.id,
+    );
   }
 
-  destroyClone () {
-    if (!this.isClone)  {
+  destroyClone() {
+    if (!this.isClone) {
       return;
     }
     this.stopAllScripts();
@@ -67,9 +70,49 @@ class Sprite {
     this.dispose();
   }
 
-  createClone () {
-    var sprite = new Sprite(this.engine, this.name);
-    
+  deleteClones() {
+    if (this.isClone) {
+      return this.parent.deleteClones();
+    }
+    for (var sprite of this.clones) {
+      sprite.destroyClone();
+    }
+  }
+
+  createClone() {
+    if (this.isClone) {
+      return this.parent.createClone();
+    }
+    var sprite = new Sprite(this.engine, "Clone of "+this.name);
+    sprite.isClone = true;
+    sprite.parent = this;
+    sprite.x = this.x;
+    sprite.y = this.y;
+    sprite.costumes = this.costumes;
+    sprite.costumeIndex = this.costumeIndex;
+    sprite.hidden = this.hidden;
+    sprite.alpha = this.alpha;
+    sprite.angle = this.angle;
+    sprite.scaleX = this.scaleX;
+    sprite.scaleY = this.scaleY;
+    sprite.size = this.size;
+    sprite.zIndex = this.zIndex;
+
+    sprite.spriteFunctions = this.spriteFunctions;
+
+    this.clones.push(sprite);
+
+    for (var key of Object.keys(this.spriteFunctions)) {
+      sprite.runFunctionID(key);
+    }
+    sprite.emitStackListener("clonestart");
+  }
+
+  findSpriteByName(name) {
+    if (name == "_myself_") {
+      return this;
+    }
+    return this.engine.findSpriteByName(name);
   }
 
   addCustom(id, ref, func) {
@@ -79,7 +122,10 @@ class Sprite {
   /* @todo find a faster way to call and manage custom blocks. */
   async callCustom(id, values = {}, thisThread) {
     if (this.customBlockRef[id]) {
-      await this.customBlockListeners[this.customBlockRef[id]](values, thisThread);
+      await this.customBlockListeners[this.customBlockRef[id]](
+        values,
+        thisThread,
+      );
     }
   }
 
@@ -296,6 +342,10 @@ class Sprite {
     delete this.customBlockListeners[blockID];
   }
 
+  removeSpriteFunction (blockID) {
+    delete this.spriteFunctions[blockID];
+  }
+
   addStackListener(name, blockID, func) {
     this.removeStackListener(blockID);
     if (this.listeners[name]) {
@@ -351,7 +401,7 @@ class Sprite {
     return func.bind(this);
   }
 
-  addFunction(code,blockID) {
+  addFunction(code, blockID) {
     var func = this.getFunction(code);
     this.spriteFunctions[blockID] = func;
   }
@@ -413,8 +463,10 @@ class Sprite {
   }
 
   dispose() {
-    for (var costume of this.costumes) {
-      this.deleteCostume(costume);
+    if (!this.isClone) {
+      for (var costume of this.costumes) {
+        this.deleteCostume(costume);
+      }
     }
     this.costumes = [];
     this.id = null;

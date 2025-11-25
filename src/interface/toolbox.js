@@ -138,6 +138,15 @@ function generateToolbox(defaultX, defaultY) {
         </block>
         <block type="control_while">
         </block>
+        <block type="control_start_as_clone">
+        </block>
+        <block type="control_create_clone_of">
+            <value name="CLONE_OPTION">
+                <shadow type="control_create_clone_of_menu"></shadow>
+            </value>
+        </block>
+        <block type="control_delete_this_clone">
+        </block>
     </category>
     <category name="Operators" id="operators" colour="${Blockly.Colours.operators.primary}" secondaryColour="${Blockly.Colours.operators.secondary}">
         <block type="operator_add">

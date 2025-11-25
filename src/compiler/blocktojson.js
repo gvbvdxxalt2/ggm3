@@ -63,14 +63,14 @@ function blockToJSON(block) {
                   id: variable.getId(),
                 },
                 name: field.name,
-                text: field.getText()
+                text: field.getText(),
               });
             }
           } else {
             jsonFields.push({
               value: field.getValue(),
               name: field.name,
-              text: field.getText()
+              text: field.getText(),
             });
           }
         }

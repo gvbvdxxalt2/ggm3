@@ -70,6 +70,7 @@ class GGM3Engine {
   stopGame() {
     for (var sprite of this.sprites) {
       sprite.stopAllScripts();
+      sprite.deleteClones();
     }
   }
 
@@ -282,7 +283,7 @@ class GGM3Engine {
     this._iTime += elapsed / 1000;
 
     var _this = this;
-    this.getTopSprites().forEach((spr) => {
+    this.getAllTopSprites().forEach((spr) => {
       _this.tickSprite(spr);
       _this.renderSprite(spr);
     });
@@ -291,6 +292,15 @@ class GGM3Engine {
     } else {
       this._editDragging = null;
     }
+  }
+
+  findSpriteByName(name) {
+    for (var spr of this.sprites) {
+      if (spr.name == name) {
+        return spr;
+      }
+    }
+    return null;
   }
 
   changeMousePosition(cx, cy) {
@@ -320,13 +330,24 @@ class GGM3Engine {
 
   sortLayers() {
     var i = 0;
-    var newSprites = [];
-    for (var sprite of this.getTopSprites()) {
+    for (var sprite of this.getAllTopSprites()) {
       sprite.zIndex = i;
-      newSprites.push(sprite);
       i += 1;
     }
-    this.sprites = newSprites;
+  }
+
+  getAllTopSprites() {
+    var sprs = [];
+    for (var spr of this.sprites) {
+      for (var clone of spr.clones) {
+        sprs.push(clone);
+      }
+      sprs.push(spr);
+    }
+    var topSprites = sprs
+      .map((s) => s)
+      .sort((sprite, sprite2) => sprite2.zIndex - sprite.zIndex);
+    return topSprites;
   }
 
   getTopSprites() {
@@ -348,7 +369,7 @@ class GGM3Engine {
       }
     } else {
       this._editDragging = null;
-      var topSprites = this.getTopSprites()
+      var topSprites = this.getAllTopSprites()
         .filter((s) => !s.hidden)
         .filter((s) => s.alpha > 70);
       var touchedSprite = null;

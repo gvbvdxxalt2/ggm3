@@ -140,6 +140,7 @@ function loadCode(spr) {
     if (!rootBlock) return;
     // We don't need to stop it since it automatically stops the previous stack when ran.
     var code = compiler.compileBlock(rootBlock);
+    spr.removeSpriteFunction(rootBlock.id);
     spr.addFunction(code, rootBlock.id);
     var thread = await spr.runFunctionID(rootBlock.id);
     if (thread) {

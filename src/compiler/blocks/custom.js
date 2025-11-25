@@ -12,7 +12,7 @@ JavascriptTranslation["procedures_definition"] = function (
   var definitionStuff = utils.getInputBlock(jsonblock, "custom_block", options);
   if (!definitionStuff) {
     return function (insideCode) {
-        return "";
+      return "";
     };
   }
   var valueNameCode = "";
@@ -46,21 +46,21 @@ JavascriptTranslation["procedures_call"] = function (
   utils,
   options,
 ) {
-    var valueCode = "{";
-    var i = 0;
-    for (var argId of jsonblock.argumentIds) {
-        var code = utils.getInput(jsonblock, argId, options);
-        if (code) {
-            valueCode += JSON.stringify(argId);
-            valueCode += ":";
-            valueCode += `(${code})`;
-            valueCode += ",";
-        }
-        i += 1;
+  var valueCode = "{";
+  var i = 0;
+  for (var argId of jsonblock.argumentIds) {
+    var code = utils.getInput(jsonblock, argId, options);
+    if (code) {
+      valueCode += JSON.stringify(argId);
+      valueCode += ":";
+      valueCode += `(${code})`;
+      valueCode += ",";
     }
-    valueCode += "}";
-    
-    return `await sprite.callCustom(${JSON.stringify(jsonblock.procCode)}, ${valueCode}, thread);`;
+    i += 1;
+  }
+  valueCode += "}";
+
+  return `await sprite.callCustom(${JSON.stringify(jsonblock.procCode)}, ${valueCode}, thread);`;
 };
 
 outputBlocks.push("argument_reporter_boolean");
@@ -69,8 +69,8 @@ JavascriptTranslation["argument_reporter_boolean"] = function (
   utils,
   options,
 ) {
-    var field = utils.getField(jsonblock, "VALUE", options);
-    return `thread.customBlockValues[${JSON.stringify(field)}]`;
+  var field = utils.getField(jsonblock, "VALUE", options);
+  return `thread.customBlockValues[${JSON.stringify(field)}]`;
 };
 
 outputBlocks.push("argument_reporter_string_number");
@@ -79,8 +79,8 @@ JavascriptTranslation["argument_reporter_string_number"] = function (
   utils,
   options,
 ) {
-    var field = utils.getField(jsonblock, "VALUE", options);
-    return `thread.customBlockValues[${JSON.stringify(field)}]`;
+  var field = utils.getField(jsonblock, "VALUE", options);
+  return `thread.customBlockValues[${JSON.stringify(field)}]`;
 };
 
 module.exports = JavascriptTranslation;

@@ -54,7 +54,7 @@ function compileBlockFromJSON(json, options = {}) {
         getField,
         getFieldVariableID,
         getInputBlock,
-        getFieldText
+        getFieldText,
       },
       options,
     );
