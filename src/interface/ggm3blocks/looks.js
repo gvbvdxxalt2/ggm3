@@ -21,7 +21,7 @@ Blockly.Blocks["looks_visible"] = {
 Blockly.Blocks["looks_xstretch_to"] = {
   init: function () {
     this.jsonInit({
-      message0: "Set x stretch to %1",
+      message0: "set x stretch to %1",
       args0: [
         {
           type: "input_value",
@@ -36,7 +36,38 @@ Blockly.Blocks["looks_xstretch_to"] = {
 Blockly.Blocks["looks_ystretch_to"] = {
   init: function () {
     this.jsonInit({
-      message0: "Set y stretch to %1",
+      message0: "set y stretch to %1",
+      args0: [
+        {
+          type: "input_value",
+          name: "VALUE",
+        },
+      ],
+      category: Blockly.Categories.looks,
+      extensions: ["colours_looks", "shape_statement"],
+    });
+  },
+};
+
+Blockly.Blocks["looks_xstretch_by"] = {
+  init: function () {
+    this.jsonInit({
+      message0: "change x stretch by %1",
+      args0: [
+        {
+          type: "input_value",
+          name: "VALUE",
+        },
+      ],
+      category: Blockly.Categories.looks,
+      extensions: ["colours_looks", "shape_statement"],
+    });
+  },
+};
+Blockly.Blocks["looks_ystretch_by"] = {
+  init: function () {
+    this.jsonInit({
+      message0: "change y stretch by %1",
       args0: [
         {
           type: "input_value",

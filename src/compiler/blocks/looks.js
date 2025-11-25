@@ -91,6 +91,24 @@ JavascriptTranslation["looks_ystretch_to"] = function (
   return `sprite.scaleY = (+(${VALUE}) || 0) / 100;`;
 };
 
+JavascriptTranslation["looks_xstretch_by"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
+  var VALUE = utils.getInput(jsonblock, "VALUE", options);
+  return `sprite.scaleX += (+(${VALUE}) || 0) / 100;`;
+};
+
+JavascriptTranslation["looks_ystretch_by"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
+  var VALUE = utils.getInput(jsonblock, "VALUE", options);
+  return `sprite.scaleY += (+(${VALUE}) || 0) / 100;`;
+};
+
 /* Throw error test thats used to check if error handling works, so that when something fails unexpectedly then the threads won't leak memory */
 JavascriptTranslation["error_test"] = function (jsonblock, utils, options) {
   return `throw new Error("This is an error reported by the block");`;
