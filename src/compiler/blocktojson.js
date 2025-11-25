@@ -5,7 +5,7 @@ function blockToJSON(block) {
   myjson.id = block.id;
 
   if (typeof block.warp_ !== "undefined") {
-    myjson.warp = block.warp;
+    myjson.warp = block.warp_;
   }
   if (typeof block.procCode_ !== "undefined") {
     myjson.procCode = block.procCode_;

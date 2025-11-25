@@ -5,9 +5,22 @@ class Thread {
     this.running = true;
     this.screenRefresh = true;
     this._hasStopped = false;
-    this.withoutRefresh = false;
     this.hadError = false;
     this.customBlockValues = {};
+    this.subThreads = {};
+    this.inherited = false;
+  }
+
+  customBlockInherit(thread) {
+    if (this.inherited) {
+      return;
+    }
+    thread.subThreads[this.id] = this;
+    this.inherited = true;
+    if (thread.withoutRefresh) {
+      this.withoutRefresh = true;
+    }
+    this.parent = thread;
   }
 
   turnOnWithoutRefresh() {
@@ -19,6 +32,13 @@ class Thread {
     if (!this._hasStopped) {
       this._hasStopped = true;
       this.sprite.removeThread(this.id);
+    }
+    if (this.inherited) {
+      delete this.parent.subThreads[this.id];
+    } else {
+      for (var key of Object.keys(this.subThreads)) {
+        this.subThreads[key].stop();
+      }
     }
   }
 
@@ -92,8 +112,9 @@ class Thread {
     if (!this.running) {
       return;
     }
-    var i = 1;
+    var i = 0;
     while (i < times) {
+      i += 1;
       if (!this.running) {
         return;
       }
@@ -104,7 +125,6 @@ class Thread {
       if (!this.running) {
         return;
       }
-      i += 1;
     }
     if (!this.running) {
       return;

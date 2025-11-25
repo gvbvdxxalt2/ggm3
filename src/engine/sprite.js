@@ -56,9 +56,9 @@ class Sprite {
     this.customBlockListeners[id] = func;
   }
   /* @todo find a faster way to call and manage custom blocks. */
-  async callCustom(id, values = {}) {
+  async callCustom(id, values = {}, thisThread) {
     if (this.customBlockRef[id]) {
-      await this.customBlockListeners[this.customBlockRef[id]](values);
+      await this.customBlockListeners[this.customBlockRef[id]](values, thisThread);
     }
   }
 

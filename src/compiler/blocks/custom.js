@@ -29,8 +29,10 @@ JavascriptTranslation["procedures_definition"] = function (
       return `sprite.addCustom(
         ${JSON.stringify(jsonblock.id)},
         ${JSON.stringify(definitionStuff.procCode)},
-        async function (customBlockArgs) {
+        async function (customBlockArgs,parentThread) {
         ${utilFunctions.startThreadStack(jsonblock)}
+        thread.customBlockInherit(parentThread);
+        ${definitionStuff.warp ? `thread.turnOnWithoutRefresh();` : ""}
         ${valueNameCode}
         ${insideCode}
         ${utilFunctions.endThreadStack(jsonblock)}
@@ -57,8 +59,8 @@ JavascriptTranslation["procedures_call"] = function (
         i += 1;
     }
     valueCode += "}";
-
-    return `await sprite.callCustom(${JSON.stringify(jsonblock.procCode)}, ${valueCode});`;
+    
+    return `await sprite.callCustom(${JSON.stringify(jsonblock.procCode)}, ${valueCode}, thread);`;
 };
 
 outputBlocks.push("argument_reporter_boolean");
@@ -68,8 +70,17 @@ JavascriptTranslation["argument_reporter_boolean"] = function (
   options,
 ) {
     var field = utils.getField(jsonblock, "VALUE", options);
-    window.alert(field);
-    return `thread.customBlockValues[${JSON.stringify()}]`;
+    return `thread.customBlockValues[${JSON.stringify(field)}]`;
+};
+
+outputBlocks.push("argument_reporter_string_number");
+JavascriptTranslation["argument_reporter_string_number"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
+    var field = utils.getField(jsonblock, "VALUE", options);
+    return `thread.customBlockValues[${JSON.stringify(field)}]`;
 };
 
 module.exports = JavascriptTranslation;
