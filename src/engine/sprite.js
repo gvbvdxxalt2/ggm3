@@ -337,12 +337,12 @@ class Sprite {
         delete this.customBlockRef[key];
       }
     }
-    delete this.spriteFunctions[blockID];
     delete this.hatFunctions[blockID];
     delete this.customBlockListeners[blockID];
   }
 
   removeSpriteFunction (blockID) {
+    this.spriteFunctions[blockID] = null;
     delete this.spriteFunctions[blockID];
   }
 

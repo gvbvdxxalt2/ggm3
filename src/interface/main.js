@@ -7,8 +7,6 @@ require("./dom/index.js");
 
 var engine = require("./curengine.js");
 
-engine.turnOnEditing();
-
 var tabs = require("./tabs.js");
 var selectedSprite = require("./selectedsprite.js");
 var defaultProject = require("./defaultproject.js");

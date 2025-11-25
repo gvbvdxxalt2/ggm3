@@ -139,14 +139,11 @@ function loadCode(spr) {
   async function compileRoot(rootBlock) {
     if (!rootBlock) return;
     // We don't need to stop it since it automatically stops the previous stack when ran.
-    var code = compiler.compileBlock(rootBlock);
-    spr.removeSpriteFunction(rootBlock.id);
-    spr.addFunction(code, rootBlock.id);
-    var thread = await spr.runFunctionID(rootBlock.id);
-    if (thread) {
-      if (thread.hadError) {
-        window.alert(thread.output);
-      }
+    if (compiler.isStarterBlock(rootBlock)) {
+      var code = compiler.compileBlock(rootBlock);
+      spr.removeSpriteFunction(rootBlock.id);
+      spr.addFunction(code, rootBlock.id);
+      spr.runFunctionID(rootBlock.id);
     }
   }
 
@@ -182,6 +179,7 @@ function loadCode(spr) {
             thread.stop();
           }
         }
+        spr.removeSpriteFunction(e.blockId);
         spr.removeStackListener(e.blockId);
         delete currentBlocks[e.blockId];
 

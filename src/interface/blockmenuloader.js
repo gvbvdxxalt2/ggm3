@@ -20,7 +20,7 @@ function loadBlockMenus(spr) {
           {
             type: "field_dropdown",
             name: "CLONE_OPTION",
-            options: [["Myself", "_myself_"]].concat(
+            options: [["myself", "_myself_"]].concat(
               sprites.map((s) => [s.name, s.name]),
             ),
           },

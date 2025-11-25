@@ -56,6 +56,8 @@ function getMousePosition(event, onElement, size) {
 
 function reloadCostumes(spr, reloadTabCallback = function () {}) {
   if (spr.costumes.length < 1) {
+    pivotEditorMenuBar.hidden = true;
+    pivotEditorContainer.hidden = true;
     elements.setInnerJSON(costumesInPivotContainer, [
       {
         element: "span",
@@ -67,6 +69,8 @@ function reloadCostumes(spr, reloadTabCallback = function () {}) {
       },
     ]);
   } else {
+    pivotEditorMenuBar.hidden = false;
+    pivotEditorContainer.hidden = false;
     var selectedCostume = 0;
     function updateList() {
       elements.setInnerJSON(
