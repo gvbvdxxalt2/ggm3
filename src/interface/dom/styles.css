@@ -586,3 +586,74 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.loadingDialogBG {
+  background: #363636;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100svw;
+  height: 100svh;
+  z-index: 99999999;
+}
+
+.loadingDialogBox {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  align-items: center;
+  z-index: 99999999;
+  font-weight: bold;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+}
+
+.loader2 {
+  width: 120px;
+  height: 120px;
+  animation-name: newLoaderAnim;
+  animation-duration: 1.3s;
+  animation-iteration-count: infinite;
+
+  position: relative;
+  top: 0;
+  left: 0;
+
+  background-image: url("logo/icon.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% 100%;
+  transform-origin: bottom;
+
+  filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.25));
+}
+
+@keyframes newLoaderAnim {
+  /* Bounce */
+  0% {
+    transform: translate(0, 0) scale(1, 1);
+    animation-timing-function: ease-out;
+  }
+  /* Outwards left*/
+  25% {
+    transform: translate(-25%, -100%) rotate(-10deg);
+    animation-timing-function: ease-in;
+  }
+  /* Bounce */
+  50% {
+    transform: translate(0, 0) scale(1, 1);
+    animation-timing-function: ease-out;
+  }
+  /* Outwards right */
+  75% {
+    transform: translate(25%, -100%) rotate(10deg);
+    animation-timing-function: ease-in;
+  }
+  /* Go back to start (repeat) */
+  100% {
+    transform: translate(0, 0) scale(1, 1);
+  }
+}

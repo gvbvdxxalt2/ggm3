@@ -21,6 +21,7 @@ elements.appendElementsFromJSON(document.body, [
           require("./right.js"), //Right panel
         ],
       },
+      require("./loading.js")
     ],
   },
 ]);
