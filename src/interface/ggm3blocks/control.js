@@ -44,3 +44,15 @@ Blockly.Blocks["control_elapsed"] = {
     });
   },
 };
+
+
+Blockly.Blocks["control_isclone"] = {
+  init: function () {
+    this.jsonInit({
+      message0: "Is a clone?",
+      args0: [],
+      category: Blockly.Categories.control,
+      extensions: ["colours_control", "output_boolean"],
+    });
+  },
+};

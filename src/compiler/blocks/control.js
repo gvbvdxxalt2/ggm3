@@ -136,4 +136,13 @@ JavascriptTranslation["control_elapsed"] = function (
   return `(engine.elapsedFrameTime / 1000)`;
 };
 
+outputBlocks.push("control_isclone");
+JavascriptTranslation["control_isclone"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
+  return `sprite.isClone`;
+};
+
 module.exports = JavascriptTranslation;
