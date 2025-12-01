@@ -38,11 +38,13 @@ class GGM3Engine {
     this.initCanvas();
     this.generateMouseMask();
     this.startRenderLoop();
+    this.spriteMap = {};
   }
 
   makeUniqueSpriteNames() {
     var existingNames = [];
     var nameCounts = {};
+    var spriteMap = {};
     this.sprites.forEach((sprite) => {
       if (existingNames.indexOf(sprite.name) !== -1) {
         if (nameCounts[sprite.name]) {
@@ -54,7 +56,9 @@ class GGM3Engine {
       } else {
         existingNames.push(sprite.name);
       }
+      spriteMap[sprite.name] = sprite;
     });
+    this.spriteMap = spriteMap;
   }
 
   get mouseX() {
@@ -76,6 +80,7 @@ class GGM3Engine {
 
   startGame() {
     this.stopGame();
+    this.makeUniqueSpriteNames();
     for (var sprite of this.sprites) {
       sprite.emitStackListener("started");
     }
@@ -301,6 +306,10 @@ class GGM3Engine {
   findSpriteByName(name) {
     if (name instanceof Sprite) {
       return name;
+    }
+    var spr = this.spriteMap[name];
+    if (spr) {
+      return spr;
     }
     for (var spr of this.sprites) {
       if (spr.name == name) {
