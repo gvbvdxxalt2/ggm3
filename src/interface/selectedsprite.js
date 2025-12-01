@@ -148,6 +148,30 @@ function loadCode(spr) {
     }
   }
 
+  function unglowErrorOnBlock(blockId) {
+    try {
+            var changedBlock = workspace.getBlockById(blockId);
+            if (changedBlock && changedBlock.getSvgRoot) {
+              var changedSvg = changedBlock.getSvgRoot();
+              if (changedSvg && changedSvg.classList)
+                changedSvg.classList.remove("error-glow");
+              try {
+                var errFilterId2 =
+                  workspace.options && workspace.options.errorGlowFilterId;
+                if (
+                  errFilterId2 &&
+                  changedSvg &&
+                  changedSvg.getAttribute &&
+                  changedSvg.getAttribute("filter") ===
+                    "url(#" + errFilterId2 + ")"
+                ) {
+                  changedSvg.removeAttribute("filter");
+                }
+              } catch (innerErr) {}
+            }
+          } catch (err) {}
+  }
+
   workspace.addChangeListener(function (e) {
     if (disposingWorkspace) {
       //window.alert(JSON.stringify(e));
@@ -207,6 +231,7 @@ function loadCode(spr) {
         if (e.oldParentId) {
           var oldParentBlock = workspace.getBlockById(e.oldParentId);
           if (oldParentBlock) {
+            unglowErrorOnBlock(oldParentBlock.getRootBlock().id);
             compileRoot(oldParentBlock.getRootBlock());
           }
         }
@@ -224,6 +249,7 @@ function loadCode(spr) {
           if (oldParentBlock) {
             var oldRoot = oldParentBlock.getRootBlock();
             if (oldRoot.id !== newRoot.id) {
+              unglowErrorOnBlock(oldRoot.id);
               compileRoot(oldRoot);
             }
           }
@@ -233,27 +259,7 @@ function loadCode(spr) {
         // its error glow so that moved/edited blocks don't accumulate persistent
         // red highlights (similar to Scratch 1.4 behavior).
         if (e.blockId) {
-          try {
-            var changedBlock = workspace.getBlockById(e.blockId);
-            if (changedBlock && changedBlock.getSvgRoot) {
-              var changedSvg = changedBlock.getSvgRoot();
-              if (changedSvg && changedSvg.classList)
-                changedSvg.classList.remove("error-glow");
-              try {
-                var errFilterId2 =
-                  workspace.options && workspace.options.errorGlowFilterId;
-                if (
-                  errFilterId2 &&
-                  changedSvg &&
-                  changedSvg.getAttribute &&
-                  changedSvg.getAttribute("filter") ===
-                    "url(#" + errFilterId2 + ")"
-                ) {
-                  changedSvg.removeAttribute("filter");
-                }
-              } catch (innerErr) {}
-            }
-          } catch (err) {}
+          unglowErrorOnBlock(e.blockId);
         }
       }
     }
@@ -263,25 +269,6 @@ function loadCode(spr) {
   flyoutWorkspace.addChangeListener(function (e) {
     spr.editorScanVariables(workspace);
     if (e.element == "click") {
-      var clickedBlock = workspace.getBlockById(e.blockId);
-      if (clickedBlock && clickedBlock.getSvgRoot) {
-        try {
-          var svg = clickedBlock.getSvgRoot();
-          if (svg && svg.classList) svg.classList.remove("error-glow");
-          try {
-            var errFilterId =
-              workspace.options && workspace.options.errorGlowFilterId;
-            if (
-              errFilterId &&
-              svg &&
-              svg.getAttribute &&
-              svg.getAttribute("filter") === "url(#" + errFilterId + ")"
-            ) {
-              svg.removeAttribute("filter");
-            }
-          } catch (inner) {}
-        } catch (err) {}
-      }
       var root = workspace.getBlockById(e.blockId).getRootBlock();
       if (!spr.runningStacks[root.id]) {
         (async function () {
@@ -316,7 +303,7 @@ function loadCode(spr) {
       workspace.glowStack(id, true);
     }
   };
-  spr.threadEndListener = function (id) {
+  spr.threadEndListener = function (id, isPreviewMode) {
     if (disposingWorkspace) {
       return;
     }

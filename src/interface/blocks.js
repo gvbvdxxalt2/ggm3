@@ -105,11 +105,11 @@ function createFreshWorkspace(spr) {
         { id: errId, height: "160%", width: "180%", y: "-30%", x: "-40%" },
         defs,
       );
-      // Use a milder blur for the error glow to avoid an overly large border.
+      // Use a moderate blur for the error glow to make it visible but not oversized.
       var stdDev =
         typeof Blockly.Colours.stackGlowSize === "number"
-          ? Math.max(1, Blockly.Colours.stackGlowSize / 2)
-          : 2;
+          ? Math.max(2, Blockly.Colours.stackGlowSize / 1.5)
+          : 3.5;
       Blockly.utils.createSvgElement(
         "feGaussianBlur",
         { in: "SourceGraphic", stdDeviation: stdDev },
@@ -125,10 +125,10 @@ function createFreshWorkspace(spr) {
         { type: "table", tableValues: "0" + " 1".repeat(16) },
         comp,
       );
-      // Slightly reduce flood opacity so the glow isn't too strong.
+      // Increase flood opacity to make the glow more visible and thicker.
       Blockly.utils.createSvgElement(
         "feFlood",
-        { "flood-color": "#ff0000", "flood-opacity": 0.6, result: "outColor" },
+        { "flood-color": "#ff0000", "flood-opacity": 0.75, result: "outColor" },
         f,
       );
       Blockly.utils.createSvgElement(

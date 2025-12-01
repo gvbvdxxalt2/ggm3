@@ -419,6 +419,13 @@ class Sprite {
     var thread = this.runningStacks[firstBlockID];
     try {
       if (thread && this.threadErrorListener && thread.hadError) {
+        if (thread.isPreviewMode) {
+          //Means that the block was clicked, so skip error handling (this stops it from glowing it).
+          if (this.threadEndListener) {
+            this.threadEndListener(firstBlockID);
+          }
+          return;
+        }
         this.threadErrorListener(firstBlockID, thread.output);
       } else if (this.threadEndListener) {
         this.threadEndListener(firstBlockID);
