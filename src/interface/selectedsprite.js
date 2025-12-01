@@ -20,6 +20,8 @@ var spriteHiddenInput = elements.getGPId("spriteHiddenInput");
 var spritesContainer = elements.getGPId("spritesContainer");
 var addSpriteButton = elements.getGPId("addSpriteButton");
 
+var errorLogsContainer = elements.getGPId("errorLogsContainer");
+
 addSpriteButton.addEventListener("click", () => {
   engine.createEmptySprite();
   setCurrentSprite(engine.sprites.length - 1);
@@ -153,8 +155,28 @@ function loadCode(spr) {
       return;
     }
     spr.editorScanVariables(workspace);
+
     if (e.element == "click") {
-      var root = workspace.getBlockById(e.blockId).getRootBlock();
+      var clickedBlock = workspace.getBlockById(e.blockId);
+      if (clickedBlock && clickedBlock.getSvgRoot) {
+        try {
+          var svg = clickedBlock.getSvgRoot();
+          if (svg && svg.classList) svg.classList.remove("error-glow");
+          try {
+            var errFilterId =
+              workspace.options && workspace.options.errorGlowFilterId;
+            if (
+              errFilterId &&
+              svg &&
+              svg.getAttribute &&
+              svg.getAttribute("filter") === "url(#" + errFilterId + ")"
+            ) {
+              svg.removeAttribute("filter");
+            }
+          } catch (inner) {}
+        } catch (err) {}
+      }
+      var root = clickedBlock.getRootBlock();
       if (!spr.runningStacks[root.id]) {
         (async function () {
           var code = compiler.compileBlockWithThreadForced(root);
@@ -206,6 +228,33 @@ function loadCode(spr) {
             }
           }
         }
+
+        // If any change happens to a block (move, change, mutate, etc.), clear
+        // its error glow so that moved/edited blocks don't accumulate persistent
+        // red highlights (similar to Scratch 1.4 behavior).
+        if (e.blockId) {
+          try {
+            var changedBlock = workspace.getBlockById(e.blockId);
+            if (changedBlock && changedBlock.getSvgRoot) {
+              var changedSvg = changedBlock.getSvgRoot();
+              if (changedSvg && changedSvg.classList)
+                changedSvg.classList.remove("error-glow");
+              try {
+                var errFilterId2 =
+                  workspace.options && workspace.options.errorGlowFilterId;
+                if (
+                  errFilterId2 &&
+                  changedSvg &&
+                  changedSvg.getAttribute &&
+                  changedSvg.getAttribute("filter") ===
+                    "url(#" + errFilterId2 + ")"
+                ) {
+                  changedSvg.removeAttribute("filter");
+                }
+              } catch (innerErr) {}
+            }
+          } catch (err) {}
+        }
       }
     }
   });
@@ -214,6 +263,25 @@ function loadCode(spr) {
   flyoutWorkspace.addChangeListener(function (e) {
     spr.editorScanVariables(workspace);
     if (e.element == "click") {
+      var clickedBlock = workspace.getBlockById(e.blockId);
+      if (clickedBlock && clickedBlock.getSvgRoot) {
+        try {
+          var svg = clickedBlock.getSvgRoot();
+          if (svg && svg.classList) svg.classList.remove("error-glow");
+          try {
+            var errFilterId =
+              workspace.options && workspace.options.errorGlowFilterId;
+            if (
+              errFilterId &&
+              svg &&
+              svg.getAttribute &&
+              svg.getAttribute("filter") === "url(#" + errFilterId + ")"
+            ) {
+              svg.removeAttribute("filter");
+            }
+          } catch (inner) {}
+        } catch (err) {}
+      }
       var root = workspace.getBlockById(e.blockId).getRootBlock();
       if (!spr.runningStacks[root.id]) {
         (async function () {
@@ -262,9 +330,64 @@ function loadCode(spr) {
         delete endTimeouts[id];
         if (workspace.getBlockById(id)) {
           //Just a double check so that no breaking happens when its deleted before the timeout finishes.
+          // Turn off the default glow.
           workspace.glowStack(id, false);
+          try {
+            var b = workspace.getBlockById(id);
+            if (b && b.getSvgRoot) {
+              var svg = b.getSvgRoot();
+              // Remove any error-glow class and remove the error filter if present.
+              if (svg && svg.classList) svg.classList.remove("error-glow");
+              try {
+                var errFilterId =
+                  workspace.options && workspace.options.errorGlowFilterId;
+                if (
+                  errFilterId &&
+                  svg &&
+                  svg.getAttribute &&
+                  svg.getAttribute("filter") === "url(#" + errFilterId + ")"
+                ) {
+                  svg.removeAttribute("filter");
+                }
+              } catch (inner) {}
+            }
+          } catch (e) {}
         }
       }, 1000 / 30);
+    }
+  };
+
+  // When a thread errors, show a persistent red glow on the root block.
+  spr.threadErrorListener = function (id, output) {
+    if (disposingWorkspace) {
+      return;
+    }
+    if (workspace.getBlockById(id)) {
+      if (typeof endTimeouts[id] !== "undefined") {
+        clearTimeout(endTimeouts[id]);
+      }
+      // Ensure the default glow is on (so Blockly knows it's active), then
+      // replace the block's filter with our red error filter so it appears red.
+      workspace.glowStack(id, true);
+      try {
+        var b = workspace.getBlockById(id);
+        if (b && b.getSvgRoot) {
+          var svg = b.getSvgRoot();
+          // Remove any previous marker class.
+          if (svg && svg.classList) svg.classList.add("error-glow");
+          try {
+            var errFilterId =
+              workspace.options && workspace.options.errorGlowFilterId;
+            if (errFilterId && svg && svg.setAttribute) {
+              svg.setAttribute("filter", "url(#" + errFilterId + ")");
+            }
+          } catch (inner) {
+            // Fallback: rely on CSS class if filter injection fails.
+          }
+        }
+      } catch (e) {
+        console.warn("Failed to add error-glow filter/class", e);
+      }
     }
   };
 
@@ -283,6 +406,46 @@ function loadCode(spr) {
   Blockly.Events.enable();
 }
 
+function getErrorLogDiv(error) {
+  var logDiv = document.createElement("div");
+  logDiv.className = "errorLogError";
+  logDiv.textContent = error.toString();
+  return logDiv;
+}
+
+function handleSpriteErrorLog(spr) {
+  errorLogsContainer.innerHTML = "";
+  var willScroll = false;
+  if (
+    errorLogsContainer.scrollTop + errorLogsContainer.offsetHeight + 2 >=
+    errorLogsContainer.scrollHeight
+  ) {
+    willScroll = true;
+  }
+  for (var error of spr.errorLogs) {
+    var logDiv = getErrorLogDiv(error);
+    errorLogsContainer.appendChild(logDiv);
+  }
+  if (willScroll) {
+    errorLogsContainer.scrollTo(0, errorLogsContainer.scrollHeight);
+  }
+
+  spr.onErrorLog = function (error) {
+    var willScroll = false;
+    if (
+      errorLogsContainer.scrollTop + errorLogsContainer.offsetHeight + 2 >=
+      errorLogsContainer.scrollHeight
+    ) {
+      willScroll = true;
+    }
+    var logDiv = getErrorLogDiv(error);
+    errorLogsContainer.appendChild(logDiv);
+    if (willScroll) {
+      errorLogsContainer.scrollTo(0, errorLogsContainer.scrollHeight);
+    }
+  };
+}
+
 function setCurrentSprite(index, forced, dontSave) {
   if (!forced) {
     if (currentSelectedSpriteIndex == index) {
@@ -290,6 +453,7 @@ function setCurrentSprite(index, forced, dontSave) {
     }
   }
   if (currentSelectedSprite) {
+    currentSelectedSprite.onErrorLog = function () {}; //Stop listening to errors.
     currentSelectedSprite.threadStartListener = null;
     currentSelectedSprite.threadEndListener = null;
     if (workspace) {
@@ -310,6 +474,7 @@ function setCurrentSprite(index, forced, dontSave) {
   spriteYPosInput.value = currentSelectedSprite.y;
   updateSpritesContainer();
   loadCode(currentSelectedSprite);
+  handleSpriteErrorLog(currentSelectedSprite);
   costumeViewer.reloadCostumes(currentSelectedSprite, function () {
     setCurrentSprite(index, true);
   });

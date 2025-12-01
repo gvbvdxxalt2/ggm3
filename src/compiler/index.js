@@ -92,6 +92,7 @@ function compileBlockWithThreadForced(block, options) {
   if (isOutputBlock(block)) {
     return (
       utilFunctions.startThreadStack(blockjson) +
+      "thread.isPreviewMode = true;" +
       `thread.output = ${compileBlockFromJSON(blockjson)};` +
       utilFunctions.endThreadStack(blockjson) +
       "return thread;"
@@ -99,6 +100,7 @@ function compileBlockWithThreadForced(block, options) {
   }
   return (
     utilFunctions.startThreadStack(blockjson) +
+    "thread.isPreviewMode = true;" +
     compileBlockFromJSON(blockToJSON(block), {
       ...options,
       EXECUTE_BLOCKS: true,

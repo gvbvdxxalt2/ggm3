@@ -9,6 +9,10 @@ elements.appendElementsFromJSON(document.body, [
     textContent: cssContent,
   },
   {
+    element: "style",
+    textContent: "[hidden] {display: none;}", //Fix for hidden attribute.
+  },
+  {
     element: "div",
     className: "appContainer",
     children: [

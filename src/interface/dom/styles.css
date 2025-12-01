@@ -540,10 +540,6 @@ body {
   right: 10px;
 }
 
-[hidden] {
-  display: none;
-}
-
 .customBlockDialogBG {
   position: fixed;
   width: 100svw;
@@ -656,4 +652,30 @@ body {
   100% {
     transform: translate(0, 0) scale(1, 1);
   }
+}
+
+.errorLogsContainer {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 10px 10px;
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  background-color: #000000;
+  overflow: auto;
+}
+
+.errorLogError {
+  color: #ff4c4c;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+/* Error glow is provided via the workspace SVG filter; keep a minimal
+   class so we can target blocks in case the filter can't be applied. */
+.blocklyBlockSvg.error-glow {
+  /* Prefer the workspace SVG filter for the glow; keep a harmless
+     property so linters don't complain about an empty ruleset. */
+  outline: none;
 }

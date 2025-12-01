@@ -54,6 +54,12 @@ const tabs = [
     default: true,
     id: "COSTUME_PIVOT",
   },
+  {
+    label: "Error Logs",
+    src: "icons/logs.svg",
+    default: true,
+    id: "ERROR_LOGS",
+  },
 ];
 
 var currentTab = tabs[0].id;
@@ -94,11 +100,13 @@ function setWorkspaceVisibility(visible) {
 
 var costumesContainer = elements.getGPId("costumesContainer");
 var costumePivotContainer = elements.getGPId("costumePivotContainer");
+var errorLogsContainer = elements.getGPId("errorLogsContainer");
 
 function updateVisibility() {
   setWorkspaceVisibility(false);
   costumesContainer.hidden = true;
   costumePivotContainer.hidden = true;
+  errorLogsContainer.hidden = true;
 
   if (currentTab == "SCRIPT") {
     setWorkspaceVisibility(true);
@@ -109,6 +117,9 @@ function updateVisibility() {
   if (currentTab == "COSTUME_PIVOT") {
     costumePivotContainer.hidden = false;
     costumePivot.reloadCostumes(selectedSprite.getCurSprite());
+  }
+  if (currentTab == "ERROR_LOGS") {
+    errorLogsContainer.hidden = false;
   }
 }
 

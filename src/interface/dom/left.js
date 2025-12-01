@@ -35,6 +35,11 @@ module.exports = {
           ],
         },
         require("./costumepivot.js"),
+        {
+          element: "div",
+          className: "errorLogsContainer",
+          gid: "errorLogsContainer",
+        },
       ],
     },
   ],

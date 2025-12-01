@@ -93,6 +93,59 @@ function createFreshWorkspace(spr) {
       colour: "#ddd",
     },
   });
+  // Create an SVG filter for error glow (red) and store its id on workspace.options
+  try {
+    var parentSvg = workspace.getParentSvg && workspace.getParentSvg();
+    var defs =
+      parentSvg && parentSvg.querySelector && parentSvg.querySelector("defs");
+    if (defs && Blockly && Blockly.utils && Blockly.utils.createSvgElement) {
+      var errId = "blocklyErrorGlowFilter" + String(Math.random()).slice(2);
+      var f = Blockly.utils.createSvgElement(
+        "filter",
+        { id: errId, height: "160%", width: "180%", y: "-30%", x: "-40%" },
+        defs,
+      );
+      // Use a milder blur for the error glow to avoid an overly large border.
+      var stdDev =
+        typeof Blockly.Colours.stackGlowSize === "number"
+          ? Math.max(1, Blockly.Colours.stackGlowSize / 2)
+          : 2;
+      Blockly.utils.createSvgElement(
+        "feGaussianBlur",
+        { in: "SourceGraphic", stdDeviation: stdDev },
+        f,
+      );
+      var comp = Blockly.utils.createSvgElement(
+        "feComponentTransfer",
+        { result: "outBlur" },
+        f,
+      );
+      Blockly.utils.createSvgElement(
+        "feFuncA",
+        { type: "table", tableValues: "0" + " 1".repeat(16) },
+        comp,
+      );
+      // Slightly reduce flood opacity so the glow isn't too strong.
+      Blockly.utils.createSvgElement(
+        "feFlood",
+        { "flood-color": "#ff0000", "flood-opacity": 0.6, result: "outColor" },
+        f,
+      );
+      Blockly.utils.createSvgElement(
+        "feComposite",
+        { in: "outColor", in2: "outBlur", operator: "in", result: "outGlow" },
+        f,
+      );
+      Blockly.utils.createSvgElement(
+        "feComposite",
+        { in: "SourceGraphic", in2: "outGlow", operator: "over" },
+        f,
+      );
+      workspace.options.errorGlowFilterId = errId;
+    }
+  } catch (e) {
+    console.warn("Could not create error glow filter for Blockly workspace", e);
+  }
 
   var flyoutWorkspace = workspace.getFlyout().getWorkspace();
   Blockly.Procedures.externalProcedureDefCallback = function (a, b) {

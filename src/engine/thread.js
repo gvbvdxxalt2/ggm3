@@ -9,6 +9,7 @@ class Thread {
     this.customBlockValues = {};
     this.subThreads = {};
     this.inherited = false;
+    this.isPreviewMode = false;
   }
 
   customBlockInherit(thread) {
@@ -38,6 +39,19 @@ class Thread {
     } else {
       for (var key of Object.keys(this.subThreads)) {
         this.subThreads[key].stop();
+      }
+    }
+
+    if (this.isPreviewMode) {
+      return; //Skip logging errors when the block is clicked.
+    }
+    if (this.hadError) {
+      var spr = this.sprite.parent || this.sprite; //Use main sprite for errorLogs.
+      spr.errorLogs.push(this.output || "");
+      spr.errorLogs = spr.errorLogs.slice(-100); //Keep last 100 logs.
+
+      if (spr.onErrorLog) {
+        spr.onErrorLog(this.output || "");
       }
     }
   }

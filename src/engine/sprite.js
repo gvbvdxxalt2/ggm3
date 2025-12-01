@@ -12,6 +12,7 @@ class Sprite {
     this.costumes = [];
     this.costumeIndex = 0;
     this.engine = engine;
+    this.errorLogs = [];
 
     this.name = name || "Sprite";
     this.blocklyXML = null; //Used to hold code for the editor.
@@ -32,6 +33,7 @@ class Sprite {
     this.frameListeners = [];
 
     this.threadEndListener = null;
+    this.threadErrorListener = null;
     this.threadStartListener = null;
 
     this.direction = 90; //Wrapper around this.angle
@@ -53,6 +55,14 @@ class Sprite {
     this.isClone = false;
     this.parent = null; //This is used by clones.
     this.clones = [];
+
+    this.errorLogs = [];
+  }
+
+  onErrorLog(error) {
+    //Expected to be overridden by the editor.
+
+    console.error("Sprite code error: ", error); //Used for exported games.
   }
 
   removeCloneFromList(clone) {
@@ -406,10 +416,16 @@ class Sprite {
     return thread;
   }
   removeThread(firstBlockID) {
-    if (this.threadEndListener) {
-      this.threadEndListener(firstBlockID);
+    var thread = this.runningStacks[firstBlockID];
+    try {
+      if (thread && this.threadErrorListener && thread.hadError) {
+        this.threadErrorListener(firstBlockID, thread.output);
+      } else if (this.threadEndListener) {
+        this.threadEndListener(firstBlockID);
+      }
+    } finally {
+      delete this.runningStacks[firstBlockID];
     }
-    delete this.runningStacks[firstBlockID];
   }
 
   getFunction(code) {
