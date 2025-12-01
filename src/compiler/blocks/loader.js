@@ -9,7 +9,11 @@ JavascriptTranslation["loader_costume"] = function (jsonblock, utils, options) {
 };
 
 outputBlocks.push("loader_costume_scale");
-JavascriptTranslation["loader_costume_scale"] = function (jsonblock, utils, options) {
+JavascriptTranslation["loader_costume_scale"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
   var COSTUME = utils.getInput(jsonblock, "COSTUME", options);
   return `(await sprite.blockGetCostumeScale(${COSTUME}))`;
 };

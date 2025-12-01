@@ -9,7 +9,11 @@ try {
       return false;
     };
   }
-  if (window.Blockly && Blockly.VerticalFlyout && Blockly.VerticalFlyout.prototype) {
+  if (
+    window.Blockly &&
+    Blockly.VerticalFlyout &&
+    Blockly.VerticalFlyout.prototype
+  ) {
     Blockly.VerticalFlyout.prototype.createCheckbox_ = function () {
       // no-op
     };
@@ -89,7 +93,7 @@ function createFreshWorkspace(spr) {
       colour: "#ddd",
     },
   });
-  
+
   var flyoutWorkspace = workspace.getFlyout().getWorkspace();
   Blockly.Procedures.externalProcedureDefCallback = function (a, b) {
     customBlocks.showCustomBlockDialog(a, b, workspace);

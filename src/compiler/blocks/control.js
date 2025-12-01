@@ -109,7 +109,6 @@ JavascriptTranslation["control_create_clone_of_menu"] = function (
   return JSON.stringify(CLONE_OPTION);
 };
 
-
 JavascriptTranslation["control_create_clone_of"] = function (
   jsonblock,
   utils,

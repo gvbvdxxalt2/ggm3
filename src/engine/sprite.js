@@ -83,7 +83,7 @@ class Sprite {
     if (this.isClone) {
       return this.parent.createClone();
     }
-    var sprite = new Sprite(this.engine, "Clone of "+this.name);
+    var sprite = new Sprite(this.engine, "Clone of " + this.name);
     sprite.isClone = true;
     sprite.parent = this;
     sprite.x = this.x;
@@ -101,9 +101,11 @@ class Sprite {
     sprite.spriteFunctions = this.spriteFunctions;
 
     for (var variable of Object.keys(this.variables)) {
-      try{
-        sprite.variables[variable] = JSON.parse(JSON.stringify(this.variables[variable])); //This clones the variable value, including json values.
-      }catch(e){
+      try {
+        sprite.variables[variable] = JSON.parse(
+          JSON.stringify(this.variables[variable]),
+        ); //This clones the variable value, including json values.
+      } catch (e) {
         sprite.variables[variable] = this.variables[variable]; //If it fails, just assign directly.
       }
     }
@@ -357,7 +359,7 @@ class Sprite {
     delete this.customBlockListeners[blockID];
   }
 
-  removeSpriteFunction (blockID) {
+  removeSpriteFunction(blockID) {
     this.spriteFunctions[blockID] = null;
     delete this.spriteFunctions[blockID];
   }

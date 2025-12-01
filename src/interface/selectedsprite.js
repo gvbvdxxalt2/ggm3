@@ -297,7 +297,8 @@ function setCurrentSprite(index, forced, dontSave) {
       currentSelectedSprite._editor_scrollY = workspace.scrollY;
       currentSelectedSprite._editor_scale = workspace.scale;
       if (!dontSave) {
-        currentSelectedSprite.blocklyXML = Blockly.Xml.workspaceToDom(workspace);
+        currentSelectedSprite.blocklyXML =
+          Blockly.Xml.workspaceToDom(workspace);
       }
     }
   }
@@ -444,5 +445,5 @@ module.exports = {
   getCurSpriteIndex,
   loadCode,
   compileSpriteXML,
-  saveCurrentSpriteCode
+  saveCurrentSpriteCode,
 };

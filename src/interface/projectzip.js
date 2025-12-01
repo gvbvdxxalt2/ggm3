@@ -16,10 +16,12 @@ async function saveProjectToZip() {
       scaleX: sprite.scaleX,
       scaleY: sprite.scaleY,
       size: sprite.size,
-      blocklyXML: sprite.blocklyXML ? Blockly.Xml.domToText(sprite.blocklyXML) : null,
+      blocklyXML: sprite.blocklyXML
+        ? Blockly.Xml.domToText(sprite.blocklyXML)
+        : null,
       name: sprite.name,
       zIndex: sprite.zIndex,
-      costumeIndex: sprite.costumeIndex
+      costumeIndex: sprite.costumeIndex,
     };
     var ci = 0;
     for (var costume of sprite.costumes) {
@@ -81,10 +83,16 @@ async function loadProjectFromZip(arrayBuffer) {
     for (var costumeJson of spriteJson.costumes) {
       var costume = null;
       if (costumeJson.willPreload) {
-        var dataURL = await arrayBufferToDataURL(await zip.file(costumeJson.file).async("arraybuffer"), costumeJson.mimeType ? costumeJson.mimeType : "image/png");
+        var dataURL = await arrayBufferToDataURL(
+          await zip.file(costumeJson.file).async("arraybuffer"),
+          costumeJson.mimeType ? costumeJson.mimeType : "image/png",
+        );
         costume = await sprite.addCostume(dataURL, costumeJson.name);
       } else {
-        var dataURL = await arrayBufferToDataURL(await zip.file(costumeJson.file).async("arraybuffer"), costumeJson.mimeType ? costumeJson.mimeType : "image/png");
+        var dataURL = await arrayBufferToDataURL(
+          await zip.file(costumeJson.file).async("arraybuffer"),
+          costumeJson.mimeType ? costumeJson.mimeType : "image/png",
+        );
         costume = sprite.addCostumeWithoutLoading(dataURL, costumeJson.name);
       }
       Object.assign(costume, {
@@ -94,7 +102,7 @@ async function loadProjectFromZip(arrayBuffer) {
         preferedScale: costumeJson.preferedScale,
         willPreload: costumeJson.willPreload,
         mimeType: costumeJson.mimeType,
-      })
+      });
     }
     Object.assign(sprite, {
       x: spriteJson.x,
@@ -103,18 +111,19 @@ async function loadProjectFromZip(arrayBuffer) {
       scaleX: spriteJson.scaleX,
       scaleY: spriteJson.scaleY,
       size: spriteJson.size,
-      blocklyXML: spriteJson.blocklyXML ? Blockly.Xml.textToDom(spriteJson.blocklyXML) : null,
+      blocklyXML: spriteJson.blocklyXML
+        ? Blockly.Xml.textToDom(spriteJson.blocklyXML)
+        : null,
       name: spriteJson.name,
       costumeIndex: spriteJson.costumeIndex,
-      zIndex: sprite.zIndex
+      zIndex: sprite.zIndex,
     });
-    
+
     selectedSprite.compileSpriteXML(sprite);
   }
-  
 }
 
 module.exports = {
   saveProjectToZip,
-  loadProjectFromZip
+  loadProjectFromZip,
 };

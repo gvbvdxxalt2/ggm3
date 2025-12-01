@@ -60,11 +60,11 @@ loadProjectButton.addEventListener("click", async function () {
     loadingScreenContainer.hidden = false;
     var reader = new FileReader();
     reader.onload = async function () {
-      try{
+      try {
         await projectSaver.loadProjectFromZip(reader.result);
-      }catch(e){
+      } catch (e) {
         await defaultProject.loadDefaultProject();
-        console.error("Project load error: ",e);
+        console.error("Project load error: ", e);
         dialogs.alert("Project load error: " + e.message);
       }
       selectedSprite.setCurrentSprite(0, true, true);

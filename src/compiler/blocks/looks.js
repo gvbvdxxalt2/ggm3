@@ -7,19 +7,33 @@ JavascriptTranslation["looks_costume"] = function (jsonblock, utils, options) {
   return JSON.stringify(COSTUME);
 };
 
-JavascriptTranslation["looks_switchcostumeto"] = function (jsonblock, utils, options) {
+JavascriptTranslation["looks_switchcostumeto"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
   var COSTUME = utils.getInput(jsonblock, "COSTUME", options);
   return `sprite.costumeIndex = +(sprite.getCostumeIndex(${COSTUME})) || 0;`;
 };
 
-JavascriptTranslation["looks_nextcostume"] = function (jsonblock, utils, options) {
+JavascriptTranslation["looks_nextcostume"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
   return `sprite.costumeIndex += 1;if (sprite.costumeIndex+1 > sprite.costumes.length) {sprite.costumeIndex = 0;}`;
 };
 
 outputBlocks.push("looks_costumenumbername");
-JavascriptTranslation["looks_costumenumbername"] = function (jsonblock, utils, options) {
+JavascriptTranslation["looks_costumenumbername"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
   var NUMBER_NAME = utils.getField(jsonblock, "NUMBER_NAME", options);
-  return NUMBER_NAME == "number" ? "sprite.costumeIndex" : "sprite.costume.name";
+  return NUMBER_NAME == "number"
+    ? "sprite.costumeIndex"
+    : "sprite.costume.name";
 };
 
 outputBlocks.push("looks_hidden");
