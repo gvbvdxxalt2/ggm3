@@ -61,6 +61,10 @@ class Sprite {
     this.errorLogs = [];
   }
 
+  toString() {
+    return `[Sprite ${this.name}]`;
+  }
+
   isTouchingMouse() {
     if (!this.mask) {
       return false;
