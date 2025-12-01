@@ -159,6 +159,7 @@ function generateToolbox(defaultX, defaultY) {
         <block type="control_while" gap="30">
         </block>
         <block type="control_elapsed" gap="30"></block>
+        <block type="control_isclone"></block>
         <block type="control_start_as_clone">
         </block>
         <block type="control_create_clone_of">
