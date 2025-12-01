@@ -62,7 +62,10 @@ class Sprite {
   }
 
   toString() {
-    return `[Sprite ${this.name}]`;
+    if (this.isClone) {
+      return `[Sprite - clone of "${this.parent.name}"]`;
+    }
+    return `[Sprite - "${this.name}"]`;
   }
 
   isTouchingMouse() {

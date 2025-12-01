@@ -250,6 +250,11 @@ function generateToolbox(defaultX, defaultY) {
                 </shadow>
             </value>
         </block>
+        <block type="operator_round">
+            <value name="NUM">
+                <shadow type="math_number"></shadow>
+            </value>
+		</block>
         <block type="operator_mathop" gap="30">
             <value name="NUM">
                 <shadow type="math_number">
@@ -325,11 +330,6 @@ function generateToolbox(defaultX, defaultY) {
 		<block type="operator_toboolean">
             <value name="VALUE">
                 <shadow type="text"></shadow>
-            </value>
-		</block>
-        <block type="operator_round">
-            <value name="NUM">
-                <shadow type="math_number"></shadow>
             </value>
 		</block>
     </category>
