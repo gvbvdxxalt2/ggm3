@@ -123,6 +123,37 @@ JavascriptTranslation["looks_ystretch_by"] = function (
   return `sprite.scaleY += (+(${VALUE}) || 0) / 100;`;
 };
 
+JavascriptTranslation["looks_seteffectto"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
+  var EFFECT = utils.getField(jsonblock, "EFFECT", options);
+  var VALUE = utils.getInput(jsonblock, "VALUE", options);
+  return `sprite.effects.${EFFECT} = +(${VALUE}) || 0;`;
+};
+
+JavascriptTranslation["looks_change_effect_by"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
+  var EFFECT = utils.getField(jsonblock, "EFFECT", options);
+  var BY = utils.getInput(jsonblock, "BY", options);
+  return `sprite.effects.${EFFECT} += +(${BY}) || 0;`;
+};
+
+outputBlocks.push("looks_geteffect");
+JavascriptTranslation["looks_geteffect"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
+  var EFFECT = utils.getField(jsonblock, "EFFECT", options);
+  var VALUE = utils.getInput(jsonblock, "VALUE", options);
+  return `sprite.effects.${EFFECT}`;
+};
+
 /* Throw error test thats used to check if error handling works, so that when something fails unexpectedly then the threads won't leak memory */
 JavascriptTranslation["error_test"] = function (jsonblock, utils, options) {
   return `throw new Error("This is an error reported by the block");`;

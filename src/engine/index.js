@@ -284,6 +284,7 @@ class GGM3Engine {
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     this._iTime += elapsed / 1000;
+    this.elapsedFrameTime = elapsed;
 
     var _this = this;
     this.getAllTopSprites().forEach((spr) => {
@@ -414,6 +415,9 @@ class GGM3Engine {
     if (spr.hidden) {
       return;
     }
+    if (spr.alpha <= 0) {
+      return;
+    }
     var {
       gl,
       _gl_spriteProgramInfo,
@@ -447,11 +451,7 @@ class GGM3Engine {
           u_projectionMatrix: _gl_projectionMatrix,
 
           u_ghost: spr.alpha / 100,
-          /*iTime: _iTime,
-          u_wave_xwave: 30,
-          u_wave_ywave: 40,
-          u_wave_xtime: 30,
-          u_wave_ytime: 50,*/
+          ...spr.effects.getRenderableEffects(),
         };
 
         //window.alert(JSON.stringify(uniforms));

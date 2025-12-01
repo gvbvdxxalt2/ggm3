@@ -33,3 +33,14 @@ Blockly.Blocks["control_while"] = {
     });
   },
 };
+
+Blockly.Blocks["control_elapsed"] = {
+  init: function () {
+    this.jsonInit({
+      message0: "elapsed frame time",
+      args0: [],
+      category: Blockly.Categories.control,
+      extensions: ["colours_control", "output_number"],
+    });
+  },
+};

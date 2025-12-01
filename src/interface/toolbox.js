@@ -156,8 +156,9 @@ function generateToolbox(defaultX, defaultY) {
         </block>
         <block type="control_repeat_until">
         </block>
-        <block type="control_while">
+        <block type="control_while" gap="30">
         </block>
+        <block type="control_elapsed" gap="30"></block>
         <block type="control_start_as_clone">
         </block>
         <block type="control_create_clone_of">
@@ -383,7 +384,23 @@ function generateToolbox(defaultX, defaultY) {
             </value>
         </block>
         <block type="looks_nextcostume"></block>
-        <block type="looks_costumenumbername"></block>
+        <block type="looks_costumenumbername" gap="30"></block>
+
+        <block type="looks_seteffectto">
+            <value name="VALUE">
+                <shadow type="math_number">
+                    <field name="NUM">0</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="looks_change_effect_by">
+            <value name="BY">
+                <shadow type="math_number">
+                    <field name="NUM">10</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="looks_geteffect"></block>
 
 		<!--<block type="error_test"></block>--> <!--This is just a block used to check if error handling works-->
     </category>

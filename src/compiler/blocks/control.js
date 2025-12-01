@@ -127,4 +127,13 @@ JavascriptTranslation["control_delete_this_clone"] = function (
   return `sprite.destroyClone();`;
 };
 
+outputBlocks.push("control_elapsed");
+JavascriptTranslation["control_elapsed"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
+  return `(engine.elapsedFrameTime / 1000)`;
+};
+
 module.exports = JavascriptTranslation;

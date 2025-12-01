@@ -1,5 +1,6 @@
 var Costume = require("./costume.js");
 var Thread = require("./thread.js");
+var SpriteEffects = require("./effects.js");
 
 class Sprite {
   constructor(engine, name) {
@@ -55,6 +56,7 @@ class Sprite {
     this.isClone = false;
     this.parent = null; //This is used by clones.
     this.clones = [];
+    this.effects = new SpriteEffects(this);
 
     this.errorLogs = [];
   }
@@ -77,6 +79,9 @@ class Sprite {
     var otherSprite = this.findSpriteByName(otherSpriteName);
     if (otherSprite) {
       return false;
+    }
+    if (otherSprite.hidden) {
+      return;
     }
     this.alignMask();
     otherSprite.alignMask();
