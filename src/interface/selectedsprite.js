@@ -105,9 +105,9 @@ function updateSpritesContainer() {
               {
                 event: "click",
                 func: function (elm) {
-                  var newIndex = currentSelectedSpriteIndex;
                   saveCurrentSpriteCode();
-                  engine.duplicateSprite(spr);
+                  var newSprite = engine.duplicateSprite(spr);
+                  compileSpriteXML(newSprite);
                   updateSpritesContainer();
                 },
               },

@@ -59,6 +59,43 @@ class Sprite {
     this.errorLogs = [];
   }
 
+  isTouchingMouse() {
+    if (!this.mask) {
+      return false;
+    }
+    this.alignMask();
+    if (this.engine.mouseMask.collisionTest(this.mask)) {
+      return true;
+    }
+    return false;
+  }
+
+  isTouchingSprite(otherSpriteName) {
+    if (otherSpriteName == "__mouse_pointer__") {
+      return this.isTouchingMouse();
+    }
+    var otherSprite = this.findSpriteByName(otherSpriteName);
+    if (otherSprite) {
+      return false;
+    }
+    this.alignMask();
+    otherSprite.alignMask();
+    var mask1 = this.mask;
+    var mask2 = otherSprite.mask;
+    if (!mask1) {
+      return false;
+    }
+    if (!mask2) {
+      return false;
+    }
+    if (mask1.collisionTest(mask2)) {
+      return otherSprite;
+    }
+    for (var clone of otherSprite.clones) {
+      return this.isTouchingSprite(clone);
+    }
+  }
+
   onErrorLog(error) {
     //Expected to be overridden by the editor.
 
@@ -129,6 +166,9 @@ class Sprite {
   }
 
   findSpriteByName(name) {
+    if (name instanceof Sprite) {
+      return name;
+    }
     if (name == "_myself_") {
       return this;
     }

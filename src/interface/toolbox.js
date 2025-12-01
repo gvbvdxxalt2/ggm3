@@ -79,6 +79,12 @@ function generateToolbox(defaultX, defaultY) {
         <block type="event_whengamestarts"></block>
     </category>
     <category name="Sensing" id="sensing" colour="${Blockly.Colours.sensing.primary}" secondaryColour="${Blockly.Colours.sensing.secondary}">
+        <block type="sensing_touchingobject" id="sensing_touchingobject">
+            <value name="TOUCHINGOBJECTMENU">
+                <shadow type="sensing_touchingobjectmenu">
+                </shadow>
+            </value>
+        </block>
         <block type="sensing_mousex"></block>
         <block type="sensing_mousey"></block>
         <block type="sensing_mousedown" gap="30"></block>

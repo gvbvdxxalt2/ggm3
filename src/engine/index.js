@@ -116,6 +116,7 @@ class GGM3Engine {
     newSprite.scaleY = fromSprite.scaleY;
     newSprite.size = fromSprite.size;
     newSprite.costumeIndex = fromSprite.costumeIndex;
+    newSprite.blocklyXML = fromSprite.blocklyXML;
 
     fromSprite.costumes.forEach(async (fromCostume) => {
       var costume = await newSprite.addCostume(fromCostume.dataURL);
@@ -125,6 +126,8 @@ class GGM3Engine {
       costume.preferedScale = fromCostume.preferedScale;
       costume.renderImageAtScale();
     });
+
+    return newSprite;
   }
 
   startRenderLoop() {
@@ -295,6 +298,9 @@ class GGM3Engine {
   }
 
   findSpriteByName(name) {
+    if (name instanceof Sprite) {
+      return name;
+    }
     for (var spr of this.sprites) {
       if (spr.name == name) {
         return spr;

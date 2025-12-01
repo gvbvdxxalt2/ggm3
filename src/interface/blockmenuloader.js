@@ -8,6 +8,23 @@ function loadBlockMenus(spr) {
   if (costumeMenu.length < 1) {
     costumeMenu = [["(No Costumes)", null]];
   }
+  Blockly.Blocks['sensing_touchingobjectmenu'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "TOUCHINGOBJECTMENU",
+          "options": [
+            ["mouse pointer", '__mouse_pointer__'],
+          ].concat(sprites.map(s => [s.name, s.name]))
+        }
+      ],
+      "extensions": ["colours_sensing", "output_string"]
+    });
+  }
+};
   Blockly.Blocks["control_create_clone_of_menu"] = {
     /**
      * Create-clone drop-down menu.
