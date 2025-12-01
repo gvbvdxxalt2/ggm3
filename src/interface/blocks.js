@@ -108,8 +108,8 @@ function createFreshWorkspace(spr) {
       // Use a moderate blur for the error glow to make it visible but not oversized.
       var stdDev =
         typeof Blockly.Colours.stackGlowSize === "number"
-          ? Math.max(2, Blockly.Colours.stackGlowSize / 1.5)
-          : 3.5;
+          ? Math.max(1, Blockly.Colours.stackGlowSize / 1.5)
+          : 2.5;
       Blockly.utils.createSvgElement(
         "feGaussianBlur",
         { in: "SourceGraphic", stdDeviation: stdDev },
@@ -128,7 +128,7 @@ function createFreshWorkspace(spr) {
       // Increase flood opacity to make the glow more visible and thicker.
       Blockly.utils.createSvgElement(
         "feFlood",
-        { "flood-color": "#ff0000", "flood-opacity": 0.75, result: "outColor" },
+        { "flood-color": "#ff0000", "flood-opacity": 1, result: "outColor" },
         f,
       );
       Blockly.utils.createSvgElement(
