@@ -5,3 +5,4 @@ require("./looks.js");
 require("./control.js");
 require("./sensing.js");
 require("./loader.js");
+require("./json.js");

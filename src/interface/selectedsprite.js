@@ -103,11 +103,10 @@ function updateSpritesContainer() {
               {
                 event: "click",
                 func: function (elm) {
-                  if (engine.sprites.length > 1) {
-                    var newIndex = currentSelectedSpriteIndex;
-                    engine.duplicateSprite(spr);
-                    updateSpritesContainer();
-                  }
+                  var newIndex = currentSelectedSpriteIndex;
+                  saveCurrentSpriteCode();
+                  engine.duplicateSprite(spr);
+                  updateSpritesContainer();
                 },
               },
             ],
@@ -396,10 +395,54 @@ setInterval(() => {
   }
 }, 1000 / 30);
 
+function compileSpriteXML(spr) {
+  async function compileRoot(rootBlock) {
+    if (!rootBlock) return;
+    // We don't need to stop it since it automatically stops the previous stack when ran.
+    if (compiler.isStarterBlock(rootBlock)) {
+      var code = compiler.compileBlock(rootBlock);
+      spr.removeSpriteFunction(rootBlock.id);
+      spr.addFunction(code, rootBlock.id);
+      spr.runFunctionID(rootBlock.id);
+    }
+  }
+  var div = document.createElement("div");
+  document.body.append(div);
+  var tempWorkspace = Blockly.inject(div, {
+    comments: true,
+    disable: false,
+    collapse: false,
+    media: "../media/",
+    readOnly: false,
+    rtl: false,
+    scrollbars: false,
+    trashcan: false,
+    sounds: false,
+  });
+
+  if (spr.blocklyXML) {
+    Blockly.Xml.domToWorkspace(spr.blocklyXML, tempWorkspace);
+  }
+
+  var blocks = tempWorkspace.getTopBlocks(true);
+  for (var block of blocks) {
+    compileRoot(block.getRootBlock());
+  }
+
+  tempWorkspace.dispose();
+  div.remove();
+}
+
+function saveCurrentSpriteCode() {
+  currentSelectedSprite.blocklyXML = Blockly.Xml.workspaceToDom(workspace);
+}
+
 module.exports = {
   setCurrentSprite,
   updateSpritesContainer,
   getCurSprite,
   getCurSpriteIndex,
   loadCode,
+  compileSpriteXML,
+  saveCurrentSpriteCode
 };

@@ -100,6 +100,14 @@ class Sprite {
 
     sprite.spriteFunctions = this.spriteFunctions;
 
+    for (var variable of Object.keys(this.variables)) {
+      try{
+        sprite.variables[variable] = JSON.parse(JSON.stringify(this.variables[variable])); //This clones the variable value, including json values.
+      }catch(e){
+        sprite.variables[variable] = this.variables[variable]; //If it fails, just assign directly.
+      }
+    }
+
     this.clones.push(sprite);
 
     for (var key of Object.keys(this.spriteFunctions)) {
@@ -476,6 +484,7 @@ class Sprite {
         this.deleteCostume(costume);
       }
     }
+    this.stopAllScripts();
     this.costumes = [];
     this.id = null;
     this.engine = null;

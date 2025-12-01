@@ -2,6 +2,22 @@ var elements = require("../gp2/elements.js");
 var AElement = require("../gp2/aelement.js");
 window.ScratchBlocks = window.Blockly;
 
+// Disable flyout checkboxes early so initial flyout blocks don't get checkboxes.
+try {
+  if (window.Blockly && Blockly.Block && Blockly.Block.prototype) {
+    Blockly.Block.prototype.hasCheckboxInFlyout = function () {
+      return false;
+    };
+  }
+  if (window.Blockly && Blockly.VerticalFlyout && Blockly.VerticalFlyout.prototype) {
+    Blockly.VerticalFlyout.prototype.createCheckbox_ = function () {
+      // no-op
+    };
+  }
+} catch (e) {
+  console.warn("Unable to override Blockly flyout checkbox behavior:", e);
+}
+
 var blocklyDiv = elements.getGPId("blocklyDiv");
 
 var toolboxGenerator = require("./toolbox.js");
@@ -73,6 +89,7 @@ function createFreshWorkspace(spr) {
       colour: "#ddd",
     },
   });
+  
   var flyoutWorkspace = workspace.getFlyout().getWorkspace();
   Blockly.Procedures.externalProcedureDefCallback = function (a, b) {
     customBlocks.showCustomBlockDialog(a, b, workspace);

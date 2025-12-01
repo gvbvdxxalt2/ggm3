@@ -17,7 +17,7 @@ require("./enginecontrol.js");
 async function newProject() {
   loadingScreenContainer.hidden = false;
   await defaultProject.loadDefaultProject();
-  selectedSprite.setCurrentSprite(0);
+  selectedSprite.setCurrentSprite(0, true, true);
   loadingScreenContainer.hidden = true;
 }
 
@@ -65,7 +65,7 @@ loadProjectButton.addEventListener("click", async function () {
       }catch(e){
         await defaultProject.loadDefaultProject();
         console.error("Project load error: ",e);
-        dialogs.alert("Project load error.");
+        dialogs.alert("Project load error: " + e.message);
       }
       selectedSprite.setCurrentSprite(0, true, true);
       loadingScreenContainer.hidden = true;

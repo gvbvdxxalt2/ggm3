@@ -369,6 +369,35 @@ function generateToolbox(defaultX, defaultY) {
     </category>
     <category name="Variables" id="data" colour="#FF8C1A" secondaryColour="#DB6E00" custom="GGM3_VARIABLE">
     </category>
+    <category name="JSON" id="json" colour="#058fff" secondaryColour="#058fff">
+        <block type="json_new"></block>
+        <block type="json_setto">
+            <value name="NAME">
+                <shadow type="text">
+                    <field name="TEXT">variable</field>
+                </shadow>
+            </value>
+            <value name="VALUE">
+                <shadow type="text">
+                    <field name="TEXT">value</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="json_deleteon">
+            <value name="NAME">
+                <shadow type="text">
+                    <field name="TEXT">variable</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="json_geton">
+            <value name="NAME">
+                <shadow type="text">
+                    <field name="TEXT">variable</field>
+                </shadow>
+            </value>
+        </block>
+    </category>
     <category
         name="My blocks"
         id="myBlocks"

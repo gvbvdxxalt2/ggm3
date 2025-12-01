@@ -35,7 +35,8 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "[name].bundle.js",
+    filename: "[name].js",
+    chunkFilename: "[name].js",
   },
   performance: {
     /*hints: "warning",*/
@@ -118,6 +119,12 @@ module.exports = {
       title: `Gvbvdxx Game Maker 3`,
       template: "./src/base_html.html",
       chunks: ["interface"],
+    }),
+    new HtmlWebpackPlugin({
+      filename: `test/engine.html`,
+      title: `Engine testing ground`,
+      template: "./src/base_html_plain.html",
+      chunks: ["engine"],
     }),
     /*new HtmlWebpackPlugin({
       filename: `test.html`,

@@ -9,6 +9,7 @@ var JavascriptTranslation = {
   ...require("./looks.js"),
   ...require("./loader.js"),
   ...require("./custom.js"),
+  ...require("./json.js")
 };
 
 module.exports = JavascriptTranslation;

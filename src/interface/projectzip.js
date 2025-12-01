@@ -1,10 +1,12 @@
 var JSZip = require("jszip");
 var engine = require("./curengine.js");
+var selectedSprite = require("./selectedsprite.js");
 
 async function saveProjectToZip() {
   var zip = new JSZip();
   var spritesArray = [];
   var i = 0;
+  selectedSprite.saveCurrentSpriteCode();
   for (var sprite of engine.sprites) {
     var costumesObj = [];
     var spriteObj = {
@@ -106,6 +108,8 @@ async function loadProjectFromZip(arrayBuffer) {
       costumeIndex: spriteJson.costumeIndex,
       zIndex: sprite.zIndex
     });
+    
+    selectedSprite.compileSpriteXML(sprite);
   }
   
 }
