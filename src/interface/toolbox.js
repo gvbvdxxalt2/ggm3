@@ -79,7 +79,6 @@ function generateToolbox(defaultX, defaultY) {
         <block type="event_whengamestarts"></block>
         <block type="event_broadcast">
             <value name="BROADCAST_INPUT">
-                <shadow type="event_broadcast"></shadow>
             </value>
         </block>
     </category>

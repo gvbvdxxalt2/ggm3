@@ -383,8 +383,21 @@ function loadCode(spr) {
   setTimeout(function () {
     Blockly.svgResize(workspace);
   }, 0);
+  
+  scrollToPrevious();
 
+  disposingWorkspace = false;
+  Blockly.Events.enable();
+  workspace.getToolbox().refreshSelection();
+  return {scrollToPrevious};
+}
+function scrollToPrevious () {
+  if (!workspace) {
+    return;
+  }
+  var spr = currentSelectedSprite;
   if (typeof spr._editor_scrollX == "number") {
+    Blockly.svgResize(workspace);
     workspace.scrollX = spr._editor_scrollX;
     workspace.scrollY = spr._editor_scrollY;
     workspace.scale = spr._editor_scale;
@@ -394,13 +407,24 @@ function loadCode(spr) {
     flyoutWorkspace.scrollY = spr._flyout_scrollY || 0;
     flyoutWorkspace.scale = spr._flyout_scale || 0;
     flyoutWorkspace.resize();
-
+  
     workspace.resize();
+    Blockly.svgResize(workspace);
   }
+}
+function saveScroll() {
+  if (!workspace) {
+    return;
+  }
+  var spr = currentSelectedSprite;
+  var flyoutWorkspace = workspace.getFlyout().getWorkspace();
+  spr._flyout_scrollX = flyoutWorkspace.scrollX;
+  spr._flyout_scrollY = flyoutWorkspace.scrollY;
+  spr._flyout_scale = flyoutWorkspace.scale;
 
-  disposingWorkspace = false;
-  Blockly.Events.enable();
-  workspace.getToolbox().refreshSelection();
+  spr._editor_scrollX = workspace.scrollX;
+  spr._editor_scrollY = workspace.scrollY;
+  spr._editor_scale = workspace.scale;
 }
 
 function getErrorLogDiv(error) {
@@ -454,14 +478,7 @@ function setCurrentSprite(index, forced, dontSave) {
     currentSelectedSprite.threadStartListener = null;
     currentSelectedSprite.threadEndListener = null;
     if (workspace) {
-      var flyoutWorkspace = workspace.getFlyout().getWorkspace();
-      currentSelectedSprite._flyout_scrollX = flyoutWorkspace.scrollX;
-      currentSelectedSprite._flyout_scrollY = flyoutWorkspace.scrollY;
-      currentSelectedSprite._flyout_scale = flyoutWorkspace.scale;
-
-      currentSelectedSprite._editor_scrollX = workspace.scrollX;
-      currentSelectedSprite._editor_scrollY = workspace.scrollY;
-      currentSelectedSprite._editor_scale = workspace.scale;
+      saveScroll();
       if (!dontSave) {
         currentSelectedSprite.blocklyXML =
           Blockly.Xml.workspaceToDom(workspace);
@@ -477,9 +494,10 @@ function setCurrentSprite(index, forced, dontSave) {
   updateSpritesContainer();
   loadCode(currentSelectedSprite);
   handleSpriteErrorLog(currentSelectedSprite);
-  costumeViewer.reloadCostumes(currentSelectedSprite, function () {
-    setCurrentSprite(index, true);
-  });
+  loadCostumes();
+}
+function loadCostumes() {
+  costumeViewer.reloadCostumes(currentSelectedSprite, loadCostumes);
 }
 
 spriteNameInput.addEventListener("input", () => {
@@ -635,4 +653,6 @@ module.exports = {
   loadCode,
   compileSpriteXML,
   saveCurrentSpriteCode,
+  saveScroll,
+  scrollToPrevious
 };

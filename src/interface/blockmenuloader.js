@@ -1,5 +1,5 @@
 var engine = require("./curengine.js");
-
+var tabs = require("./tabs.js");
 var helpers = {
   //overriden by selectedsprite.js
   loadWorkspaceFromSprite: function (func) {},
@@ -218,7 +218,12 @@ function getCostumeMenuFunction(spr) {
       return [costume.name, costume.name];
     });
     if (costumeMenu.length < 1) {
-      costumeMenu = [["(No Costumes)", ""]];
+      costumeMenu = [
+        [
+          "(No costumes)",
+          ""
+        ]
+      ];
     }
     return costumeMenu;
   };
@@ -294,7 +299,6 @@ function loadBlockMenus(spr) {
       });
     },
   };
-
   loadGlobalVariableBlocks(spr);
 }
 

@@ -137,4 +137,4 @@ function switchTab(id) {
 
 updateTabs();
 
-module.exports = { updateTabs, updateVisibility, hideEverything };
+module.exports = { updateTabs, updateVisibility, hideEverything, switchTab };
