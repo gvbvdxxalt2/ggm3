@@ -418,6 +418,13 @@ function generateToolbox(defaultX, defaultY) {
     </category>
     <category name="Global Variables" id="data_global" colour="#00c756" secondaryColour="#00c756" custom="GGM3_GLOBAL_VARIABLE">
     </category>
+    <category
+        name="My blocks"
+        id="myBlocks"
+        colour="#FF6680"
+        secondaryColour="#FF4D6A"
+        custom="PROCEDURE">
+    </category>
     <category name="JSON" id="json" colour="#058fff" secondaryColour="#058fff">
         <block type="json_new"></block>
         <label text="Object operations:"></label>
@@ -519,13 +526,6 @@ function generateToolbox(defaultX, defaultY) {
             </value>
         </block>
         <block type="json_pretty_print"></block>
-    </category>
-    <category
-        name="My blocks"
-        id="myBlocks"
-        colour="#FF6680"
-        secondaryColour="#FF4D6A"
-        custom="PROCEDURE">
     </category>
     `;
 
