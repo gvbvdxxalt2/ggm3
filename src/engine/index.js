@@ -39,6 +39,19 @@ class GGM3Engine {
     this.generateMouseMask();
     this.startRenderLoop();
     this.spriteMap = {};
+    this.globalVariables = {};
+  }
+
+  hasGlobalVariable(name) {
+    return Object.keys(this.globalVariables).indexOf(name) > -1;
+  }
+
+  addGlobalVariable(name) {
+    this.globalVariables[name] = 0;
+  }
+
+  removeGlobalVariable(name) {
+    delete this.globalVariables[name];
   }
 
   makeUniqueSpriteNames() {

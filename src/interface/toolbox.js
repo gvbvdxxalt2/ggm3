@@ -412,6 +412,8 @@ function generateToolbox(defaultX, defaultY) {
     </category>
     <category name="Variables" id="data" colour="#FF8C1A" secondaryColour="#DB6E00" custom="GGM3_VARIABLE">
     </category>
+    <category name="Global Variables" id="data_global" colour="#00c756" secondaryColour="#00c756" custom="GGM3_GLOBAL_VARIABLE">
+    </category>
     <category name="JSON" id="json" colour="#058fff" secondaryColour="#058fff">
         <block type="json_new"></block>
         <label text="Object operations:"></label>

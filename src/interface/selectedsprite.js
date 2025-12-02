@@ -5,7 +5,8 @@ var engine = require("./curengine.js");
 var blocks = require("./blocks.js");
 var costumeViewer = require("./costumeviewer.js");
 var compiler = require("../compiler");
-var { loadBlockMenus } = require("./blockmenuloader.js");
+var blockMenu = require("./blockmenuloader.js");
+var { loadBlockMenus } = blockMenu;
 
 var currentSelectedSprite = null;
 var currentSelectedSpriteIndex = null;
@@ -547,6 +548,28 @@ setInterval(() => {
     }
   }
 }, 1000 / 30);
+
+blockMenu.helpers.loadWorkspaceFromSprite = function (spr) {
+  var div = document.createElement("div");
+  document.body.append(div);
+  var tempWorkspace = Blockly.inject(div, {
+    comments: true,
+    disable: false,
+    collapse: false,
+    media: "../media/",
+    readOnly: false,
+    rtl: false,
+    scrollbars: false,
+    trashcan: false,
+    sounds: false,
+  });
+
+  if (spr.blocklyXML) {
+    Blockly.Xml.domToWorkspace(spr.blocklyXML, tempWorkspace);
+  }
+
+  return tempWorkspace;
+}
 
 function compileSpriteXML(spr) {
   async function compileRoot(rootBlock) {

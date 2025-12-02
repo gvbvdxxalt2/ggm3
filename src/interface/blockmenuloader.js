@@ -1,13 +1,160 @@
 var engine = require("./curengine.js");
 
+var helpers = {
+  //overriden by selectedsprite.js
+  loadWorkspaceFromSprite: function (func) {}
+};
+
+function
+
+function loadGlobalVariableBlocks(spr) {
+  function contextMenuFunction(options) {
+    var variableField = this.getField("VARIABLE");
+    if (variableField) {
+      var variableName = variableField.getValue();
+      // Try to get main workspace from flyout/toolbox
+      var mainWorkspace = null;
+      if (this.workspace && this.workspace.targetWorkspace) {
+        mainWorkspace = this.workspace.targetWorkspace;
+      } else if (this.workspace && this.workspace.options && this.workspace.options.parentWorkspace) {
+        mainWorkspace = this.workspace.options.parentWorkspace;
+      } else if (window.Blockly && Blockly.getMainWorkspace) {
+        mainWorkspace = Blockly.getMainWorkspace();
+      }
+
+      options.push({
+        text: "Delete variable",
+        enabled: true,
+        callback: function() {
+          Blockly.confirm(`Delete global variable "${variableName}"? This will also delete all blocks using this variable.`, function (accepted) {
+            if (accepted) {
+              engine.removeGlobalVariable(variableName);
+
+              // Helper to delete blocks in a workspace
+              function deleteBlocksInWorkspace(workspace) {
+                if (workspace && workspace.getAllBlocks) {
+                  var blocks = workspace.getAllBlocks(false);
+                  for (var i = blocks.length - 1; i >= 0; i--) {
+                    var block = blocks[i];
+                    if (block.type === "globaldata_get" || block.type === "globaldata_set" || block.type === "globaldata_changeby") {
+                      var field = block.getField("VARIABLE");
+                      if (field && field.getText() === variableName) {
+                        block.dispose(true);
+                      }
+                    }
+                  }
+                }
+              }
+
+              // Delete in main workspace
+              deleteBlocksInWorkspace(mainWorkspace);
+
+              var otherWorkspace = helpers.loadWorkspaceFromSprite(sprite);
+              // Delete in all sprite workspaces
+              if (engine.sprites && Array.isArray(engine.sprites)) {
+                for (var s = 0; s < engine.sprites.length; s++) {
+                  var sprite = engine.sprites[s];
+                  if (sprite && sprite.blocklyXML) {
+                    deleteBlocksInWorkspace(otherWorkspace);
+                    sprite.blocklyXML = Blockly.Xml.workspaceToDom(otherWorkspace);
+                    otherWorkspace.dispose();
+                  }
+                }
+              }
+
+              // Refresh toolbox in main workspace
+              if (mainWorkspace && mainWorkspace.getToolbox && mainWorkspace.getToolbox()) {
+                mainWorkspace.getToolbox().refreshSelection();
+              }
+            }
+          });
+        }
+      });
+    }
+  }
+  Blockly.Blocks["globaldata_get"] = {
+    init: function () {
+      var menu = Object.keys(engine.globalVariables).map((name, i) => {
+        return [name, name];
+      });
+      if (menu.length < 1) {
+        menu = [["(No Global Variables)", null]];
+      }
+      this.jsonInit({
+        message0: "%1",
+        args0: [
+          {
+            type: "field_label_serializable",
+            name: "VARIABLE",
+            //options: menu,
+          },
+        ],
+        colour: "#00c756",
+        extensions: ["output_string"],
+      });
+    },
+    customContextMenu: contextMenuFunction
+  };
+
+  Blockly.Blocks["globaldata_set"] = {
+    init: function () {
+      var menu = Object.keys(engine.globalVariables).map((name, i) => {
+        return [name, name];
+      });
+      if (menu.length < 1) {
+        menu = [["(No Global Variables)", null]];
+      }
+      this.jsonInit({
+        message0: "set %1 to %2",
+        args0: [
+          {
+            type: "field_dropdown",
+            name: "VARIABLE",
+            options: menu,
+          },
+          {
+            type: "input_value",
+            name: "VALUE",
+          },
+        ],
+        colour: "#00c756",
+        extensions: ["shape_statement"],
+      });
+    },
+    customContextMenu: contextMenuFunction
+  };
+
+  Blockly.Blocks["globaldata_changeby"] = {
+    init: function () {
+      var menu = Object.keys(engine.globalVariables).map((name, i) => {
+        return [name, name];
+      });
+      if (menu.length < 1) {
+        menu = [["(No Global Variables)", null]];
+      }
+      this.jsonInit({
+        message0: "change %1 by %2",
+        args0: [
+          {
+            type: "field_dropdown",
+            name: "VARIABLE",
+            options: menu,
+          },
+          {
+            type: "input_value",
+            name: "VALUE",
+          },
+        ],
+        colour: "#00c756",
+        extensions: ["shape_statement"],
+      });
+    },
+    customContextMenu: contextMenuFunction
+  };
+}
+
 function loadBlockMenus(spr) {
   var sprites = engine.sprites;
-  var costumeMenu = spr.costumes.map((costume, i) => {
-    return [costume.name, costume.name];
-  });
-  if (costumeMenu.length < 1) {
-    costumeMenu = [["(No Costumes)", null]];
-  }
   Blockly.Blocks['sensing_touchingobjectmenu'] = {
   init: function() {
     this.jsonInit({
@@ -48,6 +195,12 @@ function loadBlockMenus(spr) {
   };
   Blockly.Blocks["looks_costume"] = {
     init: function () {
+      var costumeMenu = spr.costumes.map((costume, i) => {
+        return [costume.name, costume.name];
+      });
+      if (costumeMenu.length < 1) {
+        costumeMenu = [["(No Costumes)", null]];
+      }
       this.jsonInit({
         message0: "%1",
         args0: [
@@ -67,6 +220,12 @@ function loadBlockMenus(spr) {
   };
   Blockly.Blocks["loader_costume"] = {
     init: function () {
+      var costumeMenu = spr.costumes.map((costume, i) => {
+        return [costume.name, costume.name];
+      });
+      if (costumeMenu.length < 1) {
+        costumeMenu = [["(No Costumes)", null]];
+      }
       this.jsonInit({
         message0: "%1",
         args0: [
@@ -81,6 +240,8 @@ function loadBlockMenus(spr) {
       });
     },
   };
+
+  loadGlobalVariableBlocks(spr);
 }
 
-module.exports = { loadBlockMenus };
+module.exports = { loadBlockMenus, helpers };

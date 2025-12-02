@@ -6,3 +6,4 @@ require("./control.js");
 require("./sensing.js");
 require("./loader.js");
 require("./json.js");
+require("./global-data.js");
