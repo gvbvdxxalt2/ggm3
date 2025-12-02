@@ -293,7 +293,7 @@ class GGM3Engine {
 
     twgl.resizeCanvasToDisplaySize(gl.canvas);
 
-    this.render();
+    this.render(1/this.frameRate);
   }
 
   render(elapsed) {

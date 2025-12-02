@@ -31,28 +31,14 @@ class Drawable {
 
     this.texture = twgl.createTexture(this.gl, {
       src: this.canvas,
-      mag: this.gl.NEAREST,
+      mag: this.gl.NEAREST
     });
 
     this.isOutdated = false;
   }
   dispose() {
-    if (this.disposed) return;
-    this.disposed = true;
-    try {
-      if (this.texture && this.gl) {
-        try {
-          this.gl.deleteTexture(this.texture);
-        } catch (e) {
-          // ignore gl errors during dispose
-        }
-        this.texture = null;
-      }
-    } finally {
-      // detach references to help GC
-      this.canvas = null;
-      this.gl = null;
-      this.engine = null;
+    if (!this.disposed) {
+      this.disposed = true;
     }
   }
 }

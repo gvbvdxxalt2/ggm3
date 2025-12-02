@@ -18,6 +18,7 @@ class Costume {
     this.mask = null;
     this.loaded = false;
     this.willPreload = true;
+
   }
 
   renderImageAtScale() {
@@ -42,6 +43,14 @@ class Costume {
     this.loading = false;
     this.loaded = true;
     this.currentScale = this.preferedScale;
+
+    
+    canvas.style.imageRendering = "pixelated";
+    canvas.style.zIndex = "999999999999999";
+    canvas.style.position = "absolute";
+    canvas.style.top = "0";
+    canvas.style.left = "0";
+    //document.body.appendChild(canvas); // For debugging purposes
   }
 
   getFinalRotationCenter() {

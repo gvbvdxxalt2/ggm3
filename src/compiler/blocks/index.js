@@ -10,6 +10,7 @@ var JavascriptTranslation = {
   ...require("./loader.js"),
   ...require("./custom.js"),
   ...require("./json.js"),
+  ...require("./global_data.js"),
 };
 
 module.exports = JavascriptTranslation;

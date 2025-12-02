@@ -5,8 +5,6 @@ var helpers = {
   loadWorkspaceFromSprite: function (func) {}
 };
 
-function
-
 function loadGlobalVariableBlocks(spr) {
   function contextMenuFunction(options) {
     var variableField = this.getField("VARIABLE");
@@ -49,18 +47,37 @@ function loadGlobalVariableBlocks(spr) {
               // Delete in main workspace
               deleteBlocksInWorkspace(mainWorkspace);
 
-              var otherWorkspace = helpers.loadWorkspaceFromSprite(sprite);
+              var div = document.createElement("div");
+              document.body.append(div);
+              var tempWorkspace = Blockly.inject(div, {
+                comments: true,
+                disable: false,
+                collapse: false,
+                media: "../media/",
+                readOnly: false,
+                rtl: false,
+                scrollbars: false,
+                trashcan: false,
+                sounds: false,
+              });
               // Delete in all sprite workspaces
               if (engine.sprites && Array.isArray(engine.sprites)) {
                 for (var s = 0; s < engine.sprites.length; s++) {
                   var sprite = engine.sprites[s];
-                  if (sprite && sprite.blocklyXML) {
-                    deleteBlocksInWorkspace(otherWorkspace);
-                    sprite.blocklyXML = Blockly.Xml.workspaceToDom(otherWorkspace);
-                    otherWorkspace.dispose();
+                  if (sprite.id !== spr.id) {
+                    if (sprite) {
+                      tempWorkspace.clear();
+                      if (sprite.blocklyXML) {
+                        Blockly.Xml.domToWorkspace(sprite.blocklyXML, tempWorkspace);
+                      }
+                      deleteBlocksInWorkspace(tempWorkspace);
+                      sprite.blocklyXML = Blockly.Xml.workspaceToDom(tempWorkspace);
+                    }
                   }
                 }
               }
+              tempWorkspace.dispose();
+              div.remove();
 
               // Refresh toolbox in main workspace
               if (mainWorkspace && mainWorkspace.getToolbox && mainWorkspace.getToolbox()) {
@@ -74,12 +91,6 @@ function loadGlobalVariableBlocks(spr) {
   }
   Blockly.Blocks["globaldata_get"] = {
     init: function () {
-      var menu = Object.keys(engine.globalVariables).map((name, i) => {
-        return [name, name];
-      });
-      if (menu.length < 1) {
-        menu = [["(No Global Variables)", null]];
-      }
       this.jsonInit({
         message0: "%1",
         args0: [
@@ -98,19 +109,21 @@ function loadGlobalVariableBlocks(spr) {
 
   Blockly.Blocks["globaldata_set"] = {
     init: function () {
-      var menu = Object.keys(engine.globalVariables).map((name, i) => {
-        return [name, name];
-      });
-      if (menu.length < 1) {
-        menu = [["(No Global Variables)", null]];
-      }
       this.jsonInit({
         message0: "set %1 to %2",
         args0: [
           {
             type: "field_dropdown",
             name: "VARIABLE",
-            options: menu,
+            options: function() {
+              var currentMenu = Object.keys(engine.globalVariables).map((name, i) => {
+                return [name, name];
+              });
+              if (currentMenu.length < 1) {
+                currentMenu = [["(No Global Variables)", "none"]];
+              }
+              return currentMenu;
+            },
           },
           {
             type: "input_value",
@@ -126,19 +139,21 @@ function loadGlobalVariableBlocks(spr) {
 
   Blockly.Blocks["globaldata_changeby"] = {
     init: function () {
-      var menu = Object.keys(engine.globalVariables).map((name, i) => {
-        return [name, name];
-      });
-      if (menu.length < 1) {
-        menu = [["(No Global Variables)", null]];
-      }
       this.jsonInit({
         message0: "change %1 by %2",
         args0: [
           {
             type: "field_dropdown",
             name: "VARIABLE",
-            options: menu,
+            options: function() {
+              var currentMenu = Object.keys(engine.globalVariables).map((name, i) => {
+                return [name, name];
+              });
+              if (currentMenu.length < 1) {
+                currentMenu = [["(No Global Variables)", "none"]];
+              }
+              return currentMenu;
+            },
           },
           {
             type: "input_value",

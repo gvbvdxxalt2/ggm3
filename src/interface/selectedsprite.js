@@ -25,6 +25,7 @@ var errorLogsContainer = elements.getGPId("errorLogsContainer");
 
 addSpriteButton.addEventListener("click", () => {
   engine.createEmptySprite();
+  engine.makeUniqueSpriteNames();
   setCurrentSprite(engine.sprites.length - 1);
 });
 
@@ -109,6 +110,7 @@ function updateSpritesContainer() {
                   saveCurrentSpriteCode();
                   var newSprite = engine.duplicateSprite(spr);
                   compileSpriteXML(newSprite);
+                  engine.makeUniqueSpriteNames();
                   updateSpritesContainer();
                 },
               },
@@ -387,9 +389,16 @@ function loadCode(spr) {
     workspace.scrollX = spr._editor_scrollX;
     workspace.scrollY = spr._editor_scrollY;
     workspace.scale = spr._editor_scale;
+
+    var flyoutWorkspace = workspace.getFlyout().getWorkspace();
+    flyoutWorkspace.scrollX = spr._flyout_scrollX || 0;
+    flyoutWorkspace.scrollY = spr._flyout_scrollY || 0;
+    flyoutWorkspace.scale = spr._flyout_scale || 0;
+    flyoutWorkspace.resize();
+
     workspace.resize();
   }
-
+    
   disposingWorkspace = false;
   Blockly.Events.enable();
 }
@@ -445,6 +454,11 @@ function setCurrentSprite(index, forced, dontSave) {
     currentSelectedSprite.threadStartListener = null;
     currentSelectedSprite.threadEndListener = null;
     if (workspace) {
+      var flyoutWorkspace = workspace.getFlyout().getWorkspace();
+      currentSelectedSprite._flyout_scrollX = flyoutWorkspace.scrollX;
+      currentSelectedSprite._flyout_scrollY = flyoutWorkspace.scrollY;
+      currentSelectedSprite._flyout_scale = flyoutWorkspace.scale;
+
       currentSelectedSprite._editor_scrollX = workspace.scrollX;
       currentSelectedSprite._editor_scrollY = workspace.scrollY;
       currentSelectedSprite._editor_scale = workspace.scale;

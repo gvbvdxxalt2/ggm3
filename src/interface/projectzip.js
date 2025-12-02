@@ -2,10 +2,10 @@ var JSZip = require("jszip");
 var engine = require("./curengine.js");
 var selectedSprite = require("./selectedsprite.js");
 
-function getSaveableVariables(sprite) {
+function getSaveableVariables(variables) {
   var saveableVars = {};
-  for (var varName in sprite.variables) {
-    var variable = sprite.variables[varName];
+  for (var varName in variables) {
+    var variable = variables[varName];
     try{
       saveableVars[varName] = JSON.parse(JSON.stringify(variable.value));
     }catch(e){
@@ -35,7 +35,7 @@ async function saveProjectToZip() {
       name: sprite.name,
       zIndex: sprite.zIndex,
       costumeIndex: sprite.costumeIndex,
-      variables: getSaveableVariables(sprite)
+      variables: getSaveableVariables(sprite.variables)
     };
     var ci = 0;
     for (var costume of sprite.costumes) {
@@ -65,6 +65,8 @@ async function saveProjectToZip() {
     "game.json",
     JSON.stringify({
       sprites: spritesArray,
+      globalVariables: getSaveableVariables(engine.globalVariables),
+      frameRate: engine.frameRate,
     }),
   );
   return zip;
@@ -92,6 +94,11 @@ async function loadProjectFromZip(arrayBuffer) {
   var zip = await JSZip.loadAsync(arrayBuffer);
   var decodedJSON = JSON.parse(await zip.file("game.json").async("string"));
   engine.emptyProject();
+  Object.assign(engine, {
+    globalVariables: decodedJSON.globalVariables || {},
+    frameRate: decodedJSON.frameRate || 60,
+  });
+
   for (var spriteJson of decodedJSON.sprites) {
     var sprite = engine.createEmptySprite();
     for (var costumeJson of spriteJson.costumes) {

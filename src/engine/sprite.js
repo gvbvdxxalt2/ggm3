@@ -151,6 +151,7 @@ class Sprite {
     sprite.x = this.x;
     sprite.y = this.y;
     sprite.costumes = this.costumes;
+    sprite.costumeMap = this.costumeMap;
     sprite.costumeIndex = this.costumeIndex;
     sprite.hidden = this.hidden;
     sprite.alpha = this.alpha;

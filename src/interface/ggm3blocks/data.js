@@ -95,8 +95,8 @@ Blockly.WorkspaceSvg.prototype.registerToolboxCategoryCallback(
           <block type="data_setvariableto">
             <field name="VARIABLE" id="${firstVariable.getId()}"></field>
             <value name="VALUE">
-                <shadow type="math_number">
-                    <field name="NUM">1</field>
+                <shadow type="text">
+                    <field name="TEXT">0</field>
                 </shadow>
             </value>
           </block>`),

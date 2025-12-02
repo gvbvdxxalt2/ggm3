@@ -26,23 +26,36 @@ module.exports = {
   devtool: false,
   entry: {
     interface: "./src/interface/index.js",
-    //webgltest: "./src/interface/webgltest.js",
-    engine: "./src/engine/export-engine.js",
+    webgltest: "./src/interface/webgltest.js",
   },
   optimization: {
-    splitChunks: false,
-    minimize: false
+    splitChunks: {
+      chunks: "all",
+      name: "shared",
+    },
+    //minimize: false
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "[name].js",
-    chunkFilename: "[name].js",
+    filename: "[name].bundle.js",
   },
   performance: {
     /*hints: "warning",*/
   },
   module: {
     rules: [
+      {
+        test: /scratch-blocks[\\/].+\.js$/,
+        use: [
+          {
+            loader: "imports-loader",
+            options: {
+              // This is the new syntax for 'this=>window'
+              wrapper: "window",
+            },
+          },
+        ],
+      },
       {
         test: /\.css$/i,
         use: [
@@ -121,17 +134,11 @@ module.exports = {
       chunks: ["interface"],
     }),
     new HtmlWebpackPlugin({
-      filename: `test/engine.html`,
-      title: `Engine testing ground`,
-      template: "./src/base_html_plain.html",
-      chunks: ["engine"],
-    }),
-    /*new HtmlWebpackPlugin({
       filename: `test.html`,
       title: `WebGL test`,
       template: "./src/base_html.html",
       chunks: ["webgltest"],
-    }),*/
+    }),
     new CopyWebpackPlugin({
       patterns: [
         {
