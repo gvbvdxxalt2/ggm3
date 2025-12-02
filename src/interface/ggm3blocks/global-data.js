@@ -11,13 +11,13 @@ function createElement(type, args = {}, children = []) {
   return element;
 }
 
-function getSafeHTML (text) {
-    var span = document.createElement("span");
-    span.textContent = text;
-    var html = span.innerHTML;
-    span.textContent = "";
-    span.remove();
-    return html;
+function getSafeHTML(text) {
+  var span = document.createElement("span");
+  span.textContent = text;
+  var html = span.innerHTML;
+  span.textContent = "";
+  span.remove();
+  return html;
 }
 
 function createElementXML(text) {
@@ -38,18 +38,21 @@ Blockly.WorkspaceSvg.prototype.registerToolboxCategoryCallback(
       }),
     );
 
-    workspace.registerButtonCallback("GGM3_CREATE_VARIABLE_GLOBAL", (button) => {
-      Blockly.prompt("New global variable name: ", "", function (output) {
-        if (!output) {
+    workspace.registerButtonCallback(
+      "GGM3_CREATE_VARIABLE_GLOBAL",
+      (button) => {
+        Blockly.prompt("New global variable name: ", "", function (output) {
+          if (!output) {
             return;
-        }
-        var name = output.trim();
-        if (!engine.hasGlobalVariable(name)) {
+          }
+          var name = output.trim();
+          if (!engine.hasGlobalVariable(name)) {
             engine.addGlobalVariable(name);
-        }
-        workspace.getToolbox().refreshSelection();
-      });
-    });
+          }
+          workspace.getToolbox().refreshSelection();
+        });
+      },
+    );
 
     var variables = Object.keys(engine.globalVariables);
 
@@ -58,10 +61,10 @@ Blockly.WorkspaceSvg.prototype.registerToolboxCategoryCallback(
           <block type="globaldata_get">
             <field name="VARIABLE">${getSafeHTML(variable)}</field>
           </block>`);
-      
+
       // Add context menu to delete the variable
       blockElement.setAttribute("data-variable-name", variable);
-      
+
       xmlList.push(blockElement);
     }
 

@@ -153,26 +153,25 @@ function loadCode(spr) {
 
   function unglowErrorOnBlock(blockId) {
     try {
-            var changedBlock = workspace.getBlockById(blockId);
-            if (changedBlock && changedBlock.getSvgRoot) {
-              var changedSvg = changedBlock.getSvgRoot();
-              if (changedSvg && changedSvg.classList)
-                changedSvg.classList.remove("error-glow");
-              try {
-                var errFilterId2 =
-                  workspace.options && workspace.options.errorGlowFilterId;
-                if (
-                  errFilterId2 &&
-                  changedSvg &&
-                  changedSvg.getAttribute &&
-                  changedSvg.getAttribute("filter") ===
-                    "url(#" + errFilterId2 + ")"
-                ) {
-                  changedSvg.removeAttribute("filter");
-                }
-              } catch (innerErr) {}
-            }
-          } catch (err) {}
+      var changedBlock = workspace.getBlockById(blockId);
+      if (changedBlock && changedBlock.getSvgRoot) {
+        var changedSvg = changedBlock.getSvgRoot();
+        if (changedSvg && changedSvg.classList)
+          changedSvg.classList.remove("error-glow");
+        try {
+          var errFilterId2 =
+            workspace.options && workspace.options.errorGlowFilterId;
+          if (
+            errFilterId2 &&
+            changedSvg &&
+            changedSvg.getAttribute &&
+            changedSvg.getAttribute("filter") === "url(#" + errFilterId2 + ")"
+          ) {
+            changedSvg.removeAttribute("filter");
+          }
+        } catch (innerErr) {}
+      }
+    } catch (err) {}
   }
 
   workspace.addChangeListener(function (e) {
@@ -398,7 +397,7 @@ function loadCode(spr) {
 
     workspace.resize();
   }
-    
+
   disposingWorkspace = false;
   Blockly.Events.enable();
 }
@@ -583,7 +582,7 @@ blockMenu.helpers.loadWorkspaceFromSprite = function (spr) {
   }
 
   return tempWorkspace;
-}
+};
 
 function compileSpriteXML(spr) {
   async function compileRoot(rootBlock) {

@@ -8,11 +8,7 @@ JavascriptTranslation["globaldata_get"] = function (jsonblock, utils, options) {
   return `engine.globalVariables[${JSON.stringify(VARIABLE)}]`;
 };
 
-JavascriptTranslation["globaldata_set"] = function (
-  jsonblock,
-  utils,
-  options,
-) {
+JavascriptTranslation["globaldata_set"] = function (jsonblock, utils, options) {
   var VARIABLE = utils.getField(jsonblock, "VARIABLE");
   var VALUE = utils.getInput(jsonblock, "VALUE");
   return `engine.globalVariables[${JSON.stringify(VARIABLE)}] = ${VALUE};`;

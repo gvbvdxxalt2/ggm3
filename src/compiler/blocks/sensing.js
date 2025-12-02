@@ -42,14 +42,30 @@ JavascriptTranslation["sensing_keypressed"] = function (
 };
 
 outputBlocks.push("sensing_touchingobjectmenu");
-JavascriptTranslation["sensing_touchingobjectmenu"] = function (jsonblock, utils, options) {
-  var TOUCHINGOBJECTMENU = utils.getField(jsonblock, "TOUCHINGOBJECTMENU", options);
+JavascriptTranslation["sensing_touchingobjectmenu"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
+  var TOUCHINGOBJECTMENU = utils.getField(
+    jsonblock,
+    "TOUCHINGOBJECTMENU",
+    options,
+  );
   return JSON.stringify(TOUCHINGOBJECTMENU);
 };
 
 outputBlocks.push("sensing_touchingobject");
-JavascriptTranslation["sensing_touchingobject"] = function (jsonblock, utils, options) {
-  var TOUCHINGOBJECTMENU = utils.getInput(jsonblock, "TOUCHINGOBJECTMENU", options);
+JavascriptTranslation["sensing_touchingobject"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
+  var TOUCHINGOBJECTMENU = utils.getInput(
+    jsonblock,
+    "TOUCHINGOBJECTMENU",
+    options,
+  );
   return `sprite.isTouchingSprite(${TOUCHINGOBJECTMENU})`;
 };
 

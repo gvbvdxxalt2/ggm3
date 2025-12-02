@@ -6,9 +6,9 @@ function getSaveableVariables(variables) {
   var saveableVars = {};
   for (var varName in variables) {
     var variable = variables[varName];
-    try{
+    try {
       saveableVars[varName] = JSON.parse(JSON.stringify(variable.value));
-    }catch(e){
+    } catch (e) {
       saveableVars[varName] = 0;
     }
   }
@@ -35,7 +35,7 @@ async function saveProjectToZip() {
       name: sprite.name,
       zIndex: sprite.zIndex,
       costumeIndex: sprite.costumeIndex,
-      variables: getSaveableVariables(sprite.variables)
+      variables: getSaveableVariables(sprite.variables),
     };
     var ci = 0;
     for (var costume of sprite.costumes) {

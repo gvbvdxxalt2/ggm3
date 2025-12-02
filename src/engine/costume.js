@@ -18,7 +18,6 @@ class Costume {
     this.mask = null;
     this.loaded = false;
     this.willPreload = true;
-
   }
 
   renderImageAtScale() {
@@ -44,7 +43,6 @@ class Costume {
     this.loaded = true;
     this.currentScale = this.preferedScale;
 
-    
     canvas.style.imageRendering = "pixelated";
     canvas.style.zIndex = "999999999999999";
     canvas.style.position = "absolute";

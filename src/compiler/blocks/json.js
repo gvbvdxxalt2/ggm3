@@ -131,7 +131,11 @@ JavascriptTranslation["json_set_path"] = function (jsonblock, utils, options) {
   return `(function(o,p,v){var cur=o; if(cur==null) return; if(!Array.isArray(p)) p=(""+p).split('.'); for(var i=0;i<p.length-1;i++){ var k=p[i]; if(cur[k]==null || typeof cur[k] !== 'object') cur[k]={}; cur=cur[k]; } cur[p[p.length-1]]=v;})(${OBJECT},${PATH},${VALUE});`;
 };
 
-JavascriptTranslation["json_delete_path"] = function (jsonblock, utils, options) {
+JavascriptTranslation["json_delete_path"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
   var PATH = utils.getInput(jsonblock, "PATH", options);
   var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
 
@@ -146,7 +150,11 @@ JavascriptTranslation["json_array_pop"] = function (jsonblock, utils, options) {
 };
 
 outputBlocks.push("json_array_contains");
-JavascriptTranslation["json_array_contains"] = function (jsonblock, utils, options) {
+JavascriptTranslation["json_array_contains"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
   var VALUE = utils.getInput(jsonblock, "VALUE", options);
   var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
 
@@ -161,7 +169,11 @@ JavascriptTranslation["json_clone"] = function (jsonblock, utils, options) {
 };
 
 outputBlocks.push("json_parse_safe");
-JavascriptTranslation["json_parse_safe"] = function (jsonblock, utils, options) {
+JavascriptTranslation["json_parse_safe"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
   var STRING = utils.getInput(jsonblock, "STRING", options);
   var DEFAULT = utils.getInput(jsonblock, "DEFAULT", options);
 
@@ -169,7 +181,11 @@ JavascriptTranslation["json_parse_safe"] = function (jsonblock, utils, options) 
 };
 
 outputBlocks.push("json_pretty_print");
-JavascriptTranslation["json_pretty_print"] = function (jsonblock, utils, options) {
+JavascriptTranslation["json_pretty_print"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
   var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
   var INDENT = utils.getInput(jsonblock, "INDENT", options);
 

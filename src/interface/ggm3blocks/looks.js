@@ -114,64 +114,64 @@ var effectTypes = [
   ["wave x time", "waveXTime"],
   ["wave y time", "waveYTime"],
   ["wave x multiplier", "waveX"],
-  ["wave y multiplier", "waveY"]
+  ["wave y multiplier", "waveY"],
 ];
 
-Blockly.Blocks['looks_seteffectto'] = {
-  init: function() {
+Blockly.Blocks["looks_seteffectto"] = {
+  init: function () {
     this.jsonInit({
-      "message0": "set %1 effect to %2",
-      "args0": [
+      message0: "set %1 effect to %2",
+      args0: [
         {
-          "type": "field_dropdown",
-          "name": "EFFECT",
-          "options": effectTypes
+          type: "field_dropdown",
+          name: "EFFECT",
+          options: effectTypes,
         },
         {
-          "type": "input_value",
-          "name": "VALUE"
-        }
+          type: "input_value",
+          name: "VALUE",
+        },
       ],
-      "category": Blockly.Categories.looks,
-      "extensions": ["colours_looks", "shape_statement"]
+      category: Blockly.Categories.looks,
+      extensions: ["colours_looks", "shape_statement"],
     });
-  }
+  },
 };
 
-Blockly.Blocks['looks_change_effect_by'] = {
-  init: function() {
+Blockly.Blocks["looks_change_effect_by"] = {
+  init: function () {
     this.jsonInit({
-      "message0": "change %1 effect by %2",
-      "args0": [
+      message0: "change %1 effect by %2",
+      args0: [
         {
-          "type": "field_dropdown",
-          "name": "EFFECT",
-          "options": effectTypes
+          type: "field_dropdown",
+          name: "EFFECT",
+          options: effectTypes,
         },
         {
-          "type": "input_value",
-          "name": "BY"
-        }
+          type: "input_value",
+          name: "BY",
+        },
       ],
-      "category": Blockly.Categories.looks,
-      "extensions": ["colours_looks", "shape_statement"]
+      category: Blockly.Categories.looks,
+      extensions: ["colours_looks", "shape_statement"],
     });
-  }
+  },
 };
 
-Blockly.Blocks['looks_geteffect'] = {
-  init: function() {
+Blockly.Blocks["looks_geteffect"] = {
+  init: function () {
     this.jsonInit({
-      "message0": "get effect %1",
-      "args0": [
+      message0: "get effect %1",
+      args0: [
         {
-          "type": "field_dropdown",
-          "name": "EFFECT",
-          "options": effectTypes
-        }
+          type: "field_dropdown",
+          name: "EFFECT",
+          options: effectTypes,
+        },
       ],
-      "category": Blockly.Categories.looks,
-      "extensions": ["colours_looks", "output_number"]
+      category: Blockly.Categories.looks,
+      extensions: ["colours_looks", "output_number"],
     });
-  }
+  },
 };

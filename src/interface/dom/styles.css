@@ -679,3 +679,16 @@ body {
      property so linters don't complain about an empty ruleset. */
   outline: none;
 }
+
+.fullscreenModeContainer {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100svw;
+  height: 100svh;
+  flex-direction: column;
+  z-index: 99999999;
+  background: #363636;
+  align-items: center;
+}

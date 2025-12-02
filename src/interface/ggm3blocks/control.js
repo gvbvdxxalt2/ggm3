@@ -45,7 +45,6 @@ Blockly.Blocks["control_elapsed"] = {
   },
 };
 
-
 Blockly.Blocks["control_isclone"] = {
   init: function () {
     this.jsonInit({

@@ -40,6 +40,18 @@ class GGM3Engine {
     this.startRenderLoop();
     this.spriteMap = {};
     this.globalVariables = {};
+
+    this.gameWidth = 640;
+    this.gameHeight = 360;
+    this.screenScale = 1;
+    this.updateCanvasSize();
+  }
+
+  updateCanvasSize() {
+    var {canvas, gameWidth, gameHeight, screenScale} = this;
+    canvas.width = gameWidth * screenScale;
+    canvas.height = gameHeight * screenScale;
+    this.calculateGLStuff();
   }
 
   hasGlobalVariable(name) {
@@ -245,6 +257,10 @@ class GGM3Engine {
     ]);
 
     this.gl = gl;
+  }
+
+  calculateGLStuff() {
+    var gl = this.gl;
 
     gl.disable(gl.DEPTH_TEST);
     gl.disable(gl.CULL_FACE);
@@ -282,8 +298,8 @@ class GGM3Engine {
 
     var projectionMatrix = twgl.m4.ortho(
       0,
-      gl.canvas.width,
-      gl.canvas.height,
+      this.canvas.width,
+      this.canvas.height,
       0,
       -1,
       1,
@@ -291,13 +307,12 @@ class GGM3Engine {
 
     this._gl_projectionMatrix = projectionMatrix;
 
-    twgl.resizeCanvasToDisplaySize(gl.canvas);
-
     this.render(1/this.frameRate);
   }
 
   render(elapsed) {
     var { canvas, gl } = this;
+    gl.viewport(0, 0, canvas.width, canvas.height);
     gl.clearColor(1, 1, 1, 0); // Use 0,0,0,0 to respect canvas style background
     gl.clear(gl.COLOR_BUFFER_BIT);
 
@@ -454,15 +469,15 @@ class GGM3Engine {
         costume.drawable.update(); //This updates the costume texture if needed.
         var center = costume.getFinalRotationCenter();
         var modelMatrix = calculateMatrix({
-          x: spr.x + this.canvas.width / 2,
-          y: -spr.y + this.canvas.height / 2,
+          x: (spr.x * this.screenScale) + this.canvas.width / 2,
+          y: (-spr.y * this.screenScale) + this.canvas.height / 2,
           rotation: spr.angle * (Math.PI / 180),
           rotationCenterX: center[0],
           rotationCenterY: center[1],
           textureWidth: costume.canvas.width,
           textureHeight: costume.canvas.height,
-          scaleX: (spr.scaleX * (spr.size / 100)) / costume.currentScale,
-          scaleY: (spr.scaleY * (spr.size / 100)) / costume.currentScale,
+          scaleX: ((spr.scaleX * (spr.size / 100)) / costume.currentScale) * this.screenScale,
+          scaleY: ((spr.scaleY * (spr.size / 100)) / costume.currentScale) * this.screenScale,
         });
 
         //var modelMatrix = twgl.m4.identity();

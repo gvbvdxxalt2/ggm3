@@ -46,11 +46,7 @@ JavascriptTranslation["motion_changexby"] = function (
   return `sprite.x += +(${DX}) || 0;`;
 };
 
-JavascriptTranslation["motion_setx"] = function (
-  jsonblock,
-  utils,
-  options,
-) {
+JavascriptTranslation["motion_setx"] = function (jsonblock, utils, options) {
   var X = utils.getInput(jsonblock, "X", options);
 
   return `sprite.x = +(${X}) || 0;`;
@@ -66,11 +62,7 @@ JavascriptTranslation["motion_changeyby"] = function (
   return `sprite.y += +(${DY}) || 0;`;
 };
 
-JavascriptTranslation["motion_sety"] = function (
-  jsonblock,
-  utils,
-  options,
-) {
+JavascriptTranslation["motion_sety"] = function (jsonblock, utils, options) {
   var Y = utils.getInput(jsonblock, "Y", options);
 
   return `sprite.y = +(${Y}) || 0;`;

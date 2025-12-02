@@ -8,13 +8,20 @@ module.exports = {
       children: [
         {
           element: "div",
+          className: "projectContainer",
+          gid: "projectContainer",
+          children: [
+                    {
+          element: "div",
           className: "projectControls",
           gid: "projectControls",
         },
         {
           element: "canvas",
           gid: "projectCanvas",
-          className: "projectCanvas"
+          className: "projectCanvas",
+        },
+          ]
         },
         {
           element: "span",
