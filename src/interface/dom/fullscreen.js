@@ -1,6 +1,13 @@
 module.exports = {
   element: "div",
-  className: "fullscreenModeContainer",
-  gid: "fullscreenModeContainer",
-  children: [],
+  className: "fullscreenModeContainerMain",
+  gid: "fullscreenModeContainerMain",
+  children: [
+    {
+      element: "div",
+      className: "fullscreenModeContainer",
+      gid: "fullscreenModeContainer",
+      children: [],
+    }
+  ],
 };

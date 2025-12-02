@@ -100,6 +100,7 @@ class GGM3Engine {
     for (var sprite of this.sprites) {
       sprite.stopAllScripts();
       sprite.deleteClones();
+      sprite.effects.reset();
     }
   }
 

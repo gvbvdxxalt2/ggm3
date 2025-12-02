@@ -680,15 +680,22 @@ body {
   outline: none;
 }
 
-.fullscreenModeContainer {
-  display: flex;
+.fullscreenModeContainerMain {
   position: fixed;
   top: 0;
   left: 0;
   width: 100svw;
   height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
-  z-index: 99999999;
   background: #363636;
+  z-index: 99999999;
+}
+
+.fullscreenModeContainer {
+  display: flex;
+  flex-direction: column;
   align-items: center;
 }
