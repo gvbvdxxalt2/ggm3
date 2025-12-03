@@ -14,8 +14,8 @@ JavascriptTranslation["json_new"] = function (jsonblock, utils, options) {
 };
 
 JavascriptTranslation["json_setto"] = function (jsonblock, utils, options) {
-  var NAME = utils.getInput(jsonblock, "NAME", options);
-  var VALUE = utils.getInput(jsonblock, "VALUE", options);
+  var NAME = utils.getInput(jsonblock, "NAME", options, "undefined");
+  var VALUE = utils.getInput(jsonblock, "VALUE", options, "undefined");
   var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "{}");
 
   return `(${OBJECT})[${NAME}] = ${VALUE};`;
@@ -23,7 +23,7 @@ JavascriptTranslation["json_setto"] = function (jsonblock, utils, options) {
 
 outputBlocks.push("json_geton");
 JavascriptTranslation["json_geton"] = function (jsonblock, utils, options) {
-  var NAME = utils.getInput(jsonblock, "NAME", options);
+  var NAME = utils.getInput(jsonblock, "NAME", options, "undefined");
   var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "{}");
 
   return `(${OBJECT})[${NAME}]`;
@@ -55,7 +55,7 @@ JavascriptTranslation["json_fromstring"] = function (
 };
 
 JavascriptTranslation["json_deleteon"] = function (jsonblock, utils, options) {
-  var NAME = utils.getInput(jsonblock, "NAME", options);
+  var NAME = utils.getInput(jsonblock, "NAME", options, "undefined");
   var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "{}");
 
   return `delete (${OBJECT})[${NAME}];`;
@@ -66,7 +66,7 @@ JavascriptTranslation["json_array_push"] = function (
   utils,
   options,
 ) {
-  var VALUE = utils.getInput(jsonblock, "VALUE", options);
+  var VALUE = utils.getInput(jsonblock, "VALUE", options, "undefined");
   var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "[]");
 
   return `(${OBJECT}).push(${VALUE});`;
@@ -77,7 +77,7 @@ JavascriptTranslation["json_array_unshift"] = function (
   utils,
   options,
 ) {
-  var VALUE = utils.getInput(jsonblock, "VALUE", options);
+  var VALUE = utils.getInput(jsonblock, "VALUE", options, "undefined");
   var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "[]");
 
   return `(${OBJECT}).unshift(${VALUE});`;
@@ -101,14 +101,14 @@ JavascriptTranslation["json_array_indexof"] = function (
   options,
 ) {
   var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "[]");
-  var VALUE = utils.getInput(jsonblock, "VALUE", options);
+  var VALUE = utils.getInput(jsonblock, "VALUE", options, "undefined");
 
   return `(${OBJECT}).indexOf(${VALUE})`;
 };
 
 outputBlocks.push("json_has_key");
 JavascriptTranslation["json_has_key"] = function (jsonblock, utils, options) {
-  var NAME = utils.getInput(jsonblock, "NAME", options);
+  var NAME = utils.getInput(jsonblock, "NAME", options, "undefined");
   var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "{}");
 
   return `Object.prototype.hasOwnProperty.call(${OBJECT}, ${NAME})`;
@@ -116,16 +116,16 @@ JavascriptTranslation["json_has_key"] = function (jsonblock, utils, options) {
 
 outputBlocks.push("json_get_path");
 JavascriptTranslation["json_get_path"] = function (jsonblock, utils, options) {
-  var PATH = utils.getInput(jsonblock, "PATH", options);
+  var PATH = utils.getInput(jsonblock, "PATH", options, "undefined");
   var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "[]");
-  var DEFAULT = utils.getInput(jsonblock, "DEFAULT", options);
+  var DEFAULT = utils.getInput(jsonblock, "DEFAULT", options, "undefined");
 
   return `(function(o,p,d){var cur=o; if(cur==null) return d; if(Array.isArray(p)){ for(var i=0;i<p.length;i++){ cur=cur[p[i]]; if(cur==null) return d; } return cur; } p=(""+p).split('.'); for(var i=0;i<p.length;i++){ cur=cur[p[i]]; if(cur==null) return d; } return cur;})(${OBJECT},${PATH},${DEFAULT})`;
 };
 
 JavascriptTranslation["json_set_path"] = function (jsonblock, utils, options) {
-  var PATH = utils.getInput(jsonblock, "PATH", options);
-  var VALUE = utils.getInput(jsonblock, "VALUE", options);
+  var PATH = utils.getInput(jsonblock, "PATH", options, "undefined");
+  var VALUE = utils.getInput(jsonblock, "VALUE", options, "undefined");
   var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "[]");
 
   return `(function(o,p,v){var cur=o; if(cur==null) return; if(!Array.isArray(p)) p=(""+p).split('.'); for(var i=0;i<p.length-1;i++){ var k=p[i]; if(cur[k]==null || typeof cur[k] !== 'object') cur[k]={}; cur=cur[k]; } cur[p[p.length-1]]=v;})(${OBJECT},${PATH},${VALUE});`;
@@ -136,8 +136,8 @@ JavascriptTranslation["json_delete_path"] = function (
   utils,
   options,
 ) {
-  var PATH = utils.getInput(jsonblock, "PATH", options);
-  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, '{}');
+  var PATH = utils.getInput(jsonblock, "PATH", options, "undefined");
+  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "{}");
 
   return `(function(o,p){var cur=o; if(cur==null) return; if(!Array.isArray(p)) p=(""+p).split('.'); for(var i=0;i<p.length-1;i++){ cur=cur[p[i]]; if(cur==null) return; } delete cur[p[p.length-1]];})(${OBJECT},${PATH});`;
 };
@@ -155,7 +155,7 @@ JavascriptTranslation["json_array_contains"] = function (
   utils,
   options,
 ) {
-  var VALUE = utils.getInput(jsonblock, "VALUE", options);
+  var VALUE = utils.getInput(jsonblock, "VALUE", options, "undefined");
   var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "[]");
 
   return `(${OBJECT}).includes(${VALUE})`;
@@ -174,8 +174,8 @@ JavascriptTranslation["json_parse_safe"] = function (
   utils,
   options,
 ) {
-  var STRING = utils.getInput(jsonblock, "STRING", options);
-  var DEFAULT = utils.getInput(jsonblock, "DEFAULT", options);
+  var STRING = utils.getInput(jsonblock, "STRING", options, "undefined");
+  var DEFAULT = utils.getInput(jsonblock, "DEFAULT", options, "undefined");
 
   return `(function(s,d){try{return JSON.parse(s);}catch(e){return d;}})(${STRING},${DEFAULT})`;
 };

@@ -49,7 +49,7 @@ JavascriptTranslation["procedures_call"] = function (
   var valueCode = "{";
   var i = 0;
   for (var argId of jsonblock.argumentIds) {
-    var code = utils.getInput(jsonblock, argId, options);
+    var code = utils.getInput(jsonblock, argId, options, "undefined");
     if (code) {
       valueCode += JSON.stringify(argId);
       valueCode += ":";

@@ -6,8 +6,8 @@ var outputBlocks = require("./output_blocks.js");
 
 outputBlocks.push("operator_add");
 JavascriptTranslation["operator_add"] = function (jsonblock, utils, options) {
-  var NUM1 = utils.getInput(jsonblock, "NUM1", options);
-  var NUM2 = utils.getInput(jsonblock, "NUM2", options);
+  var NUM1 = utils.getInput(jsonblock, "NUM1", options, "undefined");
+  var NUM2 = utils.getInput(jsonblock, "NUM2", options, "undefined");
   //Although this is GGM3, not Scratch, falling back to zero or converting to number automatically is more convient.
   return `((+(${NUM1}) || 0) + (+(${NUM2}) || 0))`;
 };
@@ -18,8 +18,8 @@ JavascriptTranslation["operator_subtract"] = function (
   utils,
   options,
 ) {
-  var NUM1 = utils.getInput(jsonblock, "NUM1", options);
-  var NUM2 = utils.getInput(jsonblock, "NUM2", options);
+  var NUM1 = utils.getInput(jsonblock, "NUM1", options, "undefined");
+  var NUM2 = utils.getInput(jsonblock, "NUM2", options, "undefined");
   return `((+(${NUM1}) || 0) - (+(${NUM2}) || 0))`;
 };
 
@@ -29,8 +29,8 @@ JavascriptTranslation["operator_multiply"] = function (
   utils,
   options,
 ) {
-  var NUM1 = utils.getInput(jsonblock, "NUM1", options);
-  var NUM2 = utils.getInput(jsonblock, "NUM2", options);
+  var NUM1 = utils.getInput(jsonblock, "NUM1", options, "undefined");
+  var NUM2 = utils.getInput(jsonblock, "NUM2", options, "undefined");
   return `((+(${NUM1}) || 0) * (+(${NUM2}) || 0))`;
 };
 
@@ -40,21 +40,21 @@ JavascriptTranslation["operator_divide"] = function (
   utils,
   options,
 ) {
-  var NUM1 = utils.getInput(jsonblock, "NUM1", options);
-  var NUM2 = utils.getInput(jsonblock, "NUM2", options);
+  var NUM1 = utils.getInput(jsonblock, "NUM1", options, "undefined");
+  var NUM2 = utils.getInput(jsonblock, "NUM2", options, "undefined");
   return `((+(${NUM1}) || 0) / (+(${NUM2}) || 0))`;
 };
 
 outputBlocks.push("operator_sign");
 JavascriptTranslation["operator_sign"] = function (jsonblock, utils, options) {
-  var NUM = utils.getInput(jsonblock, "NUM", options);
+  var NUM = utils.getInput(jsonblock, "NUM", options, "undefined");
   return `Math.sign(+(${NUM}) || 0)`;
 };
 
 outputBlocks.push("operator_fixed");
 JavascriptTranslation["operator_fixed"] = function (jsonblock, utils, options) {
-  var NUM = utils.getInput(jsonblock, "NUM", options);
-  var DECIMALS = utils.getInput(jsonblock, "DECIMALS", options);
+  var NUM = utils.getInput(jsonblock, "NUM", options, "undefined");
+  var DECIMALS = utils.getInput(jsonblock, "DECIMALS", options, "undefined");
   return `(+(${NUM}) || 0).toFixed(+(${DECIMALS}) || 0)`;
 };
 
@@ -64,8 +64,8 @@ JavascriptTranslation["operator_mathop"] = function (
   utils,
   options,
 ) {
-  var OPERATOR = utils.getField(jsonblock, "OPERATOR", options);
-  var NUM = utils.getInput(jsonblock, "NUM", options);
+  var OPERATOR = utils.getField(jsonblock, "OPERATOR", options, "undefined");
+  var NUM = utils.getInput(jsonblock, "NUM", options, "undefined");
   var numberCode = `(+(${NUM}) || 0)`;
   switch (OPERATOR) {
     case "abs":
@@ -110,8 +110,8 @@ JavascriptTranslation["operator_random"] = function (
   utils,
   options,
 ) {
-  var FROM = utils.getInput(jsonblock, "FROM", options);
-  var TO = utils.getInput(jsonblock, "TO", options);
+  var FROM = utils.getInput(jsonblock, "FROM", options, "undefined");
+  var TO = utils.getInput(jsonblock, "TO", options, "undefined");
   return `thread.random(+(${FROM}) || 0, +(${TO}) || 0)`;
 };
 
@@ -123,22 +123,22 @@ JavascriptTranslation["operator_equals"] = function (
   utils,
   options,
 ) {
-  var OPERAND1 = utils.getInput(jsonblock, "OPERAND1", options);
-  var OPERAND2 = utils.getInput(jsonblock, "OPERAND2", options);
+  var OPERAND1 = utils.getInput(jsonblock, "OPERAND1", options, "undefined");
+  var OPERAND2 = utils.getInput(jsonblock, "OPERAND2", options, "undefined");
   return `((${OPERAND1}) == (${OPERAND2}))`;
 };
 
 outputBlocks.push("operator_gt");
 JavascriptTranslation["operator_gt"] = function (jsonblock, utils, options) {
-  var OPERAND1 = utils.getInput(jsonblock, "OPERAND1", options);
-  var OPERAND2 = utils.getInput(jsonblock, "OPERAND2", options);
+  var OPERAND1 = utils.getInput(jsonblock, "OPERAND1", options, "undefined");
+  var OPERAND2 = utils.getInput(jsonblock, "OPERAND2", options, "undefined");
   return `((+(${OPERAND1}) || 0) > (+(${OPERAND2}) || 0))`;
 };
 
 outputBlocks.push("operator_lt");
 JavascriptTranslation["operator_lt"] = function (jsonblock, utils, options) {
-  var OPERAND1 = utils.getInput(jsonblock, "OPERAND1", options);
-  var OPERAND2 = utils.getInput(jsonblock, "OPERAND2", options);
+  var OPERAND1 = utils.getInput(jsonblock, "OPERAND1", options, "undefined");
+  var OPERAND2 = utils.getInput(jsonblock, "OPERAND2", options, "undefined");
   return `((+(${OPERAND1}) || 0) < (+(${OPERAND2}) || 0))`;
 };
 
@@ -228,7 +228,7 @@ JavascriptTranslation["operator_newline"] = function (
 
 outputBlocks.push("operator_round");
 JavascriptTranslation["operator_round"] = function (jsonblock, utils, options) {
-  var NUM = utils.getInput(jsonblock, "NUM", options);
+  var NUM = utils.getInput(jsonblock, "NUM", options, "undefined");
   return `(Math.round(+(${NUM}) || 0))`;
 };
 
@@ -240,7 +240,7 @@ JavascriptTranslation["operator_tostring"] = function (
   utils,
   options,
 ) {
-  var VALUE = utils.getInput(jsonblock, "VALUE", options);
+  var VALUE = utils.getInput(jsonblock, "VALUE", options, "undefined");
   return `"" + (${VALUE})`;
 };
 
@@ -250,7 +250,7 @@ JavascriptTranslation["operator_tonumber"] = function (
   utils,
   options,
 ) {
-  var VALUE = utils.getInput(jsonblock, "VALUE", options);
+  var VALUE = utils.getInput(jsonblock, "VALUE", options, "undefined");
   return `+(${VALUE})`;
 };
 
@@ -260,7 +260,7 @@ JavascriptTranslation["operator_toboolean"] = function (
   utils,
   options,
 ) {
-  var VALUE = utils.getInput(jsonblock, "VALUE", options);
+  var VALUE = utils.getInput(jsonblock, "VALUE", options, "undefined");
   return `!!(${VALUE})`;
 };
 

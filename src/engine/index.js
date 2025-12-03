@@ -215,11 +215,6 @@ class GGM3Engine {
       let delta = now - previous;
       previous = now;
 
-      // --- THE FIX ---
-      // If delta is huge (like switching tabs), cap it.
-      // This prevents the game from trying to simulate
-      // thousands of frames and locking up.
-      // We'll cap it at 1 second.
       if (delta > 1000) {
         delta = 1000;
       }

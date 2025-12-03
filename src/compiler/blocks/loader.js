@@ -14,7 +14,7 @@ JavascriptTranslation["loader_costume_scale"] = function (
   utils,
   options,
 ) {
-  var COSTUME = utils.getInput(jsonblock, "COSTUME", options);
+  var COSTUME = utils.getInput(jsonblock, "COSTUME", options, "undefined");
   return `(await sprite.blockGetCostumeScale(${COSTUME}))`;
 };
 
@@ -24,7 +24,7 @@ JavascriptTranslation["loader_costumeisloaded"] = function (
   utils,
   options,
 ) {
-  var COSTUME = utils.getInput(jsonblock, "COSTUME", options);
+  var COSTUME = utils.getInput(jsonblock, "COSTUME", options, "undefined");
   return `sprite.isCostumeLoaded(${COSTUME})`;
 };
 
@@ -33,7 +33,7 @@ JavascriptTranslation["loader_loadcostume"] = function (
   utils,
   options,
 ) {
-  var COSTUME = utils.getInput(jsonblock, "COSTUME", options);
+  var COSTUME = utils.getInput(jsonblock, "COSTUME", options, "undefined");
   return `await sprite.blockLoadCostume(${COSTUME});${utilFunctions.aliveCheck()}`;
 };
 
@@ -42,7 +42,7 @@ JavascriptTranslation["loader_deloadcostume"] = function (
   utils,
   options,
 ) {
-  var COSTUME = utils.getInput(jsonblock, "COSTUME", options);
+  var COSTUME = utils.getInput(jsonblock, "COSTUME", options, "undefined");
   return `await sprite.blockDeloadCostume(${COSTUME});${utilFunctions.aliveCheck()}`;
 };
 
@@ -51,8 +51,8 @@ JavascriptTranslation["loader_rendercostumescale"] = function (
   utils,
   options,
 ) {
-  var COSTUME = utils.getInput(jsonblock, "COSTUME", options);
-  var SCALE = utils.getInput(jsonblock, "SCALE", options);
+  var COSTUME = utils.getInput(jsonblock, "COSTUME", options, "undefined");
+  var SCALE = utils.getInput(jsonblock, "SCALE", options, "undefined");
   return `sprite.setCostumeRenderScale(${COSTUME},${SCALE});`;
 };
 
@@ -61,7 +61,7 @@ JavascriptTranslation["loader_setrenderscale"] = function (
   utils,
   options,
 ) {
-  var COSTUME = utils.getInput(jsonblock, "COSTUME", options);
+  var COSTUME = utils.getInput(jsonblock, "COSTUME", options, "undefined");
   return `sprite.blockRerenderCostume(${COSTUME});`;
 };
 

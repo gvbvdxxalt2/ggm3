@@ -27,7 +27,12 @@ JavascriptTranslation["sensing_keyoptions"] = function (
   utils,
   options,
 ) {
-  var KEY_OPTION = utils.getField(jsonblock, "KEY_OPTION", options);
+  var KEY_OPTION = utils.getField(
+    jsonblock,
+    "KEY_OPTION",
+    options,
+    "undefined",
+  );
   return JSON.stringify(KEY_OPTION);
 };
 
@@ -37,7 +42,12 @@ JavascriptTranslation["sensing_keypressed"] = function (
   utils,
   options,
 ) {
-  var KEY_OPTION = utils.getInput(jsonblock, "KEY_OPTION", options);
+  var KEY_OPTION = utils.getInput(
+    jsonblock,
+    "KEY_OPTION",
+    options,
+    "undefined",
+  );
   return `!!engine.keysPressed[${KEY_OPTION}]`;
 };
 
@@ -51,6 +61,7 @@ JavascriptTranslation["sensing_touchingobjectmenu"] = function (
     jsonblock,
     "TOUCHINGOBJECTMENU",
     options,
+    "undefined",
   );
   return JSON.stringify(TOUCHINGOBJECTMENU);
 };
@@ -65,6 +76,7 @@ JavascriptTranslation["sensing_touchingobject"] = function (
     jsonblock,
     "TOUCHINGOBJECTMENU",
     options,
+    "undefined",
   );
   return `sprite.isTouchingSprite(${TOUCHINGOBJECTMENU})`;
 };

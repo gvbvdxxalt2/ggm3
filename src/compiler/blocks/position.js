@@ -30,8 +30,8 @@ JavascriptTranslation["motion_direction"] = function (
 };
 
 JavascriptTranslation["motion_gotoxy"] = function (jsonblock, utils, options) {
-  var X = utils.getInput(jsonblock, "X", options);
-  var Y = utils.getInput(jsonblock, "Y", options);
+  var X = utils.getInput(jsonblock, "X", options, "undefined");
+  var Y = utils.getInput(jsonblock, "Y", options, "undefined");
 
   return `sprite.x = +(${X}) || 0; sprite.y = +(${Y}) || 0;`;
 };
@@ -41,13 +41,13 @@ JavascriptTranslation["motion_changexby"] = function (
   utils,
   options,
 ) {
-  var DX = utils.getInput(jsonblock, "DX", options);
+  var DX = utils.getInput(jsonblock, "DX", options, "undefined");
 
   return `sprite.x += +(${DX}) || 0;`;
 };
 
 JavascriptTranslation["motion_setx"] = function (jsonblock, utils, options) {
-  var X = utils.getInput(jsonblock, "X", options);
+  var X = utils.getInput(jsonblock, "X", options, "undefined");
 
   return `sprite.x = +(${X}) || 0;`;
 };
@@ -57,13 +57,13 @@ JavascriptTranslation["motion_changeyby"] = function (
   utils,
   options,
 ) {
-  var DY = utils.getInput(jsonblock, "DY", options);
+  var DY = utils.getInput(jsonblock, "DY", options, "undefined");
 
   return `sprite.y += +(${DY}) || 0;`;
 };
 
 JavascriptTranslation["motion_sety"] = function (jsonblock, utils, options) {
-  var Y = utils.getInput(jsonblock, "Y", options);
+  var Y = utils.getInput(jsonblock, "Y", options, "undefined");
 
   return `sprite.y = +(${Y}) || 0;`;
 };
@@ -73,7 +73,7 @@ JavascriptTranslation["motion_pointindirection"] = function (
   utils,
   options,
 ) {
-  var DIRECTION = utils.getInput(jsonblock, "DIRECTION", options);
+  var DIRECTION = utils.getInput(jsonblock, "DIRECTION", options, "undefined");
 
   return `sprite.direction = +(${DIRECTION}) || 0;`;
 };
@@ -83,7 +83,7 @@ JavascriptTranslation["motion_turnleft"] = function (
   utils,
   options,
 ) {
-  var DEGREES = utils.getInput(jsonblock, "DEGREES", options);
+  var DEGREES = utils.getInput(jsonblock, "DEGREES", options, "undefined");
 
   return `sprite.direction -= +(${DEGREES}) || 0;`;
 };
@@ -93,7 +93,7 @@ JavascriptTranslation["motion_turnright"] = function (
   utils,
   options,
 ) {
-  var DEGREES = utils.getInput(jsonblock, "DEGREES", options);
+  var DEGREES = utils.getInput(jsonblock, "DEGREES", options, "undefined");
 
   return `sprite.direction += +(${DEGREES}) || 0;`;
 };
@@ -103,7 +103,7 @@ JavascriptTranslation["motion_movesteps"] = function (
   utils,
   options,
 ) {
-  var STEPS = utils.getInput(jsonblock, "STEPS", options);
+  var STEPS = utils.getInput(jsonblock, "STEPS", options, "undefined");
 
   return `sprite.moveSteps(+(${STEPS}) || 0);`;
 };

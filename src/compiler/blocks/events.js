@@ -53,7 +53,12 @@ JavascriptTranslation["event_ggm3_broadcast"] = function (
   utils,
   options,
 ) {
-  var BROADCAST_NAME = utils.getInput(jsonblock, "BROADCAST_NAME", options);
+  var BROADCAST_NAME = utils.getInput(
+    jsonblock,
+    "BROADCAST_NAME",
+    options,
+    "undefined",
+  );
   return `engine.broadcast("" + (${BROADCAST_NAME}));`;
 };
 
@@ -62,7 +67,12 @@ JavascriptTranslation["event_ggm3_broadcast_and_wait"] = function (
   utils,
   options,
 ) {
-  var BROADCAST_NAME = utils.getInput(jsonblock, "BROADCAST_NAME", options);
+  var BROADCAST_NAME = utils.getInput(
+    jsonblock,
+    "BROADCAST_NAME",
+    options,
+    "undefined",
+  );
   return `${utilFunctions.aliveCheck()}await engine.broadcastAndWait("" + (${BROADCAST_NAME}));${utilFunctions.aliveCheck()}`;
 };
 
@@ -71,7 +81,12 @@ JavascriptTranslation["event_ggm3_frame_broadcast"] = function (
   utils,
   options,
 ) {
-  var BROADCAST_NAME = utils.getInput(jsonblock, "BROADCAST_NAME", options);
+  var BROADCAST_NAME = utils.getInput(
+    jsonblock,
+    "BROADCAST_NAME",
+    options,
+    "undefined",
+  );
   return `engine.broadcastOnNextFrame("" + (${BROADCAST_NAME}));`;
 };
 

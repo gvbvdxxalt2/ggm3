@@ -175,19 +175,11 @@ JavascriptTranslation["looks_zindex"] = function (jsonblock, utils, options) {
   return `(sprite.zIndex)`;
 };
 
-JavascriptTranslation["looks_alpha_to"] = function (
-  jsonblock,
-  utils,
-  options,
-) {
+JavascriptTranslation["looks_alpha_to"] = function (jsonblock, utils, options) {
   var VALUE = utils.getInput(jsonblock, "VALUE", options);
   return `sprite.alpha = (+(${VALUE}) || 0);`;
 };
-JavascriptTranslation["looks_alpha_by"] = function (
-  jsonblock,
-  utils,
-  options,
-) {
+JavascriptTranslation["looks_alpha_by"] = function (jsonblock, utils, options) {
   var VALUE = utils.getInput(jsonblock, "VALUE", options);
   return `sprite.alpha += (+(${VALUE}) || 0);`;
 };

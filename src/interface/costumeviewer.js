@@ -210,9 +210,7 @@ function reloadCostumes(spr, reloadTabCallback = function () {}) {
         spr.costumes.splice(oldIndex, 1);
         spr.costumes.splice(newIndex, 0, costumeToMove);
 
-        spr.costumeIndex = spr.costumes.indexOf(
-          spr.costumes[spr.costumeIndex],
-        );
+        spr.costumeIndex = spr.costumes.indexOf(spr.costumes[spr.costumeIndex]);
 
         spr.ensureUniqueCostumeNames();
 

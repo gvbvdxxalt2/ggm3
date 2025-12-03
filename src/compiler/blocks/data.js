@@ -14,7 +14,7 @@ JavascriptTranslation["data_changevariableby"] = function (
   options,
 ) {
   var VARIABLE = utils.getFieldVariableID(jsonblock, "VARIABLE");
-  var VALUE = utils.getInput(jsonblock, "VALUE");
+  var VALUE = utils.getInput(jsonblock, "VALUE", options, "null");
   return `sprite.variables[${JSON.stringify(VARIABLE)}] = (+(sprite.variables[${JSON.stringify(VARIABLE)}]) || 0) + (+(${VALUE}) || 0);`;
 };
 
@@ -24,7 +24,7 @@ JavascriptTranslation["data_setvariableto"] = function (
   options,
 ) {
   var VARIABLE = utils.getFieldVariableID(jsonblock, "VARIABLE");
-  var VALUE = utils.getInput(jsonblock, "VALUE");
+  var VALUE = utils.getInput(jsonblock, "VALUE", options, "null");
   return `sprite.variables[${JSON.stringify(VARIABLE)}] = ${VALUE};`;
 };
 

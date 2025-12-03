@@ -150,10 +150,18 @@ function loadCode(spr) {
     if (!rootBlock) return;
     // We don't need to stop it since it automatically stops the previous stack when ran.
     if (compiler.isStarterBlock(rootBlock)) {
-      var code = compiler.compileBlock(rootBlock);
-      spr.removeSpriteFunction(rootBlock.id);
-      spr.addFunction(code, rootBlock.id);
-      spr.runFunctionID(rootBlock.id);
+      try {
+        var code = compiler.compileBlock(rootBlock);
+        spr.removeSpriteFunction(rootBlock.id);
+        spr.addFunction(code, rootBlock.id);
+        spr.runFunctionID(rootBlock.id);
+        workspace.reportValue(rootBlock.id,"stuff");
+
+      } catch (e) {
+        workspace.reportValue(rootBlock.id,"Unable to compile: "+e);
+        console.error(`Unable to compile block `,e);
+        return;
+      }
     }
   }
 
@@ -614,10 +622,14 @@ function compileSpriteXML(spr) {
     if (!rootBlock) return;
     // We don't need to stop it since it automatically stops the previous stack when ran.
     if (compiler.isStarterBlock(rootBlock)) {
-      var code = compiler.compileBlock(rootBlock);
-      spr.removeSpriteFunction(rootBlock.id);
-      spr.addFunction(code, rootBlock.id);
-      spr.runFunctionID(rootBlock.id);
+      try {
+        var code = compiler.compileBlock(rootBlock);
+        spr.removeSpriteFunction(rootBlock.id);
+        spr.addFunction(code, rootBlock.id);
+        spr.runFunctionID(rootBlock.id);
+      } catch (e) {
+        return;
+      }
     }
   }
   var div = document.createElement("div");

@@ -10,7 +10,7 @@ JavascriptTranslation["globaldata_get"] = function (jsonblock, utils, options) {
 
 JavascriptTranslation["globaldata_set"] = function (jsonblock, utils, options) {
   var VARIABLE = utils.getField(jsonblock, "VARIABLE");
-  var VALUE = utils.getInput(jsonblock, "VALUE");
+  var VALUE = utils.getInput(jsonblock, "VALUE", "undefined");
   return `engine.globalVariables[${JSON.stringify(VARIABLE)}] = ${VALUE};`;
 };
 
@@ -20,7 +20,7 @@ JavascriptTranslation["globaldata_changeby"] = function (
   options,
 ) {
   var VARIABLE = utils.getField(jsonblock, "VARIABLE");
-  var VALUE = utils.getInput(jsonblock, "VALUE");
+  var VALUE = utils.getInput(jsonblock, "VALUE", "undefined");
   return `engine.globalVariables[${JSON.stringify(VARIABLE)}] = (+(engine.globalVariables[${JSON.stringify(VARIABLE)}]) || 0) + (+(${VALUE}) || 0);`;
 };
 

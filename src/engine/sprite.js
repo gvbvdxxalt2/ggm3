@@ -2,6 +2,8 @@ var Costume = require("./costume.js");
 var Thread = require("./thread.js");
 var SpriteEffects = require("./effects.js");
 
+var dialogs = require("../interface/dialogs.js");
+
 class Sprite {
   constructor(engine, name) {
     var id = "";
