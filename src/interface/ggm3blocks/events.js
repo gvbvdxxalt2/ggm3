@@ -54,14 +54,18 @@ Blockly.WorkspaceSvg.prototype.registerToolboxCategoryCallback(
     workspace.registerButtonCallback(
       "GGM3_CREATE_BROADCAST_MESSAGE",
       (button) => {
-        Blockly.prompt("New broadcast message name: ", "message", function (output) {
-          if (!output) {
-            return;
-          }
-          var name = output.trim();
-          engine.addBroadcastName(name);
-          workspace.getToolbox().refreshSelection();
-        });
+        Blockly.prompt(
+          "New broadcast message name: ",
+          "message",
+          function (output) {
+            if (!output) {
+              return;
+            }
+            var name = output.trim();
+            engine.addBroadcastName(name);
+            workspace.getToolbox().refreshSelection();
+          },
+        );
       },
     );
 
@@ -117,51 +121,51 @@ function getBroadcastMenuFunction() {
       return [["(No Broadcast Messages)", "none"]];
     }
     return broadcastNames.map((name) => [name, name]);
-  }
+  };
 }
 
 function contextMenuFunction(options) {
-    var broadcastField = this.getField("BROADCAST_NAME");
-    if (broadcastField) {
-      var broadcastName = broadcastField.getValue();
-      // Try to get main workspace from flyout/toolbox
-      var mainWorkspace = null;
-      if (this.workspace && this.workspace.targetWorkspace) {
-        mainWorkspace = this.workspace.targetWorkspace;
-      } else if (
-        this.workspace &&
-        this.workspace.options &&
-        this.workspace.options.parentWorkspace
-      ) {
-        mainWorkspace = this.workspace.options.parentWorkspace;
-      } else if (window.Blockly && Blockly.getMainWorkspace) {
-        mainWorkspace = Blockly.getMainWorkspace();
-      }
-
-      options.push({
-        text: "Delete broadcast message",
-        enabled: true,
-        callback: function () {
-          Blockly.confirm(
-            `Delete broadcast message "${broadcastName}"?`,
-            function (accepted) {
-              if (accepted) {
-                engine.removeBroadcastName(broadcastName);
-
-                if (
-                  mainWorkspace &&
-                  mainWorkspace.getToolbox &&
-                  mainWorkspace.getToolbox()
-                ) {
-                  mainWorkspace.getToolbox().refreshSelection();
-                }
-              }
-            },
-          );
-        },
-      });
+  var broadcastField = this.getField("BROADCAST_NAME");
+  if (broadcastField) {
+    var broadcastName = broadcastField.getValue();
+    // Try to get main workspace from flyout/toolbox
+    var mainWorkspace = null;
+    if (this.workspace && this.workspace.targetWorkspace) {
+      mainWorkspace = this.workspace.targetWorkspace;
+    } else if (
+      this.workspace &&
+      this.workspace.options &&
+      this.workspace.options.parentWorkspace
+    ) {
+      mainWorkspace = this.workspace.options.parentWorkspace;
+    } else if (window.Blockly && Blockly.getMainWorkspace) {
+      mainWorkspace = Blockly.getMainWorkspace();
     }
+
+    options.push({
+      text: "Delete broadcast message",
+      enabled: true,
+      callback: function () {
+        Blockly.confirm(
+          `Delete broadcast message "${broadcastName}"?`,
+          function (accepted) {
+            if (accepted) {
+              engine.removeBroadcastName(broadcastName);
+
+              if (
+                mainWorkspace &&
+                mainWorkspace.getToolbox &&
+                mainWorkspace.getToolbox()
+              ) {
+                mainWorkspace.getToolbox().refreshSelection();
+              }
+            }
+          },
+        );
+      },
+    });
   }
+}
 
 Blockly.Blocks["event_ggm3_broadcast_menu"] = {
   init: function () {
@@ -171,7 +175,7 @@ Blockly.Blocks["event_ggm3_broadcast_menu"] = {
         {
           type: "field_dropdown",
           name: "BROADCAST_NAME",
-          options: getBroadcastMenuFunction()
+          options: getBroadcastMenuFunction(),
         },
       ],
       category: Blockly.Categories.control,
@@ -194,7 +198,7 @@ Blockly.Blocks["event_ggm3_broadcast"] = {
       ],
       category: Blockly.Categories.control,
       extensions: ["shape_statement"],
-      colour: "#bf9c00"
+      colour: "#bf9c00",
     });
   },
 };
@@ -211,7 +215,7 @@ Blockly.Blocks["event_ggm3_frame_broadcast"] = {
       ],
       category: Blockly.Categories.control,
       extensions: ["shape_statement"],
-      colour: "#bf9c00"
+      colour: "#bf9c00",
     });
   },
 };
@@ -228,7 +232,7 @@ Blockly.Blocks["event_ggm3_broadcast_and_wait"] = {
       ],
       category: Blockly.Categories.control,
       extensions: ["shape_statement"],
-      colour: "#bf9c00"
+      colour: "#bf9c00",
     });
   },
 };
@@ -241,7 +245,7 @@ Blockly.Blocks["event_ggm3_whenbroadcasted"] = {
         {
           type: "field_dropdown",
           name: "BROADCAST_NAME",
-          options: getBroadcastMenuFunction()
+          options: getBroadcastMenuFunction(),
         },
       ],
       category: Blockly.Categories.control,

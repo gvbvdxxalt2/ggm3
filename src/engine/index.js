@@ -49,13 +49,13 @@ class GGM3Engine {
     this.updateCanvasSize();
   }
 
-  broadcast (name) {
+  broadcast(name) {
     this.getAllTopSprites().forEach((sprite) => {
       sprite.emitBroadcastListener(name);
     });
   }
 
-  broadcastOnNextFrame (name) {
+  broadcastOnNextFrame(name) {
     this.broadcastQueue.push(() => {
       this.getAllTopSprites().forEach((sprite) => {
         sprite.emitBroadcastListener(name);
@@ -63,7 +63,7 @@ class GGM3Engine {
     });
   }
 
-  async broadcastAndWait (name) {
+  async broadcastAndWait(name) {
     var promises = [];
     this.getAllTopSprites().forEach((sprite) => {
       promises.push(sprite.emitBroadcastListener(name));
@@ -71,17 +71,17 @@ class GGM3Engine {
     await Promise.all(promises);
   }
 
-  getBroadcastNames () {
+  getBroadcastNames() {
     return this.broadcastNames;
   }
 
-  addBroadcastName (name) {
+  addBroadcastName(name) {
     if (this.broadcastNames.indexOf(name) === -1) {
       this.broadcastNames.push(name);
     }
   }
 
-  removeBroadcastName (name) {
+  removeBroadcastName(name) {
     this.broadcastNames = this.broadcastNames.filter((n) => n !== name);
   }
 

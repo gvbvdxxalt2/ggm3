@@ -31,7 +31,7 @@ addAppMenu(
   [
     {
       element: "img",
-      src: "icons/file.svg"
+      src: "icons/file.svg",
     },
     {
       element: "span",

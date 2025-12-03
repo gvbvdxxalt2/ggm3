@@ -7,6 +7,8 @@ var costumesSelectorContainer = elements.getGPId("costumesSelectorContainer");
 
 var costumePivots = require("./costumepivoteditor.js");
 
+var { makeSortable } = require("./drag-utils.js");
+
 function reloadCostumes(spr, reloadTabCallback = function () {}) {
   costumePivots.reloadCostumes(spr, reloadTabCallback);
   elements.setInnerJSON(costumesHeaderContainer, [
@@ -192,6 +194,31 @@ function reloadCostumes(spr, reloadTabCallback = function () {}) {
           ],
         };
       }),
+    );
+
+    makeSortable(
+      costumesSelectorContainer,
+      ".costumeContainer",
+      (oldIndex, newIndex) => {
+        // This callback runs only when the user releases the mouse
+        // and the order has actually changed.
+
+        if (oldIndex === newIndex) return;
+
+        // 1. Move data in the engine
+        var costumeToMove = spr.costumes[oldIndex];
+        spr.costumes.splice(oldIndex, 1);
+        spr.costumes.splice(newIndex, 0, costumeToMove);
+
+        if (spr.costumes[spr.costumeIndex]) {
+          spr.costumeIndex = spr.costumes.indexOf(
+            spr.costumes[spr.costumeIndex],
+          );
+        }
+
+        reloadCostumes(spr);
+        reloadTabCallback(spr);
+      },
     );
   }
 }

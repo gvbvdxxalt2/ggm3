@@ -6,6 +6,7 @@ var blocks = require("./blocks.js");
 var costumeViewer = require("./costumeviewer.js");
 var compiler = require("../compiler");
 var blockMenu = require("./blockmenuloader.js");
+var { makeSortable } = require("./drag-utils.js");
 var { loadBlockMenus } = blockMenu;
 
 var currentSelectedSprite = null;
@@ -29,6 +30,8 @@ addSpriteButton.addEventListener("click", () => {
   setCurrentSprite(engine.sprites.length - 1);
 });
 
+var draggingSpriteIndex = null;
+
 function updateSpritesContainer() {
   elements.setInnerJSON(
     spritesContainer,
@@ -36,6 +39,9 @@ function updateSpritesContainer() {
       return {
         element: "div",
         className: "spriteContainer",
+        style: {
+          cursor: "grab",
+        },
         GPWhenCreated: function (elm) {
           if (currentSelectedSpriteIndex == i) {
             elm.setAttribute("selected", "");
@@ -644,6 +650,29 @@ function compileSpriteXML(spr) {
 function saveCurrentSpriteCode() {
   currentSelectedSprite.blocklyXML = Blockly.Xml.workspaceToDom(workspace);
 }
+
+makeSortable(spritesContainer, ".spriteContainer", (oldIndex, newIndex) => {
+  // This callback runs only when the user releases the mouse
+  // and the order has actually changed.
+
+  if (oldIndex === newIndex) return;
+
+  // 1. Move data in the engine
+  var spriteToMove = engine.sprites[oldIndex];
+  engine.sprites.splice(oldIndex, 1);
+  engine.sprites.splice(newIndex, 0, spriteToMove);
+
+  // 2. Update selected index
+  if (currentSelectedSprite) {
+    currentSelectedSpriteIndex = engine.sprites.indexOf(currentSelectedSprite);
+  }
+
+  // 3. Redraw (optional if you want to ensure state consistency)
+  // Because the dragManager actually moved the DOM elements already,
+  // updateSpritesContainer is theoretically optional here, but good practice
+  // to ensure IDs/Indices are fresh.
+  updateSpritesContainer();
+});
 
 module.exports = {
   setCurrentSprite,
