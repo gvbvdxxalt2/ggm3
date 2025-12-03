@@ -283,6 +283,10 @@ class AudioBufferPlayer {
     this.onended = null;
   }
 
+  dispose () {
+    this.destroy();
+  }
+
   onended() {
     // Gets overwritten by the user script
   }

@@ -1,4 +1,5 @@
 var Costume = require("./costume.js");
+var Sound = require("./sound.js");
 var Thread = require("./thread.js");
 var SpriteEffects = require("./effects.js");
 
@@ -13,6 +14,7 @@ class Sprite {
     this.id = id;
 
     this.costumes = [];
+    this.sounds = [];
     this.costumeIndex = 0;
     this.engine = engine;
     this.errorLogs = [];
@@ -50,6 +52,7 @@ class Sprite {
     this.hidden = false;
 
     this.costumeMap = {}; //Used to switch costumes by name quickly.
+    this.soundMap = {};
 
     this.customBlockListeners = {};
     this.customBlockRef = {};
@@ -64,7 +67,7 @@ class Sprite {
 
     this.broadcastListeners = [];
 
-    this.playingSounds = [];
+    this.playingSounds = {};
   }
 
   toString() {
@@ -341,6 +344,35 @@ class Sprite {
     });
   }
 
+  ensureUniqueSoundNames() {
+    //This is called alot by the editor and engine, so we can use this to map out sound names.
+    var existingNames = [];
+    var nameCounts = {};
+    var _this = this;
+    this.soundMap = {};
+    this.sounds.forEach((sound, i) => {
+      _this.soundMap[sound.name] = i;
+      if (existingNames.indexOf(sound.name) !== -1) {
+        if (nameCounts[sound.name]) {
+          nameCounts[sound.name] += 1;
+        } else {
+          nameCounts[sound.name] = 1;
+        }
+        sound.name = sound.name + ` (${nameCounts[sound.name]})`;
+      } else {
+        existingNames.push(sound.name);
+      }
+    });
+  }
+
+  getSound (v) {
+    if (isNaN(+v)) {
+      return this.sounds[this.soundMap[v]];
+    } else {
+      return this.sounds[v];
+    }
+  }
+
   getAllVariableIDS() {
     return Object.keys(this.variables);
   }
@@ -598,12 +630,60 @@ class Sprite {
     this.ensureUniqueCostumeNames();
   }
 
+  addSound(dataURL, name) {
+    if (this.isClone) {
+      throw new Error("Clones can't create their own sounds.");
+    }
+    var _this = this;
+    return new Promise(function (resolve, reject) {
+      var s = new Sound(
+        _this.engine,
+        _this,
+        dataURL,
+        function (success) {
+          if (success) {
+            resolve(s);
+          } else {
+            reject("");
+          }
+        },
+      );
+      s.loadSound();
+      s.name = name ? name : "Sound " + (_this.sounds.length + 1);
+      _this.sounds.push(s);
+      _this.ensureUniqueSoundNames();
+    });
+  }
+
+  addSoundWithoutLoading(url, name) {
+    if (this.isClone) {
+      throw new Error("Clones can't create their own costumes.");
+    }
+    var s = new Sound(
+      _this.engine,
+      this,
+      url
+    );
+    s.name = name ? name : "Sound " + (_this.sounds.length + 1);
+    _this.sounds.push(s);
+    _this.ensureUniqueSoundNames();
+  }
+
   deleteCostume(costume) {
     if (this.isClone) {
       throw new Error("Clones can't delete their own costumes.");
     }
     costume.dispose();
     this.costumes = this.costumes.filter((c) => c.id !== costume.id);
+    this.ensureUniqueCostumeNames(); //This also causes the costume mapping to happen.
+  }
+
+  deleteSound(sound) {
+    if (this.isClone) {
+      throw new Error("Clones can't delete their own sounds.");
+    }
+    sound.dispose();
+    this.sounds = this.sounds.filter((s) => s.id !== sound.id);
     this.ensureUniqueCostumeNames(); //This also causes the costume mapping to happen.
   }
 

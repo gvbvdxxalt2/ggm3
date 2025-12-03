@@ -372,6 +372,16 @@ body {
   color: white;
 }
 
+.soundsContainer {
+  width: 100%;
+  /* height: 100%; */  /* <-- REMOVE THIS */
+  flex-grow: 1;         /* <-- ADD THIS */
+  min-height: 0;        /* <-- ADD THIS */
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
 .costumePivotContainer {
   width: 100%;
   /* height: 100%; */  /* <-- REMOVE THIS */
@@ -498,7 +508,24 @@ body {
   padding: 5px 5px;
 }
 
+.soundsHeaderContainer {
+  width: 100%;
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 0;
+  height: fit-content;
+  box-sizing: border-box;
+  padding: 5px 5px;
+}
+
 .costumesSelectorContainer {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  flex-grow: 1;
+}
+
+.soundsSelectorContainer {
   display: flex;
   flex-direction: column;
   overflow: auto;
@@ -519,6 +546,23 @@ body {
   font-size: 20px;
   user-select: none;
   align-items: center;
+}
+
+.soundContainer {
+  width: 100%;
+  height: fit-content;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: flex;
+  padding: 7px 7px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  user-select: none;
+  align-items: center;
+  flex-direction: column;
 }
 
 .greyButtonStyle {

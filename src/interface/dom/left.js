@@ -34,6 +34,23 @@ module.exports = {
             },
           ],
         },
+        {
+          element: "div",
+          className: "soundsContainer",
+          gid: "soundsContainer",
+          children: [
+            {
+              element: "div",
+              className: "soundsHeaderContainer",
+              gid: "soundsHeaderContainer",
+            },
+            {
+              element: "div",
+              className: "soundsSelectorContainer",
+              gid: "soundsSelectorContainer",
+            },
+          ],
+        },
         require("./costumepivot.js"),
         {
           element: "div",

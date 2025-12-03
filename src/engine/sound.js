@@ -10,37 +10,94 @@ class Sound {
     this.data = null;
     this.onread = onread || function () {};
     this.id = Date.now() + "_" + Math.round(Math.random() * 9999999);
+    this.name = "";
+    this.willPreload = true;
+    this.playingOn = {};
+    this.mimeType = "audio/mp3";
   }
-  
-  set playbackRate(v) {
-    this._playbackRate = +v || 0;
-    if (this._playbackRate < 0) {
-        this._playbackRate = 0;
+
+  stopForSpriteID(spriteid) {
+    var _this = this;
+    var sound = this.playingOn[spriteid];
+    if (!sound) {
+      return;
     }
-    if (this._playbackRate > 99999) {
-        this._playbackRate = 99999;
+    sound.onended = function () {};
+    sound.stop();
+    sound.dispose();
+    delete this.playingOn[spriteid];
+  }
+
+  stopForSprite(sprite = this.sprite) {
+    this.stopForSpriteID(sprite.id);
+  }
+
+  stopAll() {
+    for (var id of Object.keys(this.playingOn)) {
+      this.stopForSpriteID(id);
     }
   }
 
-  get playbackRate() {
-    return this._playbackRate;
-  }
-
-  play (spriteContext) {
+  play (spriteContext, time = 0, volume = 1, playbackRate = 1) {
     var sprite = spriteContext || this.sprite;
 
     if (this.data) {
-
+      var oldSound = sprite.playingSounds[this.id];
+      if (oldSound) {
+        oldSound.stop();
+        oldSound.dispose();
+        delete sprite.playingSounds[this.id];
+      }
+      var playbackRate = +playbackRate || 0;
+      if (playbackRate < 0) {
+        playbackRate = 0;
+      }
+      if (playbackRate > 999) {
+        playbackRate = 999;
+      }
+      if (playbackRate < 0.005) {
+        return new Promise((r) => r());
+      }
+      var sound = new AudioEngine.Player(this.data);
+      sprite.playingSounds[this.id] = sound;
+      this.playingOn[sprite.id] = sound;
+      sound.playbackRate = playbackRate;
+      sound.volume = +volume || 0;
+      if (sound.volume < 0) {
+        sound.volume = 0;
+      }
+      if (sound.volume > 999) {
+        sound.volume = 999;
+      }
+      var _this = this;
+      return new Promise((resolve) => {
+        sound.onended = function () {
+          sound.dispose();
+          delete sprite.playingSounds[this.id];
+          delete _this.playingOn[sprite.id];
+        };
+        sound.play(+time || 0);
+      });
+    } else {
+      return new Promise((r) => r());
     }
   }
 
   async loadSound () {
     var data = await AudioEngine.loadSoundFromURL(this.src);
     this.data = data;
+    if (this.onread) {
+      this.onread(true);
+    }
   }
 
   deloadSound () {
+    this.data = null;
+  }
 
+  dispose () {
+    this.data = null;
+    this.stopAll();
   }
 }
 

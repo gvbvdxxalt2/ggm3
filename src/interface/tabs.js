@@ -49,6 +49,12 @@ const tabs = [
     id: "COSTUMES",
   },
   {
+    label: "Sounds",
+    src: "icons/speaker.svg",
+    default: true,
+    id: "SOUNDS",
+  },
+  {
     label: "Costume pivots",
     src: "icons/pivot.svg",
     default: true,
@@ -99,6 +105,7 @@ function setWorkspaceVisibility(visible) {
 }
 
 var costumesContainer = elements.getGPId("costumesContainer");
+var soundsContainer = elements.getGPId("soundsContainer");
 var costumePivotContainer = elements.getGPId("costumePivotContainer");
 var errorLogsContainer = elements.getGPId("errorLogsContainer");
 
@@ -107,6 +114,7 @@ function hideEverything() {
   costumesContainer.hidden = true;
   costumePivotContainer.hidden = true;
   errorLogsContainer.hidden = true;
+  soundsContainer.hidden = true;
 }
 
 function updateVisibility() {
@@ -124,6 +132,9 @@ function updateVisibility() {
   }
   if (currentTab == "ERROR_LOGS") {
     errorLogsContainer.hidden = false;
+  }
+  if (currentTab == "SOUNDS") {
+    soundsContainer.hidden = false;
   }
 }
 

@@ -4,6 +4,7 @@ var AElement = require("../gp2/aelement.js");
 var engine = require("./curengine.js");
 var blocks = require("./blocks.js");
 var costumeViewer = require("./costumeviewer.js");
+var soundViewer = require("./soundviewer.js");
 var compiler = require("../compiler");
 var blockMenu = require("./blockmenuloader.js");
 var { makeSortable } = require("./drag-utils.js");
@@ -507,9 +508,13 @@ function setCurrentSprite(index, forced, dontSave) {
   loadCode(currentSelectedSprite);
   handleSpriteErrorLog(currentSelectedSprite);
   loadCostumes();
+  loadSounds();
 }
 function loadCostumes() {
   costumeViewer.reloadCostumes(currentSelectedSprite, loadCostumes);
+}
+function loadSounds() {
+  soundViewer.reloadSounds(currentSelectedSprite, loadSounds);
 }
 
 spriteNameInput.addEventListener("input", () => {
