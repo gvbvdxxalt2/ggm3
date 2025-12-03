@@ -38,10 +38,8 @@ Blockly.WorkspaceSvg.prototype.registerToolboxCategoryCallback(
       }),
     );
 
-    workspace.registerButtonCallback(
-      "GGM3_CREATE_VARIABLE_GLOBAL",
-      (button) => {
-        Blockly.prompt("New global variable name: ", "", function (output) {
+    workspace._ggm3_createVariable = (button) => {
+      Blockly.prompt("New global variable name: ", "", function (output) {
           if (!output) {
             return;
           }
@@ -51,6 +49,12 @@ Blockly.WorkspaceSvg.prototype.registerToolboxCategoryCallback(
           }
           workspace.getToolbox().refreshSelection();
         });
+    };
+
+    workspace.registerButtonCallback(
+      "GGM3_CREATE_VARIABLE_GLOBAL",
+      (button) => {
+        workspace._ggm3_createVariable(button);
       },
     );
 

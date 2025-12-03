@@ -155,8 +155,6 @@ function loadCode(spr) {
         spr.removeSpriteFunction(rootBlock.id);
         spr.addFunction(code, rootBlock.id);
         spr.runFunctionID(rootBlock.id);
-        workspace.reportValue(rootBlock.id,"stuff");
-
       } catch (e) {
         workspace.reportValue(rootBlock.id,"Unable to compile: "+e);
         console.error(`Unable to compile block `,e);
