@@ -76,7 +76,17 @@ Blockly.WorkspaceSvg.prototype.registerToolboxCategoryCallback(
       );
       xmlList.push(
         createElementXML(`
-          <block type="event_ggm3_broadcast" gap="20">
+          <block type="event_ggm3_broadcast">
+            <value name="BROADCAST_NAME">
+              <shadow type="event_ggm3_broadcast_menu">
+                <field name="BROADCAST_NAME">${getSafeHTML(brodcastName)}</field>
+              </shadow>
+            </value>
+          </block>`),
+      );
+      xmlList.push(
+        createElementXML(`
+          <block type="event_ggm3_broadcast_and_wait" gap="20">
             <value name="BROADCAST_NAME">
               <shadow type="event_ggm3_broadcast_menu">
                 <field name="BROADCAST_NAME">${getSafeHTML(brodcastName)}</field>
