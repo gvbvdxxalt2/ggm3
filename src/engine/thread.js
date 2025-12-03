@@ -57,6 +57,9 @@ class Thread {
   }
 
   waitForNextFrame() {
+    if (!this.running) {
+      return new Promise((a) => a());
+    }
     if (this.screenRefresh) {
       var _this = this;
       return new Promise((resolve) => {

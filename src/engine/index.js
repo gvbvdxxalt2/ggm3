@@ -40,11 +40,26 @@ class GGM3Engine {
     this.startRenderLoop();
     this.spriteMap = {};
     this.globalVariables = {};
+    this.broadcastNames = [];
 
     this.gameWidth = 640;
     this.gameHeight = 360;
     this.screenScale = 1;
     this.updateCanvasSize();
+  }
+
+  getBroadcastNames () {
+    return this.broadcastNames;
+  }
+
+  addBroadcastName (name) {
+    if (this.broadcastNames.indexOf(name) === -1) {
+      this.broadcastNames.push(name);
+    }
+  }
+
+  removeBroadcastName (name) {
+    this.broadcastNames = this.broadcastNames.filter((n) => n !== name);
   }
 
   updateCanvasSize() {

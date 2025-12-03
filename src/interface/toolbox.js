@@ -414,6 +414,8 @@ function generateToolbox(defaultX, defaultY) {
 
 		<!--<block type="error_test"></block>--> <!--This is just a block used to check if error handling works-->
     </category>
+    <category name="Broadcasting" id="broadcasting" colour="#bf9c00" secondaryColour="#bf9c00" custom="GGM3_BROADCASTING">
+    </category>
     <category name="Variables" id="data" colour="#FF8C1A" secondaryColour="#DB6E00" custom="GGM3_VARIABLE">
     </category>
     <category name="Global Variables" id="data_global" colour="#00c756" secondaryColour="#00c756" custom="GGM3_GLOBAL_VARIABLE">

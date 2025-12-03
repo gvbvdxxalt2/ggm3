@@ -10,3 +10,125 @@ Blockly.Blocks["event_whengamestarts"] = {
     });
   },
 };
+
+var engine = require("../curengine.js");
+
+function createElement(type, args = {}, children = []) {
+  var element = document.createElement(type);
+  for (var name of Object.keys(args)) {
+    element.setAttribute(name, args[name]);
+  }
+  for (var child of children) {
+    element.append(child);
+  }
+  return element;
+}
+
+function getSafeHTML(text) {
+  var span = document.createElement("span");
+  span.textContent = text;
+  var html = span.innerHTML;
+  span.textContent = "";
+  span.remove();
+  return html;
+}
+
+function createElementXML(text) {
+  var parser = new DOMParser();
+  var xmlDoc = parser.parseFromString(text, "text/xml");
+  return xmlDoc.children[0];
+}
+
+Blockly.WorkspaceSvg.prototype.registerToolboxCategoryCallback(
+  "GGM3_BROADCASTING",
+  function (workspace) {
+    var xmlList = [];
+
+    xmlList.push(
+      createElement("button", {
+        text: "Create broadcast message",
+        callbackKey: "GGM3_CREATE_BROADCAST_MESSAGE",
+      }),
+    );
+
+    workspace.registerButtonCallback(
+      "GGM3_CREATE_BROADCAST_MESSAGE",
+      (button) => {
+        Blockly.prompt("New broadcast message name: ", "message", function (output) {
+          if (!output) {
+            return;
+          }
+          var name = output.trim();
+          engine.addBroadcastName(name);
+          workspace.getToolbox().refreshSelection();
+        });
+      },
+    );
+
+    var broadcastNames = engine.getBroadcastNames();
+
+    for (var brodcastName of broadcastNames) {
+      xmlList.push(
+        createElementXML(`
+          <block type="event_ggm3_whenbroadcasted">
+            <field name="BROADCAST_NAME">${getSafeHTML(brodcastName)}</field>
+          </block>`),
+      );
+      xmlList.push(
+        createElementXML(`
+          <block type="event_ggm3_broadcast" gap="20">
+            <field name="BROADCAST_NAME">${getSafeHTML(brodcastName)}</field>
+          </block>`),
+      );
+    }
+
+    return xmlList;
+  },
+);
+
+function getBroadcastMenuFunction() {
+  return function () {
+    var broadcastNames = engine.getBroadcastNames();
+    if (broadcastNames.length === 0) {
+      return [["(No Broadcast Messages)", "none"]];
+    }
+    return broadcastNames.map((name) => [name, name]);
+  }
+}
+
+
+Blockly.Blocks["event_ggm3_broadcast"] = {
+  init: function () {
+    this.jsonInit({
+      message0: "broadcast %1",
+      args0: [
+        {
+          type: "field_dropdown",
+          name: "BROADCAST_NAME",
+          options: getBroadcastMenuFunction()
+        },
+      ],
+      category: Blockly.Categories.control,
+      extensions: ["shape_statement"],
+      colour: "#bf9c00"
+    });
+  },
+};
+
+Blockly.Blocks["event_ggm3_whenbroadcasted"] = {
+  init: function () {
+    this.jsonInit({
+      message0: "when %1 broadcasted",
+      args0: [
+        {
+          type: "field_dropdown",
+          name: "BROADCAST_NAME",
+          options: getBroadcastMenuFunction()
+        },
+      ],
+      category: Blockly.Categories.control,
+      colour: "#bf9c00",
+      extensions: ["shape_hat"]
+    });
+  },
+};

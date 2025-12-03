@@ -16,7 +16,7 @@ JavascriptTranslation["control_forever"] = function (
 ) {
   var SUBSTACK = utils.getInput(jsonblock, "SUBSTACK", options);
 
-  return `${utilFunctions.aliveCheck(jsonblock)}while (true) {${utilFunctions.aliveCheck(jsonblock)}if (thread.screenRefresh) {await thread.waitForNextFrame();}${utilFunctions.aliveCheck(jsonblock)}${SUBSTACK}}${utilFunctions.aliveCheck(jsonblock)}`;
+  return `${utilFunctions.aliveCheck(jsonblock)}while (true) {${utilFunctions.aliveCheck(jsonblock)}${utilFunctions.aliveCheck(jsonblock)}${SUBSTACK}if (thread.screenRefresh) {await thread.waitForNextFrame();}}${utilFunctions.aliveCheck(jsonblock)}`;
 };
 
 JavascriptTranslation["control_repeat"] = function (jsonblock, utils, options) {
@@ -34,14 +34,14 @@ JavascriptTranslation["control_repeat_until"] = function (
   var CONDITION = utils.getInput(jsonblock, "CONDITION", options);
   var SUBSTACK = utils.getInput(jsonblock, "SUBSTACK", options);
 
-  return `${utilFunctions.aliveCheck(jsonblock)}while (!(${CONDITION})) {${utilFunctions.aliveCheck(jsonblock)} if (thread.screenRefresh) {await thread.waitForNextFrame();} ${utilFunctions.aliveCheck(jsonblock)} ${SUBSTACK}}${utilFunctions.aliveCheck(jsonblock)}`;
+  return `${utilFunctions.aliveCheck(jsonblock)}while (!(${CONDITION})) {${utilFunctions.aliveCheck(jsonblock)}${utilFunctions.aliveCheck(jsonblock)} ${SUBSTACK} if (thread.screenRefresh) {await thread.waitForNextFrame();}}${utilFunctions.aliveCheck(jsonblock)}`;
 };
 
 JavascriptTranslation["control_while"] = function (jsonblock, utils, options) {
   var CONDITION = utils.getInput(jsonblock, "CONDITION", options);
   var SUBSTACK = utils.getInput(jsonblock, "SUBSTACK", options);
 
-  return `${utilFunctions.aliveCheck(jsonblock)}while (${CONDITION}) {${utilFunctions.aliveCheck(jsonblock)} if (thread.screenRefresh) {await thread.waitForNextFrame();} ${utilFunctions.aliveCheck(jsonblock)} ${SUBSTACK}}${utilFunctions.aliveCheck(jsonblock)}`;
+  return `${utilFunctions.aliveCheck(jsonblock)}while (${CONDITION}) {${utilFunctions.aliveCheck(jsonblock)} ${utilFunctions.aliveCheck(jsonblock)} ${SUBSTACK} if (thread.screenRefresh) {await thread.waitForNextFrame();}}${utilFunctions.aliveCheck(jsonblock)}`;
 };
 
 JavascriptTranslation["control_if"] = function (jsonblock, utils, options) {
