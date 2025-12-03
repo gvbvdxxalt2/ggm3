@@ -110,7 +110,7 @@ function loadGlobalVariableBlocks(spr) {
       var _this = this;
       for (var name of Object.keys(engine.globalVariables)) {
         options.push({
-          text: "Use variable " + name,
+          text: name,
           enabled: !this.isInFlyout,
           callback: function () {
             _this.setFieldValue(name, "VARIABLE");
