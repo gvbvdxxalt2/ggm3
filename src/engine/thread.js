@@ -12,6 +12,14 @@ class Thread {
     this.isPreviewMode = false;
   }
 
+  stopEverythingButMe() {
+    this.sprite.stopAllScriptsExceptThread(this);
+  }
+
+  stopAllScripts() {
+    this.sprite.stopAllScripts();
+  }
+
   customBlockInherit(thread) {
     if (this.inherited) {
       return;

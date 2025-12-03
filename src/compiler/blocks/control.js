@@ -145,4 +145,19 @@ JavascriptTranslation["control_isclone"] = function (
   return `sprite.isClone`;
 };
 
+outputBlocks.push("control_stop");
+JavascriptTranslation["control_stop"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
+  var STOP_OPTION = utils.getField(jsonblock, "STOP_OPTION", options);
+  if (STOP_OPTION == "this script") {
+    return `thread.stop();`;
+  }
+  if (STOP_OPTION == "other scripts in sprite") {
+    return `thread.stopEverythingButMe();`;
+  }
+};
+
 module.exports = JavascriptTranslation;

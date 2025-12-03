@@ -497,7 +497,7 @@ class Sprite {
 
   stopAllScriptsExceptThread(thread) {
     for (var thread2 of Object.keys(this.runningStacks)) {
-      if (thread2.id !== thread.id) {
+      if (thread2 !== thread.id) {
         this.stopScript(thread2);
       }
     }
