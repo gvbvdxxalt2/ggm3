@@ -153,7 +153,7 @@ JavascriptTranslation["control_stop"] = function (
 ) {
   var STOP_OPTION = utils.getField(jsonblock, "STOP_OPTION", options);
   if (STOP_OPTION == "this script") {
-    return `thread.stop();`;
+    return `thread.stop();${utilFunctions.aliveCheck(jsonblock)}`;
   }
   if (STOP_OPTION == "other scripts in sprite") {
     return `thread.stopEverythingButMe();`;
