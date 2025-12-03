@@ -179,7 +179,7 @@ Blockly.Blocks["looks_geteffect"] = {
 Blockly.Blocks["looks_zindex_to"] = {
   init: function () {
     this.jsonInit({
-      message0: "change z index to %1",
+      message0: "set z index to %1",
       args0: [
         {
           type: "input_value",
@@ -221,7 +221,7 @@ Blockly.Blocks["looks_zindex"] = {
 Blockly.Blocks["looks_alpha_to"] = {
   init: function () {
     this.jsonInit({
-      message0: "change alpha to %1",
+      message0: "set alpha to %1",
       args0: [
         {
           type: "input_value",
