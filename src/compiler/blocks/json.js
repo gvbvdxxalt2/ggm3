@@ -137,7 +137,7 @@ JavascriptTranslation["json_delete_path"] = function (
   options,
 ) {
   var PATH = utils.getInput(jsonblock, "PATH", options);
-  var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
+  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, '{}');
 
   return `(function(o,p){var cur=o; if(cur==null) return; if(!Array.isArray(p)) p=(""+p).split('.'); for(var i=0;i<p.length-1;i++){ cur=cur[p[i]]; if(cur==null) return; } delete cur[p[p.length-1]];})(${OBJECT},${PATH});`;
 };
