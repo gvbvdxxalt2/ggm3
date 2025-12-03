@@ -10,7 +10,7 @@ function getInput(blockJson, name, options) {
       return compileBlockFromJSON(input.block, options);
     }
   }
-  return null;
+  return "";
 }
 function getInputBlock(blockJson, name, options) {
   for (var input of blockJson.inputs) {
