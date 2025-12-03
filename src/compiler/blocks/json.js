@@ -16,7 +16,7 @@ JavascriptTranslation["json_new"] = function (jsonblock, utils, options) {
 JavascriptTranslation["json_setto"] = function (jsonblock, utils, options) {
   var NAME = utils.getInput(jsonblock, "NAME", options);
   var VALUE = utils.getInput(jsonblock, "VALUE", options);
-  var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
+  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "{}");
 
   return `(${OBJECT})[${NAME}] = ${VALUE};`;
 };
@@ -24,21 +24,21 @@ JavascriptTranslation["json_setto"] = function (jsonblock, utils, options) {
 outputBlocks.push("json_geton");
 JavascriptTranslation["json_geton"] = function (jsonblock, utils, options) {
   var NAME = utils.getInput(jsonblock, "NAME", options);
-  var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
+  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "{}");
 
   return `(${OBJECT})[${NAME}]`;
 };
 
 outputBlocks.push("json_keys");
 JavascriptTranslation["json_keys"] = function (jsonblock, utils, options) {
-  var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
+  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "{}");
 
   return `(Object.keys(${OBJECT}))`;
 };
 
 outputBlocks.push("json_tostring");
 JavascriptTranslation["json_tostring"] = function (jsonblock, utils, options) {
-  var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
+  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "{}");
 
   return `(JSON.stringify(${OBJECT}))`;
 };
@@ -49,14 +49,14 @@ JavascriptTranslation["json_fromstring"] = function (
   utils,
   options,
 ) {
-  var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
+  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, '"{}"');
 
   return `(JSON.parse(${OBJECT}))`;
 };
 
 JavascriptTranslation["json_deleteon"] = function (jsonblock, utils, options) {
   var NAME = utils.getInput(jsonblock, "NAME", options);
-  var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
+  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "{}");
 
   return `delete (${OBJECT})[${NAME}];`;
 };
@@ -67,7 +67,7 @@ JavascriptTranslation["json_array_push"] = function (
   options,
 ) {
   var VALUE = utils.getInput(jsonblock, "VALUE", options);
-  var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
+  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "[]");
 
   return `(${OBJECT}).push(${VALUE});`;
 };
@@ -78,7 +78,7 @@ JavascriptTranslation["json_array_unshift"] = function (
   options,
 ) {
   var VALUE = utils.getInput(jsonblock, "VALUE", options);
-  var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
+  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "[]");
 
   return `(${OBJECT}).unshift(${VALUE});`;
 };
@@ -89,7 +89,7 @@ JavascriptTranslation["json_array_lengthof"] = function (
   utils,
   options,
 ) {
-  var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
+  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "[]");
 
   return `(${OBJECT}).length`;
 };
@@ -100,7 +100,7 @@ JavascriptTranslation["json_array_indexof"] = function (
   utils,
   options,
 ) {
-  var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
+  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "[]");
   var VALUE = utils.getInput(jsonblock, "VALUE", options);
 
   return `(${OBJECT}).indexOf(${VALUE})`;
@@ -109,7 +109,7 @@ JavascriptTranslation["json_array_indexof"] = function (
 outputBlocks.push("json_has_key");
 JavascriptTranslation["json_has_key"] = function (jsonblock, utils, options) {
   var NAME = utils.getInput(jsonblock, "NAME", options);
-  var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
+  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "{}");
 
   return `Object.prototype.hasOwnProperty.call(${OBJECT}, ${NAME})`;
 };
@@ -117,14 +117,14 @@ JavascriptTranslation["json_has_key"] = function (jsonblock, utils, options) {
 outputBlocks.push("json_get_path");
 JavascriptTranslation["json_get_path"] = function (jsonblock, utils, options) {
   var PATH = utils.getInput(jsonblock, "PATH", options);
-  var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
+  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "[]");
   var DEFAULT = utils.getInput(jsonblock, "DEFAULT", options);
 
   return `(function(o,p,d){var cur=o; if(cur==null) return d; if(Array.isArray(p)){ for(var i=0;i<p.length;i++){ cur=cur[p[i]]; if(cur==null) return d; } return cur; } p=(""+p).split('.'); for(var i=0;i<p.length;i++){ cur=cur[p[i]]; if(cur==null) return d; } return cur;})(${OBJECT},${PATH},${DEFAULT})`;
 };
 
 JavascriptTranslation["json_set_path"] = function (jsonblock, utils, options) {
-  var PATH = utils.getInput(jsonblock, "PATH", options);
+  var PATH = utils.getInput(jsonblock, "PATH", options, "[]");
   var VALUE = utils.getInput(jsonblock, "VALUE", options);
   var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
 
@@ -144,7 +144,7 @@ JavascriptTranslation["json_delete_path"] = function (
 
 outputBlocks.push("json_array_pop");
 JavascriptTranslation["json_array_pop"] = function (jsonblock, utils, options) {
-  var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
+  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "[]");
 
   return `(${OBJECT}).pop()`;
 };
@@ -156,14 +156,14 @@ JavascriptTranslation["json_array_contains"] = function (
   options,
 ) {
   var VALUE = utils.getInput(jsonblock, "VALUE", options);
-  var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
+  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, []);
 
   return `(${OBJECT}).includes(${VALUE})`;
 };
 
 outputBlocks.push("json_clone");
 JavascriptTranslation["json_clone"] = function (jsonblock, utils, options) {
-  var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
+  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "{}");
 
   return `(JSON.parse(JSON.stringify(${OBJECT})))`;
 };
@@ -186,10 +186,10 @@ JavascriptTranslation["json_pretty_print"] = function (
   utils,
   options,
 ) {
-  var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
-  var INDENT = utils.getInput(jsonblock, "INDENT", options);
+  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "{}");
+  var INDENT = utils.getInput(jsonblock, "INDENT", options, '""');
 
-  return `(JSON.stringify(${OBJECT}, null, ${INDENT} || 2))`;
+  return `(JSON.stringify(${OBJECT}, null, (${INDENT}) || 2))`;
 };
 
 module.exports = JavascriptTranslation;
