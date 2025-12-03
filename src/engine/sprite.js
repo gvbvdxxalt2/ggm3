@@ -63,6 +63,8 @@ class Sprite {
     this.errorLogs = [];
 
     this.broadcastListeners = [];
+
+    this.playingSounds = [];
   }
 
   toString() {
