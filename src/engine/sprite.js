@@ -85,6 +85,9 @@ class Sprite {
     if (otherSpriteName == "__mouse_pointer__") {
       return this.isTouchingMouse();
     }
+    if (this.hidden) {
+      return false;
+    }
     var otherSprite = this.findSpriteByName(otherSpriteName);
     if (!otherSprite) {
       return false;
