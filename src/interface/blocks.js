@@ -85,7 +85,6 @@ function createFreshWorkspace(spr) {
       insertionMarkerOpacity: 0.2,
       fieldShadow: "rgba(255, 255, 255, 0.3)",
       dragShadowOpacity: 0.6,
-      labels: "#ffffff",
     },
     grid: {
       spacing: 40,

@@ -59,6 +59,8 @@ class Sprite {
     this.effects = new SpriteEffects(this);
 
     this.errorLogs = [];
+
+    this.broadcastListeners = [];
   }
 
   toString() {
@@ -407,7 +409,22 @@ class Sprite {
     delete this.runningStacks[firstBlockID];
   }
 
+  removeBroadcastListener(blockID) {
+    var listeners = this.broadcastListeners;
+    for (var listener of Object.keys(listeners)) {
+      if (listeners[listener].indexOf(blockID) !== -1) {
+        listeners[listener] = listeners[listener].filter(
+          (id) => id !== blockID,
+        );
+        if (listeners[listener].length == 0) {
+          delete listeners[listener];
+        }
+      }
+    }
+  }
+
   removeStackListener(blockID) {
+    this.removeBroadcastListener(blockID);
     for (var listener of Object.keys(this.listeners)) {
       if (this.listeners[listener].indexOf(blockID) !== -1) {
         this.listeners[listener] = this.listeners[listener].filter(
@@ -438,9 +455,30 @@ class Sprite {
     }
   }
 
+  addBroadcastListener(name, blockID, func) {
+    this.removeStackListener(blockID);
+    if (this.broadcastListeners[name]) {
+      this.broadcastListeners[name].push(blockID);
+      this.hatFunctions[blockID] = func;
+    } else {
+      this.broadcastListeners[name] = [blockID];
+      this.hatFunctions[blockID] = func;
+    }
+  }
+
   emitStackListener(name, ...args) {
     if (this.listeners[name]) {
       for (var blockID of this.listeners[name]) {
+        if (this.hatFunctions[blockID]) {
+          this.hatFunctions[blockID](...args);
+        }
+      }
+    }
+  }
+
+  emitBroadcastListener(name, ...args) {
+    if (this.broadcastListeners[name]) {
+      for (var blockID of this.broadcastListeners[name]) {
         if (this.hatFunctions[blockID]) {
           this.hatFunctions[blockID](...args);
         }

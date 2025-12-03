@@ -77,7 +77,11 @@ Blockly.WorkspaceSvg.prototype.registerToolboxCategoryCallback(
       xmlList.push(
         createElementXML(`
           <block type="event_ggm3_broadcast" gap="20">
-            <field name="BROADCAST_NAME">${getSafeHTML(brodcastName)}</field>
+            <value name="BROADCAST_NAME">
+              <shadow type="event_ggm3_broadcast_menu">
+                <field name="BROADCAST_NAME">${getSafeHTML(brodcastName)}</field>
+              </shadow>
+            </value>
           </block>`),
       );
     }
@@ -96,6 +100,23 @@ function getBroadcastMenuFunction() {
   }
 }
 
+Blockly.Blocks["event_ggm3_broadcast_menu"] = {
+  init: function () {
+    this.jsonInit({
+      message0: "%1",
+      args0: [
+        {
+          type: "field_dropdown",
+          name: "BROADCAST_NAME",
+          options: getBroadcastMenuFunction()
+        },
+      ],
+      category: Blockly.Categories.control,
+      extensions: ["output_string"],
+      colour: "#bf9c00"
+    });
+  },
+};
 
 Blockly.Blocks["event_ggm3_broadcast"] = {
   init: function () {
@@ -103,9 +124,8 @@ Blockly.Blocks["event_ggm3_broadcast"] = {
       message0: "broadcast %1",
       args0: [
         {
-          type: "field_dropdown",
+          type: "input_value",
           name: "BROADCAST_NAME",
-          options: getBroadcastMenuFunction()
         },
       ],
       category: Blockly.Categories.control,

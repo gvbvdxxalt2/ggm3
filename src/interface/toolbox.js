@@ -77,10 +77,8 @@ function generateToolbox(defaultX, defaultY) {
     </category>
     <category name="Events" id="events" colour="${Blockly.Colours.event.primary}" secondaryColour="${Blockly.Colours.event.secondary}">
         <block type="event_whengamestarts"></block>
-        <block type="event_broadcast">
-            <value name="BROADCAST_INPUT">
-            </value>
-        </block>
+    </category>
+    <category name="Broadcasting" id="broadcasting" colour="#bf9c00" secondaryColour="#bf9c00" custom="GGM3_BROADCASTING">
     </category>
     <category name="Sensing" id="sensing" colour="${Blockly.Colours.sensing.primary}" secondaryColour="${Blockly.Colours.sensing.secondary}">
         <block type="sensing_touchingobject" id="sensing_touchingobject">
@@ -413,8 +411,6 @@ function generateToolbox(defaultX, defaultY) {
         <block type="looks_geteffect"></block>
 
 		<!--<block type="error_test"></block>--> <!--This is just a block used to check if error handling works-->
-    </category>
-    <category name="Broadcasting" id="broadcasting" colour="#bf9c00" secondaryColour="#bf9c00" custom="GGM3_BROADCASTING">
     </category>
     <category name="Variables" id="data" colour="#FF8C1A" secondaryColour="#DB6E00" custom="GGM3_VARIABLE">
     </category>

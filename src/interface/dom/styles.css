@@ -761,7 +761,19 @@ body {
   align-items: center;
 }
 
-.blocklyToolboxCategoryLabel {
-  color: white !important; /* Example: Change to white */
-  font-weight: bold; /* Optional styling */
+.blocklyFlyoutLabelText {
+  fill: #ffffff;
+}
+
+.blocklyFlyoutButton .blocklyText {
+  fill: #ffffff;
+}
+
+.blocklyFlyoutButton:hover {
+  cursor: pointer;
+  fill: rgba(0,0,0,0.5);
+}
+
+.blocklyFlyoutButton:hover > .blocklyText {
+  font-weight: bold;
 }

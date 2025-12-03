@@ -48,6 +48,12 @@ class GGM3Engine {
     this.updateCanvasSize();
   }
 
+  broadcast (name) {
+    this.getAllTopSprites().forEach((sprite) => {
+      sprite.emitBroadcastListener(name);
+    });
+  }
+
   getBroadcastNames () {
     return this.broadcastNames;
   }
