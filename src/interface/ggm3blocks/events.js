@@ -86,7 +86,17 @@ Blockly.WorkspaceSvg.prototype.registerToolboxCategoryCallback(
       );
       xmlList.push(
         createElementXML(`
-          <block type="event_ggm3_broadcast_and_wait" gap="20">
+          <block type="event_ggm3_broadcast_and_wait">
+            <value name="BROADCAST_NAME">
+              <shadow type="event_ggm3_broadcast_menu">
+                <field name="BROADCAST_NAME">${getSafeHTML(brodcastName)}</field>
+              </shadow>
+            </value>
+          </block>`),
+      );
+      xmlList.push(
+        createElementXML(`
+          <block type="event_ggm3_frame_broadcast" gap="20">
             <value name="BROADCAST_NAME">
               <shadow type="event_ggm3_broadcast_menu">
                 <field name="BROADCAST_NAME">${getSafeHTML(brodcastName)}</field>
@@ -176,6 +186,23 @@ Blockly.Blocks["event_ggm3_broadcast"] = {
   init: function () {
     this.jsonInit({
       message0: "broadcast %1",
+      args0: [
+        {
+          type: "input_value",
+          name: "BROADCAST_NAME",
+        },
+      ],
+      category: Blockly.Categories.control,
+      extensions: ["shape_statement"],
+      colour: "#bf9c00"
+    });
+  },
+};
+
+Blockly.Blocks["event_ggm3_frame_broadcast"] = {
+  init: function () {
+    this.jsonInit({
+      message0: "broadcast %1 before next frame",
       args0: [
         {
           type: "input_value",

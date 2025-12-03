@@ -41,6 +41,7 @@ class GGM3Engine {
     this.spriteMap = {};
     this.globalVariables = {};
     this.broadcastNames = [];
+    this.broadcastQueue = [];
 
     this.gameWidth = 640;
     this.gameHeight = 360;
@@ -51,6 +52,14 @@ class GGM3Engine {
   broadcast (name) {
     this.getAllTopSprites().forEach((sprite) => {
       sprite.emitBroadcastListener(name);
+    });
+  }
+
+  broadcastOnNextFrame (name) {
+    this.broadcastQueue.push(() => {
+      this.getAllTopSprites().forEach((sprite) => {
+        sprite.emitBroadcastListener(name);
+      });
     });
   }
 
@@ -350,6 +359,10 @@ class GGM3Engine {
     this.elapsedFrameTime = elapsed;
 
     var _this = this;
+    while (this.broadcastQueue.length > 0) {
+      var broadcastFunc = this.broadcastQueue.shift();
+      broadcastFunc();
+    }
     this.getAllTopSprites().forEach((spr) => {
       _this.tickSprite(spr);
       _this.renderSprite(spr);
