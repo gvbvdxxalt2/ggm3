@@ -156,7 +156,7 @@ JavascriptTranslation["json_array_contains"] = function (
   options,
 ) {
   var VALUE = utils.getInput(jsonblock, "VALUE", options);
-  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, []);
+  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "[]");
 
   return `(${OBJECT}).includes(${VALUE})`;
 };
