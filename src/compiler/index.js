@@ -7,7 +7,7 @@ var utilFunctions = require("./blocks/util-functions.js");
 function getInput(blockJson, name, options, fallback) {
   for (var input of blockJson.inputs) {
     if (input.name == name) {
-      return compileBlockFromJSON(input.block, options);
+      return compileBlockFromJSON(input.block, options) || fallback;
     }
   }
   return fallback || "";
