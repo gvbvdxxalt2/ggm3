@@ -124,9 +124,9 @@ JavascriptTranslation["json_get_path"] = function (jsonblock, utils, options) {
 };
 
 JavascriptTranslation["json_set_path"] = function (jsonblock, utils, options) {
-  var PATH = utils.getInput(jsonblock, "PATH", options, "[]");
+  var PATH = utils.getInput(jsonblock, "PATH", options);
   var VALUE = utils.getInput(jsonblock, "VALUE", options);
-  var OBJECT = utils.getInput(jsonblock, "OBJECT", options);
+  var OBJECT = utils.getInput(jsonblock, "OBJECT", options, "[]");
 
   return `(function(o,p,v){var cur=o; if(cur==null) return; if(!Array.isArray(p)) p=(""+p).split('.'); for(var i=0;i<p.length-1;i++){ var k=p[i]; if(cur[k]==null || typeof cur[k] !== 'object') cur[k]={}; cur=cur[k]; } cur[p[p.length-1]]=v;})(${OBJECT},${PATH},${VALUE});`;
 };
