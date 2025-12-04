@@ -225,8 +225,9 @@ class GGM3Engine {
     let previous = performance.now();
     let lag = 0.0;
 
-    function loop(now) {
+    function loop() {
       setTimeout(loop,1);
+      var now = performance.now();
 
       const frameDuration = 1000 / _this.frameRate;
 
