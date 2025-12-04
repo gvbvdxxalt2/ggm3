@@ -76,6 +76,7 @@ function generateToolbox(defaultX, defaultY) {
     <block type="motion_direction"></block>
     </category>
     <category name="Events" id="events" colour="${Blockly.Colours.event.primary}" secondaryColour="${Blockly.Colours.event.secondary}">
+        <block type="event_beforegamestarts"></block>
         <block type="event_whengamestarts"></block>
     </category>
     <category name="Broadcasting" id="broadcasting" colour="#bf9c00" secondaryColour="#bf9c00" custom="GGM3_BROADCASTING">

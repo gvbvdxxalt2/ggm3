@@ -147,6 +147,9 @@ class GGM3Engine {
     this.stopGame();
     this.makeUniqueSpriteNames();
     for (var sprite of this.sprites) {
+      sprite.emitStackListener("beforestart");
+    }
+    for (var sprite of this.sprites) {
       sprite.emitStackListener("started");
     }
   }
@@ -359,7 +362,7 @@ class GGM3Engine {
       var broadcastFunc = this.broadcastQueue.shift();
       broadcastFunc();
     }
-    this.getAllTopSprites().forEach((spr) => {
+    this.getAllTopSprites().reverse().forEach((spr) => {
       _this.tickSprite(spr);
       _this.renderSprite(spr);
     });

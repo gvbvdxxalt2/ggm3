@@ -31,6 +31,7 @@ class Sprite {
 
     this.hatFunctions = {};
     this.listeners = {
+      beforestart: [],
       started: [],
       clonestart: [],
     };

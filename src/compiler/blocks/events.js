@@ -23,6 +23,28 @@ JavascriptTranslation["event_whengamestarts"] = function (
     }
   };
 };
+starterBlocks.push("event_beforegamestarts"); //When game starts is a on-event block.
+JavascriptTranslation["event_beforegamestarts"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
+  return function (insideCode) {
+    if (options.EXECUTE_BLOCKS) {
+      //Means ONLY execute blocks, don't add listeners to the sprite.
+      return `${insideCode}`;
+    } else {
+      return `sprite.addStackListener(
+        "beforestart",
+        ${JSON.stringify(jsonblock.id)},
+        async function () {
+        ${utilFunctions.startThreadStack(jsonblock)}
+        ${insideCode}
+        ${utilFunctions.endThreadStack(jsonblock)}
+      });`;
+    }
+  };
+};
 
 starterBlocks.push("event_ggm3_whenbroadcasted");
 JavascriptTranslation["event_ggm3_whenbroadcasted"] = function (

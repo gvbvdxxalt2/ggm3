@@ -15,6 +15,19 @@ function getSaveableVariables(variables) {
   return saveableVars;
 }
 
+function getSaveableVariablesGlobal(variables) {
+  var saveableVars = {};
+  for (var varName in variables) {
+    var variable = variables[varName];
+    try {
+      saveableVars[varName] = JSON.parse(JSON.stringify(variable));
+    } catch (e) {
+      saveableVars[varName] = 0;
+    }
+  }
+  return saveableVars;
+}
+
 async function saveProjectToZip() {
   var zip = new JSZip();
   var spritesArray = [];
@@ -66,7 +79,7 @@ async function saveProjectToZip() {
     "game.json",
     JSON.stringify({
       sprites: spritesArray,
-      globalVariables: getSaveableVariables(engine.globalVariables),
+      globalVariables: getSaveableVariablesGlobal(engine.globalVariables),
       broadcastNames: engine.broadcastNames,
       frameRate: engine.frameRate,
     }),
