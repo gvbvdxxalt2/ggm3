@@ -736,7 +736,7 @@ class Sprite {
       throw new Error("Clones can't create their own sounds.");
     }
     var s = new Sound(
-      _this.engine,
+      this.engine,
       this,
       url
     );
