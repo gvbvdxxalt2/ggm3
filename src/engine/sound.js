@@ -38,6 +38,37 @@ class Sound {
     }
   }
 
+  tweakVolume(spriteContext, volume = 1) {
+    var sprite = spriteContext || this.sprite;
+
+    var sound = sprite.playingSounds[this.id];
+    if (sound) {
+      sound.volume = +volume || 0;
+      if (sound.volume < 0) {
+        sound.volume = 0;
+      }
+      if (sound.volume > 999) {
+        sound.volume = 999;
+      }
+    }
+  }
+
+  tweakPlaybackRate(spriteContext, playbackRate = 1) {
+    var sprite = spriteContext || this.sprite;
+
+    var sound = sprite.playingSounds[this.id];
+    if (sound) {
+      var playbackRate = +playbackRate || 0;
+      if (playbackRate < 0.005) {
+        playbackRate = 0.005;
+      }
+      if (playbackRate > 999) {
+        playbackRate = 999;
+      }
+      sound.playbackRate = playbackRate;
+    }
+  }
+
   play (spriteContext, time = 0, volume = 1, playbackRate = 1) {
     var sprite = spriteContext || this.sprite;
 

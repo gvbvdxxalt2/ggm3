@@ -446,6 +446,53 @@ function generateToolbox(defaultX, defaultY) {
 
 		<!--<block type="error_test"></block>--> <!--This is just a block used to check if error handling works-->
     </category>
+    <category name="Sounds" id="sounds" colour="${Blockly.Colours.sounds.primary}" secondaryColour="${Blockly.Colours.sounds.secondary}">
+        <block type="sound_play">
+            <value name="SOUND_MENU">
+                <shadow type="sound_sounds_menu"></shadow>
+            </value>
+        </block>
+        <block type="sound_playuntildone">
+            <value name="SOUND_MENU">
+                <shadow type="sound_sounds_menu"></shadow>
+            </value>
+        </block>
+        <block type="sound_play_advanced">
+            <value name="SOUND_MENU">
+                <shadow type="sound_sounds_menu"></shadow>
+            </value>
+            <value name="PLAYBACK_RATE">
+                <shadow type="math_number">
+                    <field name="NUM">1</field>
+                </shadow>
+            </value>
+            <value name="VOLUME">
+                <shadow type="math_number">
+                    <field name="NUM">1</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="sound_playuntildone_advanced">
+            <value name="SOUND_MENU">
+                <shadow type="sound_sounds_menu"></shadow>
+            </value>
+            <value name="PLAYBACK_RATE">
+                <shadow type="math_number">
+                    <field name="NUM">1</field>
+                </shadow>
+            </value>
+            <value name="VOLUME">
+                <shadow type="math_number">
+                    <field name="NUM">1</field>
+                </shadow>
+            </value>
+            <value name="TIME">
+                <shadow type="math_number">
+                    <field name="NUM">1</field>
+                </shadow>
+            </value>
+        </block>
+    </category>
     <category name="Variables" id="data" colour="#FF8C1A" secondaryColour="#DB6E00" custom="GGM3_VARIABLE">
     </category>
     <category name="Global Variables" id="data_global" colour="#00c756" secondaryColour="#00c756" custom="GGM3_GLOBAL_VARIABLE">

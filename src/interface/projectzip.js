@@ -108,6 +108,7 @@ function arrayBufferToDataURL(arrayBuffer, mimeType) {
 async function loadProjectFromZip(arrayBuffer) {
   var zip = await JSZip.loadAsync(arrayBuffer);
   var decodedJSON = JSON.parse(await zip.file("game.json").async("string"));
+  engine.stopGame();
   engine.emptyProject();
   Object.assign(engine, {
     globalVariables: decodedJSON.globalVariables || {},

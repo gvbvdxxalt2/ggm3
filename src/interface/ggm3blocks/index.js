@@ -7,3 +7,4 @@ require("./sensing.js");
 require("./loader.js");
 require("./json.js");
 require("./global-data.js");
+require("./sounds.js");

@@ -49,6 +49,12 @@ class GGM3Engine {
     this.updateCanvasSize();
   }
 
+  stopAllSounds () {
+    for (var sprite of this.sprites) {
+      sprite.stopAllSounds();
+    }
+  }
+
   broadcast(name) {
     this.getAllTopSprites().forEach((sprite) => {
       sprite.emitBroadcastListener(name);

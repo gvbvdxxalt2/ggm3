@@ -2,6 +2,7 @@ var JavascriptTranslation = {};
 var utilFunctions = require("./util-functions.js");
 var outputBlocks = require("./output_blocks.js");
 
+outputBlocks.push("looks_costume");
 JavascriptTranslation["looks_costume"] = function (jsonblock, utils, options) {
   var COSTUME = utils.getField(jsonblock, "COSTUME", options);
   return JSON.stringify(COSTUME);

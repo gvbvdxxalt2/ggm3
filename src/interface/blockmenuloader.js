@@ -226,6 +226,18 @@ function getCostumeMenuFunction(spr) {
   };
 }
 
+function getSoundMenuFunction(spr) {
+  return function () {
+    var soundMenu = spr.sounds.map((sound, i) => {
+      return [sound.name, sound.name];
+    });
+    if (soundMenu.length < 1) {
+      soundMenu = [["(No sounds)", ""]];
+    }
+    return soundMenu;
+  };
+}
+
 function loadBlockMenus(spr) {
   Blockly.Blocks["sensing_touchingobjectmenu"] = {
     init: function () {
@@ -294,6 +306,25 @@ function loadBlockMenus(spr) {
       });
     },
   };
+  Blockly.Blocks['sound_sounds_menu'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": "%1",
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "SOUND_MENU",
+          "options": getSoundMenuFunction(spr)
+        }
+      ],
+      "colour": Blockly.Colours.sounds.secondary,
+      "colourSecondary": Blockly.Colours.sounds.secondary,
+      "colourTertiary": Blockly.Colours.sounds.tertiary,
+      "colourQuaternary": Blockly.Colours.sounds.quaternary,
+      "extensions": ["output_string"]
+    });
+  }
+};
   loadGlobalVariableBlocks(spr);
 }
 

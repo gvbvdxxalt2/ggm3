@@ -71,6 +71,51 @@ class Sprite {
     this.playingSounds = {};
   }
 
+  stopAllSounds () {
+    for (var sound of this.sounds) {
+      sound.stopForSprite(this);
+    }
+  }
+
+  getSound(identifier) {
+    var index = this.soundMap[identifier];
+    if (this.soundMap[index]) {
+      return this.sounds[index];
+    }
+
+    if (!isNaN(+identifier)) {
+      return this.sounds[+identifier];
+    }
+
+    return null;
+  }
+
+  stopSound(identifier) {
+    var sound = this.getSound(identifier);
+    if (!sound) {
+      return;
+    }
+    sound.stopForSprite(this);
+  }
+
+  playSound(identifier, time = 0, volume = 1, playbackRate = 1) {
+    var sound = this.getSound(identifier);
+    if (!sound) {
+      return;
+    }
+    sound.play(this, time = 0, volume = 1, playbackRate = 1);
+  }
+
+  async playSoundUntilDone(identifier = "", time = 0, volume = 1, playbackRate = 1) {
+    var sound = this.getSound(identifier);
+    if (!sound) {
+      return;
+    }
+    sound.play(this, time = 0, volume = 1, playbackRate = 1);
+  }
+
+  
+
   toString() {
     if (this.isClone) {
       return `[Sprite - clone of "${this.parent.name}"]`;
@@ -533,6 +578,9 @@ class Sprite {
     for (var thread of Object.keys(this.runningStacks)) {
       this.stopScript(thread);
     }
+    for (var sound of this.sounds) {
+      sound.stopForSprite(this);
+    }
   }
 
   stopAllScriptsExceptThread(thread) {
@@ -540,6 +588,9 @@ class Sprite {
       if (thread2 !== thread.id) {
         this.stopScript(thread2);
       }
+    }
+    for (var sound of this.sounds) {
+      sound.stopForSprite(this);
     }
   }
 
@@ -658,7 +709,7 @@ class Sprite {
 
   addSoundWithoutLoading(url, name) {
     if (this.isClone) {
-      throw new Error("Clones can't create their own costumes.");
+      throw new Error("Clones can't create their own sounds.");
     }
     var s = new Sound(
       _this.engine,
@@ -692,6 +743,9 @@ class Sprite {
     if (!this.isClone) {
       for (var costume of this.costumes) {
         this.deleteCostume(costume);
+      }
+      for (var sound of this.sounds) {
+        this.deleteSound(sound);
       }
     }
     this.stopAllScripts();
