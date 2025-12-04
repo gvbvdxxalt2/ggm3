@@ -2,8 +2,8 @@ var JavascriptTranslation = {};
 var utilFunctions = require("./util-functions.js");
 var outputBlocks = require("./output_blocks.js");
 
-outputBlocks.push("sound_sound_menu");
-JavascriptTranslation["sound_sound_menu"] = function (jsonblock, utils, options) {
+outputBlocks.push("sound_sounds_menu");
+JavascriptTranslation["sound_sounds_menu"] = function (jsonblock, utils, options) {
   var SOUND_MENU = utils.getField(jsonblock, "SOUND_MENU", options);
   return JSON.stringify(SOUND_MENU);
 };
