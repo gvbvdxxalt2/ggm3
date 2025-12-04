@@ -7,7 +7,7 @@ JavascriptTranslation["engine_framerate"] = function (jsonblock, utils, options)
   return "(engine.frameRate)";
 };
 
-JavascriptTranslation["json_setto"] = function (jsonblock, utils, options) {
+JavascriptTranslation["engine_framerate_to"] = function (jsonblock, utils, options) {
   var FPS = utils.getInput(jsonblock, "FPS", options, "0");
   return `engine.setFramerate(${FPS});`;
 };
