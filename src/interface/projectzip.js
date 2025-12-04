@@ -238,20 +238,19 @@ async function loadProjectFromZip(arrayBuffer, progressJSON = function(){}) {
       if (soundJson.willPreload) {
         var dataURL = await arrayBufferToDataURL(
           await zip.file(soundJson.file).async("arraybuffer"),
-          soundJson.mimeType ? soundJson.mimeType : "image/png",
+          soundJson.mimeType ? soundJson.mimeType : "audio/mp3",
         );
         sound = await sprite.addSound(dataURL, soundJson.name);
       } else {
         var dataURL = await arrayBufferToDataURL(
           await zip.file(soundJson.file).async("arraybuffer"),
-          soundJson.mimeType ? soundJson.mimeType : "image/png",
+          soundJson.mimeType ? soundJson.mimeType : "audio/mp3",
         );
         sound = sprite.addSoundWithoutLoading(dataURL, soundJson.name);
       }
-      Object.assign(costume, {
-        id: costumeJson.id,
-        preferedScale: costumeJson.preferedScale,
-        willPreload: costumeJson.willPreload,
+      Object.assign(sound, {
+        id: soundJson.id,
+        willPreload: soundJson.willPreload,
         mimeType: soundJson.mimeType,
       });
     }
