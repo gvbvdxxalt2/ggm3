@@ -144,7 +144,7 @@ class Thread {
         return;
       }
       await func();
-      if (!this.screenRefresh) {
+      if (this.screenRefresh) {
         await this.waitForNextFrame();
       }
       if (!this.running) {
