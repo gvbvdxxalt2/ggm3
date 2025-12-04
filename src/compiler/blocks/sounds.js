@@ -13,4 +13,10 @@ JavascriptTranslation["sound_play"] = function (jsonblock, utils, options) {
   return `sprite.playSound(${SOUND_MENU});`;
 };
 
+JavascriptTranslation["sound_playuntildone"] = function (jsonblock, utils, options) {
+  var SOUND_MENU = utils.getInput(jsonblock, "SOUND_MENU", options, '0');
+  return `await sprite.playSoundUntilDone(${SOUND_MENU});${utilFunctions.aliveCheck(jsonblock)}`;
+};
+
+
 module.exports = JavascriptTranslation;

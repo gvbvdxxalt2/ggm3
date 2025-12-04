@@ -103,7 +103,7 @@ class Sprite {
     if (!sound) {
       return;
     }
-    sound.play(this, time = 0, volume = 1, playbackRate = 1);
+    sound.play(this, time, volume, playbackRate);
   }
 
   async playSoundUntilDone(identifier = "", time = 0, volume = 1, playbackRate = 1) {
@@ -111,7 +111,7 @@ class Sprite {
     if (!sound) {
       return;
     }
-    sound.play(this, time = 0, volume = 1, playbackRate = 1);
+    await sound.play(this, time, volume, playbackRate);
   }
 
   

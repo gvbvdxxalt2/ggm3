@@ -106,6 +106,7 @@ class Sound {
           sound.dispose();
           delete sprite.playingSounds[this.id];
           delete _this.playingOn[sprite.id];
+          resolve();
         };
         sound.play(+time || 0);
       });

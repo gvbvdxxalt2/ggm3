@@ -96,6 +96,7 @@ function setWorkspaceVisibility(visible) {
   }
   if (visible) {
     workspace.setVisible(true);
+    workspace.getToolbox().refreshSelection();
     setTimeout(function () {
       Blockly.svgResize(workspace);
     }, 0);

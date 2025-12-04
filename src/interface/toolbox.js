@@ -471,8 +471,13 @@ function generateToolbox(defaultX, defaultY) {
                     <field name="NUM">1</field>
                 </shadow>
             </value>
+            <value name="TIME">
+                <shadow type="math_number">
+                    <field name="NUM">1</field>
+                </shadow>
+            </value>
         </block>
-        <block type="sound_playuntildone_advanced">
+        <block type="sound_playuntildone_advanced" gap="30">
             <value name="SOUND_MENU">
                 <shadow type="sound_sounds_menu"></shadow>
             </value>
@@ -490,6 +495,26 @@ function generateToolbox(defaultX, defaultY) {
                 <shadow type="math_number">
                     <field name="NUM">1</field>
                 </shadow>
+            </value>
+        </block>
+        <block type="sound_play">
+            <value name="SOUND_MENU">
+                <shadow type="sound_sounds_menu"></shadow>
+            </value>
+        </block>
+        <block type="sound_stopallsounds">
+            <value name="SOUND_MENU">
+                <shadow type="sound_sounds_menu"></shadow>
+            </value>
+        </block>
+        <block type="sound_stopallsoundsinsprite">
+            <value name="SOUND_MENU">
+                <shadow type="sound_sounds_menu"></shadow>
+            </value>
+        </block>
+        <block type="sound_stopallsoundsinsprite">
+            <value name="SOUND_MENU">
+                <shadow type="sound_sounds_menu"></shadow>
             </value>
         </block>
     </category>

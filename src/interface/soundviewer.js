@@ -38,6 +38,8 @@ function reloadSounds(spr, reloadTabCallback = function () {}) {
                         try {
                           var sound = await spr.addSound(reader.result);
                           sound.mimeType = file.type;
+                          sound.name = file.name.split(".").slice(0,file.name.split(".").length-1).join(".").trim();
+                          spr.ensureUniqueSoundNames();
                           resolve();
                           reloadSounds(spr);
                         } catch (e) {

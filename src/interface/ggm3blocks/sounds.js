@@ -27,6 +27,13 @@ Blockly.Blocks['sound_play_advanced'] = {
       "category": Blockly.Categories.sound,
       "extensions": ["colours_sounds", "shape_statement"]
     });
+    /*
+    if (this.isInFlyout) {
+      var soundMenu = this.getField("SOUND_MENU");
+      if (soundMenu) {
+        this.setFieldValue(soundMenu.getOptions()[1], "SOUND_MENU");
+      }
+    }*/
   }
 };
 
@@ -51,6 +58,43 @@ Blockly.Blocks['sound_playuntildone_advanced'] = {
           "type": "input_value",
           "name": "TIME"
         },
+      ],
+      "category": Blockly.Categories.sound,
+      "extensions": ["colours_sounds", "shape_statement"]
+    });
+  }
+};
+
+
+Blockly.Blocks['sound_stopallsounds'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": "stop all sounds",
+      "category": Blockly.Categories.sound,
+      "extensions": ["colours_sounds", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['sound_stopallsoundsinsprite'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": "stop all sounds in sprite",
+      "category": Blockly.Categories.sound,
+      "extensions": ["colours_sounds", "shape_statement"]
+    });
+  }
+};
+
+Blockly.Blocks['sound_stopsound'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": "stop sound %1",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "SOUND_MENU"
+        }
       ],
       "category": Blockly.Categories.sound,
       "extensions": ["colours_sounds", "shape_statement"]
