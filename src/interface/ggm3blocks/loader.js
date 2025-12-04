@@ -97,3 +97,51 @@ Blockly.Blocks["loader_costume_scale"] = {
     });
   },
 };
+
+
+Blockly.Blocks["loader_loadsound"] = {
+  init: function () {
+    this.jsonInit({
+      message0: "Load sound %1",
+      args0: [
+        {
+          type: "input_value",
+          name: "SOUND_MENU",
+        },
+      ],
+      colour: "#0066a1",
+      extensions: ["shape_statement"],
+    });
+  },
+};
+
+Blockly.Blocks["loader_deloadsound"] = {
+  init: function () {
+    this.jsonInit({
+      message0: "Deload sound %1",
+      args0: [
+        {
+          type: "input_value",
+          name: "SOUND_MENU",
+        },
+      ],
+      colour: "#0066a1",
+      extensions: ["shape_statement"],
+    });
+  },
+};
+Blockly.Blocks["loader_soundisloaded"] = {
+  init: function () {
+    this.jsonInit({
+      message0: "Is sound %1 loaded?",
+      args0: [
+        {
+          type: "input_value",
+          name: "SOUND_MENU",
+        },
+      ],
+      colour: "#0066a1",
+      extensions: ["output_boolean"],
+    });
+  },
+};

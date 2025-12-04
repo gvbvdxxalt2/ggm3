@@ -323,6 +323,30 @@ class Sprite {
     await costume.deloadCostume();
   }
 
+  async blockLoadSound(number) {
+    var sound = this.getSound(number);
+    if (!sound) {
+      return;
+    }
+    await sound.loadSound();
+  }
+
+  soundIsLoaded(number) {
+    var sound = this.getSound(number);
+    if (!sound) {
+      return;
+    }
+    return sound.data ? true : false;
+  }
+
+  async blockDeloadSound(number) {
+    var sound = this.getSound(number);
+    if (!sound) {
+      return;
+    }
+    await sound.deloadSound();
+  }
+
   blockGetCostumeScale(number) {
     var costume = this.getCostume(number);
     if (!costume) {
