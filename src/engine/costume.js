@@ -71,12 +71,13 @@ class Costume {
     var img = document.createElement("img");
     this.img = img;
     img.onload = function () {
-      _this.rotationCenterX = img.width / 2;
-      _this.rotationCenterY = img.height / 2;
       _this.renderImageAtScale(_this.preferedScale);
       if (_this.resolveFunction) {
         _this.resolveFunction(true);
         _this.resolveFunction = null;
+        //This should patch the issue where deloading and then loading in costumes in game resets rotation center.
+        _this.rotationCenterX = img.width / 2;
+        _this.rotationCenterY = img.height / 2;
       }
       if (whenfinished) {
         whenfinished();
