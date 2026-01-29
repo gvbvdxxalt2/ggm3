@@ -266,7 +266,7 @@ async function loadProjectFromZip(arrayBuffer, progressJSON = function(){}) {
         : null,
       name: spriteJson.name,
       costumeIndex: spriteJson.costumeIndex,
-      zIndex: sprite.zIndex,
+      zIndex: spriteJson.zIndex,
       variables: spriteJson.variables,
       hidden: spriteJson.hidden,
     });
