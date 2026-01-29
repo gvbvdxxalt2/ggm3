@@ -85,7 +85,7 @@ JavascriptTranslation["looks_xstretch"] = function (jsonblock, utils, options) {
 
 outputBlocks.push("looks_ystretch");
 JavascriptTranslation["looks_ystretch"] = function (jsonblock, utils, options) {
-  return `(sprite.scaleX * 100)`;
+  return `(sprite.scaleY * 100)`; //Lol this was stretch x value instead of y, so fixed here.
 };
 
 JavascriptTranslation["looks_xstretch_to"] = function (
