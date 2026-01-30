@@ -355,7 +355,7 @@ class Sprite {
   soundIsLoaded(number) {
     var sound = this.getSound(number);
     if (!sound) {
-      return;
+      return false;
     }
     return sound.data ? true : false;
   }
