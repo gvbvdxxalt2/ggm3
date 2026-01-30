@@ -133,6 +133,11 @@ function generateToolbox(defaultX, defaultY) {
 				<shadow type="loader_costume"></shadow>
 			</value>
 		</block>
+		<block type="loader_soundisloaded">
+			<value name="SOUND">
+				<shadow type="loader_sound"></shadow>
+			</value>
+		</block>
 		<block type="loader_loadsound">
 			<value name="SOUND">
 				<shadow type="loader_sound"></shadow>

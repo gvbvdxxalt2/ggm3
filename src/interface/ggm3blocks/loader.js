@@ -161,6 +161,22 @@ Blockly.Blocks["loader_costumeisloaded"] = {
   },
 };
 
+Blockly.Blocks["loader_soundisloaded"] = {
+  init: function () {
+    this.jsonInit({
+      message0: "Is sound %1 loaded?",
+      args0: [
+        {
+          type: "input_value",
+          name: "SOUND",
+        },
+      ],
+      colour: "#0066a1",
+      extensions: ["output_boolean"],
+    });
+  },
+};
+
 Blockly.Blocks["loader_loadsound"] = {
   init: function () {
     this.jsonInit({

@@ -71,4 +71,21 @@ JavascriptTranslation["loader_sound"] = function (jsonblock, utils, options) {
   return JSON.stringify(SOUND);
 };
 
+outputBlocks.push("loader_soundisloaded");
+JavascriptTranslation["loader_soundisloaded"] = function (jsonblock, utils, options) {
+  var SOUND = utils.getField(jsonblock, "SOUND", options);
+  return `sprite.soundIsLoaded(${SOUND})`;
+};
+
+JavascriptTranslation["loader_loadsound"] = function (jsonblock, utils, options) {
+  var SOUND = utils.getField(jsonblock, "SOUND", options);
+  return `await sprite.blockLoadSound(${SOUND});`;
+};
+
+JavascriptTranslation["loader_deloadsound"] = function (jsonblock, utils, options) {
+  var SOUND = utils.getField(jsonblock, "SOUND", options);
+  return `await sprite.blockDeloadSound(${SOUND});`;
+};
+
+
 module.exports = JavascriptTranslation;
