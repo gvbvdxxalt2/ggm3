@@ -135,17 +135,17 @@ function generateToolbox(defaultX, defaultY) {
 		</block>
 		<block type="loader_soundisloaded">
 			<value name="SOUND">
-				<shadow type="loader_sound"></shadow>
+				<shadow type="loader_sound_option"></shadow>
 			</value>
 		</block>
 		<block type="loader_loadsound">
 			<value name="SOUND">
-				<shadow type="loader_sound"></shadow>
+				<shadow type="loader_sound_option"></shadow>
 			</value>
 		</block>
 		<block type="loader_deloadsound" gap="30">
 			<value name="SOUND">
-				<shadow type="loader_sound"></shadow>
+				<shadow type="loader_sound_option"></shadow>
 			</value>
 		</block>
     </category>

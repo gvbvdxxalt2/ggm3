@@ -306,7 +306,7 @@ function loadBlockMenus(spr) {
       });
     },
   };
-  Blockly.Blocks["loader_sound"] = {
+  Blockly.Blocks["loader_sound_option"] = {
     init: function () {
       this.jsonInit({
         message0: "%1",
