@@ -199,18 +199,25 @@ JavascriptTranslation["json_typeof"] = function (jsonblock, utils, options) {
 };
 
 outputBlocks.push("json_array_split");
-JavascriptTranslation["json_array_split"] = function (jsonblock, utils, options) {
+JavascriptTranslation["json_array_split"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
   var STRING = utils.getInput(jsonblock, "STRING", options, "undefined");
   var USING = utils.getInput(jsonblock, "USING", options, "undefined");
   return `(""+${STRING}).split(${USING})`;
 };
 
 outputBlocks.push("json_array_join");
-JavascriptTranslation["json_array_join"] = function (jsonblock, utils, options) {
+JavascriptTranslation["json_array_join"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
   var ARRAY = utils.getInput(jsonblock, "ARRAY", options, "undefined");
   var USING = utils.getInput(jsonblock, "USING", options, "undefined");
   return `(${ARRAY}).join(${USING})`;
 };
-
 
 module.exports = JavascriptTranslation;

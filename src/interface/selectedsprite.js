@@ -7,6 +7,7 @@ var costumeViewer = require("./costumeviewer.js");
 var soundViewer = require("./soundviewer.js");
 var compiler = require("../compiler");
 var blockMenu = require("./blockmenuloader.js");
+var { valueReport } = require("./value-report.js");
 var { makeSortable } = require("./drag-utils.js");
 var { loadBlockMenus } = blockMenu;
 
@@ -229,7 +230,10 @@ function loadCode(spr) {
           var outputThread = await spr.runFunction(code);
           if (outputThread) {
             if (typeof outputThread.output !== "undefined") {
-              workspace.reportValue(e.blockId, outputThread.output);
+              workspace.reportValue(
+                e.blockId,
+                valueReport(outputThread.output),
+              );
             }
           }
         })();

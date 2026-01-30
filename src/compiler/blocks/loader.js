@@ -66,26 +66,41 @@ JavascriptTranslation["loader_setrenderscale"] = function (
 };
 
 outputBlocks.push("loader_sound_option");
-JavascriptTranslation["loader_sound_option"] = function (jsonblock, utils, options) {
+JavascriptTranslation["loader_sound_option"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
   var SOUND = utils.getField(jsonblock, "SOUND", options);
   return JSON.stringify(SOUND);
 };
 
 outputBlocks.push("loader_soundisloaded");
-JavascriptTranslation["loader_soundisloaded"] = function (jsonblock, utils, options) {
+JavascriptTranslation["loader_soundisloaded"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
   var SOUND = utils.getInput(jsonblock, "SOUND", options, "null");
   return `sprite.soundIsLoaded(${SOUND})`;
 };
 
-JavascriptTranslation["loader_loadsound"] = function (jsonblock, utils, options) {
+JavascriptTranslation["loader_loadsound"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
   var SOUND = utils.getInput(jsonblock, "SOUND", options, "null");
   return `await sprite.blockLoadSound(${SOUND});`;
 };
 
-JavascriptTranslation["loader_deloadsound"] = function (jsonblock, utils, options) {
+JavascriptTranslation["loader_deloadsound"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
   var SOUND = utils.getInput(jsonblock, "SOUND", options, "null");
   return `await sprite.blockDeloadSound(${SOUND});`;
 };
-
 
 module.exports = JavascriptTranslation;
