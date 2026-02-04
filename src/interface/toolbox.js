@@ -633,6 +633,8 @@ function generateToolbox(defaultX, defaultY) {
     </category>
     <category name="Global Variables" id="data_global" colour="#00c756" secondaryColour="#00c756" custom="GGM3_GLOBAL_VARIABLE">
     </category>
+    <category name="Sprite properties" id="data_properties" colour="#d1cd77" secondaryColour="#d1cd77" custom="GGM3_PROPERTY_VARIABLES">
+    </category>
     <category
         name="My blocks"
         id="myBlocks"

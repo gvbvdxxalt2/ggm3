@@ -40,6 +40,7 @@ class GGM3Engine {
     this.startRenderLoop();
     this.spriteMap = {};
     this.globalVariables = {};
+    this.propertyVariables = {};
     this.broadcastNames = [];
     this.broadcastQueue = [];
 
@@ -119,6 +120,24 @@ class GGM3Engine {
 
   removeGlobalVariable(name) {
     delete this.globalVariables[name];
+  }
+
+  addSpriteProperty(name) {
+    this.propertyVariables[name] = true; //Values are unique for each sprite.
+  }
+
+  hasSpriteProperty (name) {
+    if (this.propertyVariables[name]) {
+      return true;
+    }
+    return false;
+  }
+
+  removeSpriteProperty(name) {
+    delete this.propertyVariables[name];
+    for (var sprite of this.sprites) {
+      sprite.removeProperty(name);
+    }
   }
 
   makeUniqueSpriteNames() {

@@ -2,6 +2,17 @@ var JSZip = require("jszip");
 var engine = require("./curengine.js");
 var selectedSprite = require("./selectedsprite.js");
 
+function fromEnginePropertyNames(from) {
+  engine.propertyVariables = {};
+  for (var name of from) {
+    engine.propertyVariables[name] = true;
+  }
+}
+
+function toEnginePropertyNames(from) {
+  return Object.keys(engine.propertyVariables);
+}
+
 function createProgessBarJSON(decimal = 0) {
   return {
     element: "div",
@@ -80,6 +91,7 @@ async function saveProjectToZip(progressBar = function () {}) {
       zIndex: sprite.zIndex,
       costumeIndex: sprite.costumeIndex,
       variables: getSaveableVariables(sprite.variables),
+      properties: getSaveableVariablesGlobal(sprite.spriteProperties),
       hidden: sprite.hidden,
     };
     var ci = 0;
@@ -135,6 +147,7 @@ async function saveProjectToZip(progressBar = function () {}) {
       globalVariables: getSaveableVariablesGlobal(engine.globalVariables),
       broadcastNames: engine.broadcastNames,
       frameRate: engine.frameRate,
+      spriteProperties: toEnginePropertyNames(),
     }),
   );
   saved += 1;
@@ -182,6 +195,7 @@ async function loadProjectFromZip(arrayBuffer, progressJSON = function () {}) {
     broadcastNames: decodedJSON.broadcastNames || [],
     frameRate: decodedJSON.frameRate || 60,
   });
+  fromEnginePropertyNames(decodedJSON.spriteProperties);
 
   function calculateNeeded() {
     var needed = 0;
@@ -273,6 +287,7 @@ async function loadProjectFromZip(arrayBuffer, progressJSON = function () {}) {
       zIndex: spriteJson.zIndex,
       variables: spriteJson.variables,
       hidden: spriteJson.hidden,
+      spriteProperties: spriteJson.properties
     });
 
     selectedSprite.compileSpriteXML(sprite);

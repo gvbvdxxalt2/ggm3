@@ -1,6 +1,6 @@
 var AudioEngine = require("./audio.js");
 
-var CollisionSprite = require("./mask.js");
+var SoundEffects = require("./soundeffects.js");
 
 class Sound {
   constructor(engine, sprite, dataURL, onread) {
@@ -15,6 +15,11 @@ class Sound {
     this.playingOn = {};
     this.mimeType = "audio/mp3";
     this.loading = false;
+    this.effects = new SoundEffects(this);
+  }
+
+  getSoundIdentifier() { //used by sound manager.
+    return this.name;
   }
 
   get dataURL() {
@@ -26,105 +31,34 @@ class Sound {
   }
 
   stopForSpriteID(spriteid) {
-    var _this = this;
-    var sound = this.playingOn[spriteid];
-    if (!sound) {
-      return;
-    }
-    sound.stop();
-    sound.dispose();
-    delete this.playingOn[spriteid];
+    throw new Error("Deprecated call for stopForSpriteID, use the new SoundManager system.");
   }
 
   stopForSprite(sprite = this.sprite) {
-    this.stopForSpriteID(sprite.id);
+    throw new Error("Deprecated call for stopForSprite, use the new SoundManager system.");
   }
 
   stopAll() {
-    for (var id of Object.keys(this.playingOn)) {
-      this.stopForSpriteID(id);
-    }
+    throw new Error("Deprecated call for stopAll, use the new SoundManager system.");
   }
 
   tweakVolume(spriteContext, volume = 1) {
-    var sprite = spriteContext || this.sprite;
-
-    var sound = sprite.playingSounds[this.id];
-    if (sound) {
-      sound.volume = +volume || 0;
-      if (sound.volume < 0) {
-        sound.volume = 0;
-      }
-      if (sound.volume > 999) {
-        sound.volume = 999;
-      }
-    }
+    throw new Error("Deprecated call for tweakVolume, use the new SoundManager system.");
   }
 
   tweakPlaybackRate(spriteContext, playbackRate = 1) {
-    var sprite = spriteContext || this.sprite;
-
-    var sound = sprite.playingSounds[this.id];
-    if (sound) {
-      var playbackRate = +playbackRate || 0;
-      if (playbackRate < 0.005) {
-        playbackRate = 0.005;
-      }
-      if (playbackRate > 999) {
-        playbackRate = 999;
-      }
-      sound.playbackRate = playbackRate;
-    }
+    throw new Error("Deprecated call for tweakPlaybackRate, use the new SoundManager system.");
   }
 
   play(spriteContext, time = 0, volume = 1, playbackRate = 1) {
-    var sprite = spriteContext || this.sprite;
-
-    if (this.data) {
-      var oldSound = sprite.playingSounds[this.id];
-      if (oldSound) {
-        oldSound.stop();
-        oldSound.dispose();
-        delete sprite.playingSounds[this.id];
-      }
-      var playbackRate = +playbackRate || 0;
-      if (playbackRate < 0) {
-        playbackRate = 0;
-      }
-      if (playbackRate > 999) {
-        playbackRate = 999;
-      }
-      if (playbackRate < 0.005) {
-        return new Promise((r) => r());
-      }
-      var sound = new AudioEngine.Player(this.data);
-      sprite.playingSounds[this.id] = sound;
-      this.playingOn[sprite.id] = sound;
-      sound.playbackRate = playbackRate;
-      sound.volume = +volume || 0;
-      if (sound.volume < 0) {
-        sound.volume = 0;
-      }
-      if (sound.volume > 999) {
-        sound.volume = 999;
-      }
-      var _this = this;
-      return new Promise((resolve) => {
-        sound.onended = function () {
-          sound.dispose();
-          delete sprite.playingSounds[this.id];
-          delete _this.playingOn[sprite.id];
-          resolve();
-        };
-        sound.play(+time || 0);
-      });
-    } else {
-      return new Promise((r) => r());
-    }
+    throw new Error("Deprecated call for play, use the new SoundManager system.");
   }
 
   async loadSound() {
     if (this.loading) {
+      return;
+    }
+    if (this.data) {
       return;
     }
     this.loading = true;
@@ -143,7 +77,7 @@ class Sound {
 
   dispose() {
     this.data = null;
-    this.stopAll();
+    this.effects.dispose();
   }
 }
 

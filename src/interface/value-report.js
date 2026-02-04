@@ -8,6 +8,9 @@ function valueReport(v) {
     }
     return `[Array object]: ${values.join(", ")}`;
   }
+  if (typeof v == undefined) {
+    return "undefined";
+  }
   return "" + v;
 }
 

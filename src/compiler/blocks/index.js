@@ -13,6 +13,7 @@ var JavascriptTranslation = {
   ...require("./global_data.js"),
   ...require("./sounds.js"),
   ...require("./engine.js"),
+  ...require("./property.js"),
 };
 
 module.exports = JavascriptTranslation;

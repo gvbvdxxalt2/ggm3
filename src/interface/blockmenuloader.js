@@ -204,6 +204,220 @@ function loadGlobalVariableBlocks(spr) {
   };
 }
 
+function loadPropertyVariableBlocks(spr) {
+  function contextMenuFunction(options) {
+    var variableField = this.getField("VARIABLE");
+    if (variableField) {
+      var variableName = variableField.getValue();
+      // Try to get main workspace from flyout/toolbox
+      var mainWorkspace = null;
+      if (this.workspace && this.workspace.targetWorkspace) {
+        mainWorkspace = this.workspace.targetWorkspace;
+      } else if (
+        this.workspace &&
+        this.workspace.options &&
+        this.workspace.options.parentWorkspace
+      ) {
+        mainWorkspace = this.workspace.options.parentWorkspace;
+      } else if (window.Blockly && Blockly.getMainWorkspace) {
+        mainWorkspace = Blockly.getMainWorkspace();
+      }
+
+      options.push({
+        text: "Delete property",
+        enabled: true,
+        callback: function () {
+          Blockly.confirm(
+            `Delete sprite property "${variableName}"? This will also delete all blocks using this property.`,
+            function (accepted) {
+              if (accepted) {
+                engine.removeGlobalVariable(variableName);
+
+                // Helper to delete blocks in a workspace
+                function deleteBlocksInWorkspace(workspace) {
+                  if (workspace && workspace.getAllBlocks) {
+                    var blocks = workspace.getAllBlocks(false);
+                    for (var i = blocks.length - 1; i >= 0; i--) {
+                      var block = blocks[i];
+                      if (
+                        block.type === "propertydata_get" ||
+                        block.type === "propertydata_set" ||
+                        block.type === "propertydata_changeby"
+                      ) {
+                        var field = block.getField("VARIABLE");
+                        if (field && field.getText() === variableName) {
+                          block.dispose(true);
+                        }
+                      }
+                    }
+                  }
+                }
+
+                // Delete in main workspace
+                deleteBlocksInWorkspace(mainWorkspace);
+
+                var div = document.createElement("div");
+                document.body.append(div);
+                var tempWorkspace = Blockly.inject(div, {
+                  comments: true,
+                  disable: false,
+                  collapse: false,
+                  media: "../media/",
+                  readOnly: false,
+                  rtl: false,
+                  scrollbars: false,
+                  trashcan: false,
+                  sounds: false,
+                });
+                // Delete in all sprite workspaces
+                if (engine.sprites && Array.isArray(engine.sprites)) {
+                  for (var s = 0; s < engine.sprites.length; s++) {
+                    var sprite = engine.sprites[s];
+                    if (sprite.id !== spr.id) {
+                      if (sprite) {
+                        tempWorkspace.clear();
+                        if (sprite.blocklyXML) {
+                          Blockly.Xml.domToWorkspace(
+                            sprite.blocklyXML,
+                            tempWorkspace,
+                          );
+                        }
+                        deleteBlocksInWorkspace(tempWorkspace);
+                        sprite.blocklyXML =
+                          Blockly.Xml.workspaceToDom(tempWorkspace);
+                      }
+                    }
+                  }
+                }
+                tempWorkspace.dispose();
+                div.remove();
+
+                // Refresh toolbox in main workspace
+                if (
+                  mainWorkspace &&
+                  mainWorkspace.getToolbox &&
+                  mainWorkspace.getToolbox()
+                ) {
+                  mainWorkspace.getToolbox().refreshSelection();
+                }
+              }
+            },
+          );
+        },
+      });
+
+      var _this = this;
+      Object.keys(engine.propertyVariables).forEach(function (name) {
+        if (name !== variableName) {
+          options.push({
+            text: name,
+            enabled: !this.isInFlyout,
+            callback: function () {
+              _this.setFieldValue(name, "VARIABLE");
+            },
+          });
+        }
+      });
+    }
+  }
+  Blockly.Blocks["propertydata_get"] = {
+    init: function () {
+      this.jsonInit({
+        message0: "%1 %2",
+        args0: [
+          {
+            type: "input_value",
+            name: "TARGET",
+            //options: menu,
+          },
+          {
+            type: "field_label_serializable",
+            name: "VARIABLE",
+            //options: menu,
+          },
+        ],
+        colour: "#d1cd77",
+        extensions: ["output_string"],
+      });
+    },
+    customContextMenu: contextMenuFunction,
+  };
+
+  Blockly.Blocks["propertydata_set"] = {
+    init: function () {
+      this.jsonInit({
+        message0: "on %1 set %2 to %3",
+        args0: [
+          {
+            type: "input_value",
+            name: "TARGET",
+            //options: menu,
+          },
+          {
+            type: "field_dropdown",
+            name: "VARIABLE",
+            options: function () {
+              var currentMenu = Object.keys(engine.propertyVariables).map(
+                (name, i) => {
+                  return [name, name];
+                },
+              );
+              if (currentMenu.length < 1) {
+                currentMenu = [["(No Sprite Properties)", "none"]];
+              }
+              return currentMenu;
+            },
+          },
+          {
+            type: "input_value",
+            name: "VALUE",
+          },
+        ],
+        colour: "#d1cd77",
+        extensions: ["shape_statement"],
+      });
+    },
+    customContextMenu: contextMenuFunction,
+  };
+
+  Blockly.Blocks["propertydata_changeby"] = {
+    init: function () {
+      this.jsonInit({
+        message0: "on %1 change %2 by %3",
+        args0: [
+          {
+            type: "input_value",
+            name: "TARGET",
+            //options: menu,
+          },
+          {
+            type: "field_dropdown",
+            name: "VARIABLE",
+            options: function () {
+              var currentMenu = Object.keys(engine.propertyVariables).map(
+                (name, i) => {
+                  return [name, name];
+                },
+              );
+              if (currentMenu.length < 1) {
+                currentMenu = [["(No Sprite Properties)", "none"]];
+              }
+              return currentMenu;
+            },
+          },
+          {
+            type: "input_value",
+            name: "VALUE",
+          }
+        ],
+        colour: "#d1cd77",
+        extensions: ["shape_statement"],
+      });
+    },
+    customContextMenu: contextMenuFunction,
+  };
+}
+
 function getSpriteMenuFunction(spr, defaultOptions) {
   var sprites = engine.sprites;
   return function () {
@@ -239,6 +453,24 @@ function getSoundMenuFunction(spr) {
 }
 
 function loadBlockMenus(spr) {
+  Blockly.Blocks["propertydata_sprite"] = {
+    init: function () {
+      this.jsonInit({
+        message0: "%1",
+        args0: [
+          {
+            type: "field_dropdown",
+            name: "TARGET",
+            options: getSpriteMenuFunction(spr, [
+              ["myself", "__myself__"],
+            ]),
+          },
+        ],
+        extensions: ["output_string"],
+        colour: "#d1cd77"
+      });
+    },
+  };
   Blockly.Blocks["sensing_touchingobjectmenu"] = {
     init: function () {
       this.jsonInit({
@@ -342,6 +574,7 @@ function loadBlockMenus(spr) {
     },
   };
   loadGlobalVariableBlocks(spr);
+  loadPropertyVariableBlocks(spr);
 }
 
 module.exports = { loadBlockMenus, helpers };

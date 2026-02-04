@@ -2,6 +2,7 @@ var Costume = require("./costume.js");
 var Sound = require("./sound.js");
 var Thread = require("./thread.js");
 var SpriteEffects = require("./effects.js");
+var SoundManager = require("./soundmanager.js");
 
 var dialogs = require("../interface/dialogs.js");
 
@@ -71,6 +72,41 @@ class Sprite {
     this.broadcastListeners = [];
 
     this.playingSounds = {};
+    this.soundManager = new SoundManager(engine, this);
+
+    this.spriteProperties = {};
+  }
+
+  removeProperty (name) {
+    delete this.spriteProperties[name];
+  }
+
+  setSProperty(spriteName, name, value) {
+    var targetSprite = this.findSpriteByName(spriteName);
+    window.alert(`Looking for "${spriteName}": Found?: ${targetSprite}`);
+    if (!targetSprite) {
+      return;
+    }
+    targetSprite.spriteProperties[name] = value;
+    window.alert(targetSprite.spriteProperties[name]);
+  }
+
+  changeSProperty(spriteName, name, value) {
+    var targetSprite = this.findSpriteByName(spriteName);
+    window.alert(`Looking for "${spriteName}": Found?: ${targetSprite}`);
+    if (!targetSprite) {
+      return;
+    }
+    targetSprite.spriteProperties[name] = (+targetSprite.spriteProperties[name] || 0) + (+value || 0);
+  }
+
+  getSProperty(spriteName, name) {
+    var targetSprite = this.findSpriteByName(spriteName);
+    window.alert(`Looking for "${spriteName}": Found?: ${targetSprite}`);
+    if (!targetSprite) {
+      return;
+    }
+    return targetSprite.spriteProperties[name];
   }
 
   set skewX(v) {
@@ -88,9 +124,11 @@ class Sprite {
   }
 
   stopAllSounds() {
-    for (var sound of this.sounds) {
-      sound.stopForSprite(this);
-    }
+    this.soundManager.stopAllSounds();
+  }
+
+  stopAllWaitingSounds() {
+    this.soundManager.stopAllWaitingSounds();
   }
 
   getSound(identifier) {
@@ -111,28 +149,49 @@ class Sprite {
     if (!sound) {
       return;
     }
-    sound.stopForSprite(this);
+    this.soundManager.stopSound(sound);
   }
 
-  playSound(identifier, time = 0, volume = 1, playbackRate = 1) {
+  playSound(identifier) {
     var sound = this.getSound(identifier);
     if (!sound) {
       return;
     }
-    sound.play(this, time, volume, playbackRate);
+    this.soundManager.startSound(sound);
+  }
+
+  setSoundEffect(identifier,name,value) {
+    var sound = this.getSound(identifier);
+    if (!sound) {
+      return;
+    }
+    this.soundManager.setEffect(sound, name, value);
+  }
+
+  getSoundEffect(identifier,name,value) {
+    var sound = this.getSound(identifier);
+    if (!sound) {
+      return 0;
+    }
+    return this.soundManager.getEffect(sound, name, value);
+  }
+
+  changeSoundEffect(identifier,name,value) {
+    var sound = this.getSound(identifier);
+    if (!sound) {
+      return 0;
+    }
+    return this.soundManager.changeEffect(sound, name, value);
   }
 
   async playSoundUntilDone(
-    identifier = "",
-    time = 0,
-    volume = 1,
-    playbackRate = 1,
+    identifier = ""
   ) {
     var sound = this.getSound(identifier);
     if (!sound) {
       return;
     }
-    await sound.play(this, time, volume, playbackRate);
+    await this.soundManager.playSoundUntilDone(sound);
   }
 
   toString() {
@@ -623,9 +682,7 @@ class Sprite {
     for (var thread of Object.keys(this.runningStacks)) {
       this.stopScript(thread);
     }
-    for (var sound of this.sounds) {
-      sound.stopForSprite(this);
-    }
+    this.stopAllWaitingSounds();
   }
 
   stopAllScriptsExceptThread(thread) {
@@ -634,9 +691,7 @@ class Sprite {
         this.stopScript(thread2);
       }
     }
-    for (var sound of this.sounds) {
-      sound.stopForSprite(this);
-    }
+    this.stopAllWaitingSounds();
   }
 
   stopAllScriptsExceptThreads(threadIds = []) {
@@ -645,9 +700,7 @@ class Sprite {
         this.stopScript(thread2);
       }
     }
-    for (var sound of this.sounds) {
-      sound.stopForSprite(this);
-    }
+    this.stopAllWaitingSounds();
   }
 
   createThread(firstBlockID) {
