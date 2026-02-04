@@ -41,6 +41,16 @@ JavascriptTranslation["spritemaster_getclonesofsprite"] = function (jsonblock, u
   if (SPRITE == MYSELF_INPUT) {
     return `Array.from(sprite.clones)`;
   }
+  return `(spriteMaster.getClonesOf(${SPRITE}))`;
+};
+
+outputBlocks.push("spritemaster_getclonecountofsprite");
+JavascriptTranslation["spritemaster_getclonecountofsprite"] = function (jsonblock, utils, options) {
+  var SPRITE = utils.getInput(jsonblock, "SPRITE", options, "null");
+  if (SPRITE == MYSELF_INPUT) {
+    return `sprite.clones.length`;
+  }
+  return `spriteMaster.getCloneCountOf(${SPRITE})`;
 };
 
 module.exports = JavascriptTranslation;
