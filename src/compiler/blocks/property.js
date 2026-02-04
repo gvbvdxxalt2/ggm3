@@ -5,14 +5,14 @@ var MYSELF_OUTPUT = JSON.stringify("__myself__");
 
 outputBlocks.push("propertydata_sprite");
 JavascriptTranslation["propertydata_sprite"] = function (jsonblock, utils, options) {
-  var TARGET = utils.getField(jsonblock, "TARGET");
+  var TARGET = utils.getField(jsonblock, "TARGET", options, "null");
   return JSON.stringify(TARGET);
 };
 
 outputBlocks.push("propertydata_get");
 JavascriptTranslation["propertydata_get"] = function (jsonblock, utils, options) {
-  var TARGET = utils.getInput(jsonblock, "TARGET");
-  var VARIABLE = utils.getField(jsonblock, "VARIABLE");
+  var TARGET = utils.getInput(jsonblock, "TARGET", options, "null");
+  var VARIABLE = utils.getField(jsonblock, "VARIABLE", options, "null");
   if (TARGET == MYSELF_OUTPUT) {
     return `sprite.spriteProperties[${JSON.stringify(VARIABLE)}]`;
   } else {
@@ -21,9 +21,9 @@ JavascriptTranslation["propertydata_get"] = function (jsonblock, utils, options)
 };
 
 JavascriptTranslation["propertydata_set"] = function (jsonblock, utils, options) {
-  var TARGET = utils.getInput(jsonblock, "TARGET");
-  var VARIABLE = utils.getField(jsonblock, "VARIABLE");
-  var VALUE = utils.getInput(jsonblock, "VALUE", "undefined");
+  var TARGET = utils.getInput(jsonblock, "TARGET", options, "null");
+  var VARIABLE = utils.getField(jsonblock, "VARIABLE", options, "null");
+  var VALUE = utils.getInput(jsonblock, "VALUE", options, "null");
   if (TARGET == MYSELF_OUTPUT) {
     return `sprite.spriteProperties[${JSON.stringify(VARIABLE)}] = ${VALUE};`;
   } else {
@@ -36,9 +36,9 @@ JavascriptTranslation["propertydata_changeby"] = function (
   utils,
   options,
 ) {
-  var TARGET = utils.getInput(jsonblock, "TARGET");
-  var VARIABLE = utils.getField(jsonblock, "VARIABLE");
-  var VALUE = utils.getInput(jsonblock, "VALUE", "undefined");
+  var TARGET = utils.getInput(jsonblock, "TARGET", options, "null");
+  var VARIABLE = utils.getField(jsonblock, "VARIABLE", options, "null");
+  var VALUE = utils.getInput(jsonblock, "VALUE", options, "null");
   if (TARGET == MYSELF_OUTPUT) {
     return `sprite.spriteProperties[${JSON.stringify(VARIABLE)}] = (+(sprite.spriteProperties[${JSON.stringify(VARIABLE)}]) || 0) + (+(${VALUE}) || 0);`;
   } else {
