@@ -296,8 +296,6 @@ class Sprite {
     sprite.parent = this;
     sprite.x = spriteOrigin.x;
     sprite.y = spriteOrigin.y;
-    sprite.costumes = this.costumes;
-    sprite.costumeMap = this.costumeMap;
     sprite.costumeIndex = spriteOrigin.costumeIndex;
     sprite.hidden = spriteOrigin.hidden;
     sprite.alpha = spriteOrigin.alpha;
@@ -308,10 +306,12 @@ class Sprite {
     sprite.zIndex = spriteOrigin.zIndex;
     sprite.skewX = spriteOrigin.skewX;
     sprite.skewY = spriteOrigin.skewY;
+
+    sprite.spriteFunctions = this.spriteFunctions;
     sprite.sounds = this.sounds;
     sprite.soundMap = this.soundMap;
-
-    sprite.spriteFunctions = spriteOrigin.spriteFunctions;
+    sprite.costumes = this.costumes;
+    sprite.costumeMap = this.costumeMap;
 
     for (var variable of Object.keys(spriteOrigin.variables)) {
       try {
