@@ -20,7 +20,9 @@ class SpriteMaster { //Blocks for sprite master
         this.sprite.findSpriteByName(spriteName);
     }
 
-
+    dispose() {
+        
+    }
 }
 
 module.exports = SpriteMaster;

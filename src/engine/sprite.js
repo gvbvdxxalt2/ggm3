@@ -3,6 +3,7 @@ var Sound = require("./sound.js");
 var Thread = require("./thread.js");
 var SpriteEffects = require("./effects.js");
 var SoundManager = require("./soundmanager.js");
+var SpriteMaster = require("./spritemaster.js");
 
 var dialogs = require("../interface/dialogs.js");
 
@@ -75,6 +76,8 @@ class Sprite {
     this.soundManager = new SoundManager(engine, this);
 
     this.spriteProperties = {};
+
+    this.spriteMaster = new SpriteMaster(this);
   }
 
   removeProperty (name) {
@@ -858,6 +861,7 @@ class Sprite {
     this.costumes = [];
     this.id = null;
     this.engine = null;
+    this.spriteMaster.dispose(); 
   }
 
   delete() {

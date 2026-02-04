@@ -150,7 +150,12 @@ function generateToolbox(defaultX, defaultY) {
 		</block>
     </category>
     <category name="Sprite master" id="spritemaster" colour="#c70000" secondaryColour="#c70000">
-        <block type="spritemaster_spriteobjectof" gap="30">
+        <block type="spritemaster_spriteobjectof">
+			<value name="SPRITE">
+				<shadow type="spritemaster_sprite"></shadow>
+			</value>
+		</block>
+        <block type="spritemaster_spriteproperty" gap="30">
 			<value name="SPRITE">
 				<shadow type="spritemaster_sprite"></shadow>
 			</value>

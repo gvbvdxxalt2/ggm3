@@ -1,4 +1,4 @@
-
+var SpriteMasterConsts = require("../../sprmaster.js");
 
 Blockly.Blocks["spritemaster_spriteobjectof"] = {
   init: function () {
@@ -27,15 +27,8 @@ Blockly.Blocks["spritemaster_spriteproperty"] = {
         },
         {
           type: "field_dropdown",
-          name: "KEY_OPTION",
-          options: [
-            ["x position", "x"],
-            ["y position", "y"],
-            ["direction", "direction"],
-            ["costume name", "costumename"],
-            ["costume index/number", "costumeindex"],
-            ["alpha", "alpha"],
-          ]
+          name: "PROPERTY_OPTION",
+          options: SpriteMasterConsts.SPRITE_MASTER_DROPDOWN
         },
       ],
       colour: "#c70000",

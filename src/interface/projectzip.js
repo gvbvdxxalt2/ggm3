@@ -4,7 +4,7 @@ var selectedSprite = require("./selectedsprite.js");
 
 function fromEnginePropertyNames(from) {
   engine.propertyVariables = {};
-  for (var name of from) {
+  for (var name of (from || [])) {
     engine.propertyVariables[name] = true;
   }
 }
@@ -287,7 +287,7 @@ async function loadProjectFromZip(arrayBuffer, progressJSON = function () {}) {
       zIndex: spriteJson.zIndex,
       variables: spriteJson.variables,
       hidden: spriteJson.hidden,
-      spriteProperties: spriteJson.properties
+      spriteProperties: spriteJson.properties || {}
     });
 
     selectedSprite.compileSpriteXML(sprite);

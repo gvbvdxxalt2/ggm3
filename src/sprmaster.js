@@ -21,3 +21,9 @@ Object.keys(SPRITE_MASTER_VALUES).forEach((name) => {
     //This would generate into: sprite.x, sprite.y, sprite.direction, etc.
     SPRITE_MASTER_CODE[name] = `sprite.${SPRITE_MASTER_VALUES[name]}`;
 });
+
+module.exports = {
+    SPRITE_MASTER_VALUES,
+    SPRITE_MASTER_DROPDOWN,
+    SPRITE_MASTER_CODE
+};
