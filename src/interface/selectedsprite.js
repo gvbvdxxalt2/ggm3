@@ -229,7 +229,7 @@ function loadCode(spr) {
           var code = compiler.compileBlockWithThreadForced(root);
           var outputThread = await spr.runFunction(code);
           if (outputThread) {
-            if (compiler.isOutputBlock(root)) { //Now handles undefined.
+            if (compiler.isOutputBlock(root) || typeof outputThread.output !== "undefined") { //Now handles undefined.
               workspace.reportValue(e.blockId, valueReport(outputThread.output));
             }
           }
@@ -301,7 +301,7 @@ function loadCode(spr) {
           var code = compiler.compileBlockWithThreadForced(root);
           var outputThread = await spr.runFunction(code);
           if (outputThread) {
-            if (compiler.isOutputBlock(root)) { //Fix so undefined works.
+            if (compiler.isOutputBlock(root) || typeof outputThread.output !== "undefined") { //Fix so undefined works.
               workspace.reportValue(e.blockId, outputThread.output);
             }
           }

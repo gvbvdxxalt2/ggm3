@@ -63,7 +63,7 @@ Blockly.WorkspaceSvg.prototype.registerToolboxCategoryCallback(
     for (var variable of variables) {
       var blockElement = createElementXML(`
           <block type="propertydata_get">
-            <value name="TARGET">
+            <value name="TARGET_SPRITE">
                   <shadow type="propertydata_sprite"></shadow>
             </value>
             <field name="VARIABLE">${getSafeHTML(variable)}</field>
@@ -81,7 +81,7 @@ Blockly.WorkspaceSvg.prototype.registerToolboxCategoryCallback(
       xmlList.push(
         createElementXML(`
           <block type="propertydata_changeby">
-            <value name="TARGET">
+            <value name="TARGET_SPRITE">
                   <shadow type="propertydata_sprite"></shadow>
             </value>
             <field name="VARIABLE">${getSafeHTML(variable)}</field>
@@ -96,7 +96,7 @@ Blockly.WorkspaceSvg.prototype.registerToolboxCategoryCallback(
       xmlList.push(
         createElementXML(`
           <block type="propertydata_set">
-            <value name="TARGET">
+            <value name="TARGET_SPRITE">
                   <shadow type="propertydata_sprite"></shadow>
             </value>
             <field name="VARIABLE">${getSafeHTML(variable)}</field>

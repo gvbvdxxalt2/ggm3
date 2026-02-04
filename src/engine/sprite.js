@@ -83,21 +83,25 @@ class Sprite {
 
   setSProperty(spriteName, name, value) {
     var targetSprite = this.findSpriteByName(spriteName);
-    window.alert(`Looking for "${spriteName}": Found?: ${targetSprite}`);
     if (!targetSprite) {
+      window.alert("target sprite not found");
       return;
     }
     targetSprite.spriteProperties[name] = value;
+        window.alert(name);
+    window.alert(value);
     window.alert(targetSprite.spriteProperties[name]);
   }
 
   changeSProperty(spriteName, name, value) {
     var targetSprite = this.findSpriteByName(spriteName);
-    window.alert(`Looking for "${spriteName}": Found?: ${targetSprite}`);
     if (!targetSprite) {
       return;
     }
     targetSprite.spriteProperties[name] = (+targetSprite.spriteProperties[name] || 0) + (+value || 0);
+    window.alert(name);
+    window.alert(value);
+    window.alert(targetSprite.spriteProperties[name]);
   }
 
   getSProperty(spriteName, name) {

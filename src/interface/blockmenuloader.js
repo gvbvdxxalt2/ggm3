@@ -327,7 +327,7 @@ function loadPropertyVariableBlocks(spr) {
         args0: [
           {
             type: "input_value",
-            name: "TARGET",
+            name: "TARGET_SPRITE",
             //options: menu,
           },
           {
@@ -350,7 +350,7 @@ function loadPropertyVariableBlocks(spr) {
         args0: [
           {
             type: "input_value",
-            name: "TARGET",
+            name: "TARGET_SPRITE",
             //options: menu,
           },
           {
@@ -387,7 +387,7 @@ function loadPropertyVariableBlocks(spr) {
         args0: [
           {
             type: "input_value",
-            name: "TARGET",
+            name: "TARGET_SPRITE",
             //options: menu,
           },
           {
@@ -460,7 +460,7 @@ function loadBlockMenus(spr) {
         args0: [
           {
             type: "field_dropdown",
-            name: "TARGET",
+            name: "TARGET_SPRITE",
             options: getSpriteMenuFunction(spr, [
               ["myself", "__myself__"],
             ]),
