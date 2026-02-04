@@ -16,7 +16,7 @@ JavascriptTranslation["propertydata_get"] = function (jsonblock, utils, options)
   if (TARGET_SPRITE == MYSELF_OUTPUT) {
     return `sprite.spriteProperties[${JSON.stringify(VARIABLE)}]`;
   } else {
-    return `sprite.getSProperty(${TARGET_SPRITE})`;
+    return `sprite.getSProperty(${TARGET_SPRITE}, ${JSON.stringify(VARIABLE)})`;
   }
 };
 
