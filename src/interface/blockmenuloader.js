@@ -408,7 +408,7 @@ function loadPropertyVariableBlocks(spr) {
           {
             type: "input_value",
             name: "VALUE",
-          }
+          },
         ],
         colour: "#d1cd77",
         extensions: ["shape_statement"],
@@ -461,13 +461,11 @@ function loadBlockMenus(spr) {
           {
             type: "field_dropdown",
             name: "SPRITE",
-            options: getSpriteMenuFunction(spr, [
-              ["myself", "__myself__"],
-            ]),
+            options: getSpriteMenuFunction(spr, [["myself", "__myself__"]]),
           },
         ],
         extensions: ["output_string"],
-        colour: "#c70000"
+        colour: "#c70000",
       });
     },
   };
@@ -479,13 +477,11 @@ function loadBlockMenus(spr) {
           {
             type: "field_dropdown",
             name: "TARGET_SPRITE",
-            options: getSpriteMenuFunction(spr, [
-              ["myself", "__myself__"],
-            ]),
+            options: getSpriteMenuFunction(spr, [["myself", "__myself__"]]),
           },
         ],
         extensions: ["output_string"],
-        colour: "#d1cd77"
+        colour: "#d1cd77",
       });
     },
   };

@@ -1,4 +1,3 @@
-
 function arrayBufferToDataURL(arrayBuffer, mimeType) {
   return new Promise((resolve, reject) => {
     const blob = new Blob([arrayBuffer], { type: mimeType });
@@ -18,12 +17,12 @@ function arrayBufferToDataURL(arrayBuffer, mimeType) {
 }
 
 async function dataURLToArrayBuffer(dataURL) {
-    var response = await fetch(dataURL);
-    var arrayBuffer = await response.arrayBuffer();
-    return arrayBuffer;
+  var response = await fetch(dataURL);
+  var arrayBuffer = await response.arrayBuffer();
+  return arrayBuffer;
 }
 
 module.exports = {
-    arrayBufferToDataURL,
-    dataURLToArrayBuffer,
+  arrayBufferToDataURL,
+  dataURLToArrayBuffer,
 };

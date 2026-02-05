@@ -3,7 +3,7 @@ const twgl = require("twgl.js");
 const Drawable = require("./drawable.js");
 const Sprite = require("./sprite.js");
 const calculateMatrix = require("./calculatematrix.js");
-var EventEmitter = require('eventemitter3');
+var EventEmitter = require("eventemitter3");
 
 var CollisionSprite = require("./mask.js");
 
@@ -21,7 +21,9 @@ class GGM3Engine extends EventEmitter {
     if (!created) {
       created = true;
     } else {
-      throw new Error("A GGM3Engine was already created. Use iframes to run multiple games at once.");
+      throw new Error(
+        "A GGM3Engine was already created. Use iframes to run multiple games at once.",
+      );
     }
     this.canvas = canvas;
     if (!canvas) {
@@ -165,7 +167,7 @@ class GGM3Engine extends EventEmitter {
     this.propertyVariables[name] = true; //Values are unique for each sprite.
   }
 
-  hasSpriteProperty (name) {
+  hasSpriteProperty(name) {
     if (this.propertyVariables[name]) {
       return true;
     }
@@ -281,8 +283,7 @@ class GGM3Engine extends EventEmitter {
         newSprite.variables[variable] = JSON.parse(
           JSON.stringify(fromSprite.variables[variable]),
         ); //This clones the variable value, including json values.
-      } catch (e) {
-      }
+      } catch (e) {}
     }
 
     fromSprite.costumes.forEach(async (fromCostume) => {

@@ -74,7 +74,7 @@ function loadProjectFile(file) {
             element: "span",
             textContent: "Loading...",
           },
-          createProgessBarJSON(event.current/event.max),
+          createProgessBarJSON(event.current / event.max),
         ]);
       });
 
@@ -182,7 +182,7 @@ if (available()) {
           {
             element: "br",
           },
-          createProgessBarJSON(event.current/event.max),
+          createProgessBarJSON(event.current / event.max),
         ]);
       });
       monitor.on("finish", () => {
@@ -234,9 +234,7 @@ addAppMenu(
       icon: "icons/export.svg",
       action: async function () {
         var zipBlob = await projectSaver.saveProjectZipBlob();
-        var objectURL = URL.createObjectURL(
-          zipBlob
-        );
+        var objectURL = URL.createObjectURL(zipBlob);
         var a = document.createElement("a");
         a.href = objectURL;
         a.download = "project.ggm3";

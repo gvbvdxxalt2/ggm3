@@ -4,7 +4,7 @@ var selectedSprite = require("./selectedsprite.js");
 
 function fromEnginePropertyNames(from) {
   engine.propertyVariables = {};
-  for (var name of (from || [])) {
+  for (var name of from || []) {
     engine.propertyVariables[name] = true;
   }
 }
@@ -57,45 +57,45 @@ function getSaveableVariablesGlobal(variables) {
 
 function toSpriteJSON(sprite) {
   return {
-      x: sprite.x,
-      y: sprite.y,
-      angle: sprite.angle,
-      scaleX: sprite.scaleX,
-      scaleY: sprite.scaleY,
-      skewX: sprite.skewX,
-      skewY: sprite.skewY,
-      size: sprite.size,
-      blocklyXML: sprite.blocklyXML
-        ? Blockly.Xml.domToText(sprite.blocklyXML)
-        : null,
-      name: sprite.name,
-      zIndex: sprite.zIndex,
-      costumeIndex: sprite.costumeIndex,
-      variables: getSaveableVariables(sprite.variables),
-      properties: getSaveableVariablesGlobal(sprite.spriteProperties),
-      hidden: sprite.hidden,
-    };
+    x: sprite.x,
+    y: sprite.y,
+    angle: sprite.angle,
+    scaleX: sprite.scaleX,
+    scaleY: sprite.scaleY,
+    skewX: sprite.skewX,
+    skewY: sprite.skewY,
+    size: sprite.size,
+    blocklyXML: sprite.blocklyXML
+      ? Blockly.Xml.domToText(sprite.blocklyXML)
+      : null,
+    name: sprite.name,
+    zIndex: sprite.zIndex,
+    costumeIndex: sprite.costumeIndex,
+    variables: getSaveableVariables(sprite.variables),
+    properties: getSaveableVariablesGlobal(sprite.spriteProperties),
+    hidden: sprite.hidden,
+  };
 }
 
 function toCostumeJSON(costume) {
   return {
-        name: costume.name,
-        id: costume.id,
-        rotationCenterX: costume.rotationCenterX,
-        rotationCenterY: costume.rotationCenterY,
-        preferedScale: costume.preferedScale,
-        willPreload: costume.willPreload,
-        mimeType: costume.mimeType,
-      };
+    name: costume.name,
+    id: costume.id,
+    rotationCenterX: costume.rotationCenterX,
+    rotationCenterY: costume.rotationCenterY,
+    preferedScale: costume.preferedScale,
+    willPreload: costume.willPreload,
+    mimeType: costume.mimeType,
+  };
 }
 
 function toSoundJSON(sound) {
   return {
-        name: sound.name,
-        id: sound.id,
-        willPreload: sound.willPreload,
-        mimeType: sound.mimeType,
-      };
+    name: sound.name,
+    id: sound.id,
+    willPreload: sound.willPreload,
+    mimeType: sound.mimeType,
+  };
 }
 
 async function saveProjectToZip(progressBar = function () {}) {
@@ -187,43 +187,43 @@ function arrayBufferToDataURL(arrayBuffer, mimeType) {
 
 function fromSpriteJSON(sprite, spriteJson) {
   Object.assign(sprite, {
-      x: spriteJson.x,
-      y: spriteJson.y,
-      angle: spriteJson.angle,
-      scaleX: spriteJson.scaleX,
-      scaleY: spriteJson.scaleY,
-      skewX: spriteJson.skewX || 0,
-      skewY: spriteJson.skewY || 0,
-      size: spriteJson.size,
-      blocklyXML: spriteJson.blocklyXML
-        ? Blockly.Xml.textToDom(spriteJson.blocklyXML)
-        : null,
-      name: spriteJson.name,
-      costumeIndex: spriteJson.costumeIndex,
-      zIndex: spriteJson.zIndex,
-      variables: spriteJson.variables,
-      hidden: spriteJson.hidden,
-      spriteProperties: spriteJson.properties || {}
-    });
+    x: spriteJson.x,
+    y: spriteJson.y,
+    angle: spriteJson.angle,
+    scaleX: spriteJson.scaleX,
+    scaleY: spriteJson.scaleY,
+    skewX: spriteJson.skewX || 0,
+    skewY: spriteJson.skewY || 0,
+    size: spriteJson.size,
+    blocklyXML: spriteJson.blocklyXML
+      ? Blockly.Xml.textToDom(spriteJson.blocklyXML)
+      : null,
+    name: spriteJson.name,
+    costumeIndex: spriteJson.costumeIndex,
+    zIndex: spriteJson.zIndex,
+    variables: spriteJson.variables,
+    hidden: spriteJson.hidden,
+    spriteProperties: spriteJson.properties || {},
+  });
 }
 
-function fromCostumeJSON(costume,costumeJson) {
+function fromCostumeJSON(costume, costumeJson) {
   Object.assign(costume, {
-        id: costumeJson.id,
-        rotationCenterX: costumeJson.rotationCenterX,
-        rotationCenterY: costumeJson.rotationCenterY,
-        preferedScale: costumeJson.preferedScale,
-        willPreload: costumeJson.willPreload,
-        mimeType: costumeJson.mimeType,
-      });
+    id: costumeJson.id,
+    rotationCenterX: costumeJson.rotationCenterX,
+    rotationCenterY: costumeJson.rotationCenterY,
+    preferedScale: costumeJson.preferedScale,
+    willPreload: costumeJson.willPreload,
+    mimeType: costumeJson.mimeType,
+  });
 }
 
-function fromSoundJSON(sound,soundJson) {
+function fromSoundJSON(sound, soundJson) {
   Object.assign(sound, {
-        id: soundJson.id,
-        willPreload: soundJson.willPreload,
-        mimeType: soundJson.mimeType,
-      });
+    id: soundJson.id,
+    willPreload: soundJson.willPreload,
+    mimeType: soundJson.mimeType,
+  });
 }
 
 async function loadProjectFromZip(arrayBuffer, progressJSON = function () {}) {
@@ -290,7 +290,7 @@ async function loadProjectFromZip(arrayBuffer, progressJSON = function () {}) {
         );
         costume = sprite.addCostumeWithoutLoading(dataURL, costumeJson.name);
       }
-      fromCostumeJSON(costume,costumeJson);
+      fromCostumeJSON(costume, costumeJson);
     }
     var sounds = spriteJson.sounds ? spriteJson.sounds : []; //Some very early versions don't provide sounds.
     for (var soundJson of sounds) {
@@ -310,7 +310,7 @@ async function loadProjectFromZip(arrayBuffer, progressJSON = function () {}) {
         );
         sound = sprite.addSoundWithoutLoading(dataURL, soundJson.name);
       }
-      fromSoundJSON(sound,soundJson);
+      fromSoundJSON(sound, soundJson);
     }
     fromSpriteJSON(sprite, spriteJson);
 

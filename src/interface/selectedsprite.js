@@ -7,7 +7,7 @@ var costumeViewer = require("./costumeviewer.js");
 var soundViewer = require("./soundviewer.js");
 var compiler = require("../compiler");
 var blockMenu = require("./blockmenuloader.js");
-var {valueReport} = require("./value-report.js");
+var { valueReport } = require("./value-report.js");
 var { makeSortable } = require("./drag-utils.js");
 var { loadBlockMenus } = blockMenu;
 
@@ -154,7 +154,7 @@ function loadCode(spr) {
     if (compiler.isStarterBlock(rootBlock)) {
       try {
         var code = compiler.compileBlock(rootBlock);
-        var allSprs = ([spr]).concat(spr.clones); //Now updates clones
+        var allSprs = [spr].concat(spr.clones); //Now updates clones
         for (var cspr of allSprs) {
           cspr.removeSpriteFunction(rootBlock.id);
           cspr.addFunction(code, rootBlock.id);
@@ -232,8 +232,15 @@ function loadCode(spr) {
           var code = compiler.compileBlockWithThreadForced(root);
           var outputThread = await spr.runFunction(code);
           if (outputThread) {
-            if (compiler.isOutputBlock(root) || typeof outputThread.output !== "undefined") { //Now handles undefined.
-              workspace.reportValue(e.blockId, valueReport(outputThread.output));
+            if (
+              compiler.isOutputBlock(root) ||
+              typeof outputThread.output !== "undefined"
+            ) {
+              //Now handles undefined.
+              workspace.reportValue(
+                e.blockId,
+                valueReport(outputThread.output),
+              );
             }
           }
         })();
@@ -304,7 +311,11 @@ function loadCode(spr) {
           var code = compiler.compileBlockWithThreadForced(root);
           var outputThread = await spr.runFunction(code);
           if (outputThread) {
-            if (compiler.isOutputBlock(root) || typeof outputThread.output !== "undefined") { //Fix so undefined works.
+            if (
+              compiler.isOutputBlock(root) ||
+              typeof outputThread.output !== "undefined"
+            ) {
+              //Fix so undefined works.
               workspace.reportValue(e.blockId, outputThread.output);
             }
           }
@@ -641,7 +652,7 @@ function compileSpriteXML(spr) {
     if (compiler.isStarterBlock(rootBlock)) {
       try {
         var code = compiler.compileBlock(rootBlock);
-        var allSprs = ([spr]).concat(spr.clones); //Now updates clones
+        var allSprs = [spr].concat(spr.clones); //Now updates clones
         for (var cspr of allSprs) {
           cspr.removeSpriteFunction(rootBlock.id);
           cspr.addFunction(code, rootBlock.id);

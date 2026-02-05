@@ -14,7 +14,7 @@ var JavascriptTranslation = {
   ...require("./sounds.js"),
   ...require("./engine.js"),
   ...require("./property.js"),
-  ...require("./sprite-master.js")
+  ...require("./sprite-master.js"),
 };
 
 module.exports = JavascriptTranslation;

@@ -69,11 +69,15 @@ export const getOrderedTopBlockColumns = (separateOrphans, workspace) => {
         for (const icon of block.getIcons()) {
           if (icon.commentBubble) {
             const comment = icon.commentBubble;
-            const right = comment.getRelativeToSurfaceXY().x + comment.getSize().width;
+            const right =
+              comment.getRelativeToSurfaceXY().x + comment.getSize().width;
 
             const root = comment.getSourceBlock().getRootBlock();
             const left = root.getRelativeToSurfaceXY().x;
-            maxWidths[root.id] = Math.max(right - left, maxWidths[root.id] || 0);
+            maxWidths[root.id] = Math.max(
+              right - left,
+              maxWidths[root.id] || 0,
+            );
           }
         }
       }
@@ -125,7 +129,9 @@ export const getOrderedTopBlockColumns = (separateOrphans, workspace) => {
 
   cols.sort((a, b) => a.x - b.x);
   for (const col of cols) {
-    col.blocks.sort((a, b) => a.getRelativeToSurfaceXY().y - b.getRelativeToSurfaceXY().y);
+    col.blocks.sort(
+      (a, b) => a.getRelativeToSurfaceXY().y - b.getRelativeToSurfaceXY().y,
+    );
   }
 
   return { cols: cols, orphans: orphans, maxWidths: maxWidths };

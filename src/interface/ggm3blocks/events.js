@@ -81,7 +81,7 @@ Blockly.WorkspaceSvg.prototype.registerToolboxCategoryCallback(
       },
     );
 
-    var broadcastNames = engine.getBroadcastNames().slice(0,1);
+    var broadcastNames = engine.getBroadcastNames().slice(0, 1);
 
     for (var brodcastName of broadcastNames) {
       xmlList.push(

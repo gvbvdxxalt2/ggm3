@@ -1,10 +1,13 @@
-var {compileSpriteXML, saveCurrentSpriteCode} = require("../selectedsprite.js");
+var {
+  compileSpriteXML,
+  saveCurrentSpriteCode,
+} = require("../selectedsprite.js");
 
 function compileSprite(sprite) {
-    compileSpriteXML(sprite);
+  compileSpriteXML(sprite);
 }
 
 module.exports = {
-    compileSprite,
-    saveCurrentSpriteCode
+  compileSprite,
+  saveCurrentSpriteCode,
 };

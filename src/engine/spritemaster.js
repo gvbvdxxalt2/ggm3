@@ -1,56 +1,55 @@
 var SpriteMasterConsts = require("../sprmaster.js");
 
-class SpriteMaster { //Blocks for sprite master
+class SpriteMaster {
+  //Blocks for sprite master
 
-    constructor (originSprite) {
-        this.sprite = originSprite;
+  constructor(originSprite) {
+    this.sprite = originSprite;
+  }
+
+  findSpriteByName(spriteName) {
+    this.sprite.findSpriteByName(spriteName);
+  }
+
+  getSpriteSafe(spriteName, option) {
+    var targetSprite = this.findSpriteByName(spriteName);
+    if (!targetSprite) {
+      return {};
     }
 
-    findSpriteByName(spriteName) {
-        this.sprite.findSpriteByName(spriteName);
+    return targetSprite;
+  }
+
+  getClonesOf(spriteName, option) {
+    var targetSprite = this.findSpriteByName(spriteName);
+    if (!targetSprite) {
+      return [];
     }
 
-    getSpriteSafe(spriteName, option) {
-        var targetSprite = this.findSpriteByName(spriteName);
-        if (!targetSprite) {
-            return {};
-        }
+    if (targetSprite.isClone) {
+      //Get the parent sprite since this is running in a clone.
+      return Array.from(targetSprite.parent.clones);
+    }
+    //Clone the clones array so that editing it
+    // won't rearrange clones and stuff.
+    return Array.from(targetSprite.clones);
+  }
 
-        return targetSprite;
+  getCloneCountOf(spriteName, option) {
+    var targetSprite = this.findSpriteByName(spriteName);
+    if (!targetSprite) {
+      return 0;
     }
 
-    getClonesOf(spriteName, option) {
-        var targetSprite = this.findSpriteByName(spriteName);
-        if (!targetSprite) {
-            return [];
-        }
-
-        if (targetSprite.isClone) {
-            //Get the parent sprite since this is running in a clone.
-            return Array.from(targetSprite.parent.clones);
-        }
-        //Clone the clones array so that editing it
-        // won't rearrange clones and stuff.
-        return Array.from(targetSprite.clones); 
+    if (targetSprite.isClone) {
+      //Get the parent sprite since this is running in a clone.
+      return targetSprite.parent.clones.length;
     }
 
-    getCloneCountOf(spriteName, option) {
-        var targetSprite = this.findSpriteByName(spriteName);
-        if (!targetSprite) {
-            return 0;
-        }
+    return targetSprite.clones.length;
+  }
 
-        if (targetSprite.isClone) {
-            //Get the parent sprite since this is running in a clone.
-            return targetSprite.parent.clones.length;
-        }
-
-        return targetSprite.clones.length;
-    }
-
-    dispose() {
-
-    }
+  dispose() {}
 }
 
 module.exports = SpriteMaster;

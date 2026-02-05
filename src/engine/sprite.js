@@ -87,7 +87,7 @@ class Sprite {
     return this.costume.name;
   }
 
-  removeProperty (name) {
+  removeProperty(name) {
     delete this.spriteProperties[name];
   }
 
@@ -104,7 +104,8 @@ class Sprite {
     if (!targetSprite) {
       return;
     }
-    targetSprite.spriteProperties[name] = (+targetSprite.spriteProperties[name] || 0) + (+value || 0);
+    targetSprite.spriteProperties[name] =
+      (+targetSprite.spriteProperties[name] || 0) + (+value || 0);
   }
 
   getSProperty(spriteName, name) {
@@ -166,7 +167,7 @@ class Sprite {
     this.soundManager.startSound(sound);
   }
 
-  setSoundEffect(identifier,name,value) {
+  setSoundEffect(identifier, name, value) {
     var sound = this.getSound(identifier);
     if (!sound) {
       return;
@@ -174,7 +175,7 @@ class Sprite {
     this.soundManager.setEffect(sound, name, value);
   }
 
-  getSoundEffect(identifier,name,value) {
+  getSoundEffect(identifier, name, value) {
     var sound = this.getSound(identifier);
     if (!sound) {
       return 0;
@@ -182,7 +183,7 @@ class Sprite {
     return this.soundManager.getEffect(sound, name, value);
   }
 
-  changeSoundEffect(identifier,name,value) {
+  changeSoundEffect(identifier, name, value) {
     var sound = this.getSound(identifier);
     if (!sound) {
       return 0;
@@ -190,9 +191,7 @@ class Sprite {
     return this.soundManager.changeEffect(sound, name, value);
   }
 
-  async playSoundUntilDone(
-    identifier = ""
-  ) {
+  async playSoundUntilDone(identifier = "") {
     var sound = this.getSound(identifier);
     if (!sound) {
       return;
@@ -747,7 +746,9 @@ class Sprite {
   getFunction(code) {
     //Used by compiling.
     //window.alert(code);
-    var func = eval("(async function (sprite,engine,spriteMaster) {" + code + "})");
+    var func = eval(
+      "(async function (sprite,engine,spriteMaster) {" + code + "})",
+    );
     return func;
   }
 
@@ -870,7 +871,7 @@ class Sprite {
     this.costumes = [];
     this.id = null;
     this.engine = null;
-    this.spriteMaster.dispose(); 
+    this.spriteMaster.dispose();
   }
 
   delete() {

@@ -28,7 +28,7 @@ Blockly.Blocks["spritemaster_spriteproperty"] = {
         {
           type: "field_dropdown",
           name: "PROPERTY_OPTION",
-          options: SpriteMasterConsts.SPRITE_MASTER_DROPDOWN
+          options: SpriteMasterConsts.SPRITE_MASTER_DROPDOWN,
         },
       ],
       colour: "#c70000",

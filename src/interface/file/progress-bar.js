@@ -15,5 +15,5 @@ function createProgessBarJSON(decimal = 0) {
 }
 
 module.exports = {
-  createProgessBarJSON
+  createProgessBarJSON,
 };

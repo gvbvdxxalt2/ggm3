@@ -4,14 +4,32 @@ var outputBlocks = require("./output_blocks.js");
 var MYSELF_OUTPUT = JSON.stringify("__myself__");
 
 outputBlocks.push("propertydata_sprite");
-JavascriptTranslation["propertydata_sprite"] = function (jsonblock, utils, options) {
-  var TARGET_SPRITE = utils.getField(jsonblock, "TARGET_SPRITE", options, "null");
+JavascriptTranslation["propertydata_sprite"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
+  var TARGET_SPRITE = utils.getField(
+    jsonblock,
+    "TARGET_SPRITE",
+    options,
+    "null",
+  );
   return JSON.stringify(TARGET_SPRITE);
 };
 
 outputBlocks.push("propertydata_get");
-JavascriptTranslation["propertydata_get"] = function (jsonblock, utils, options) {
-  var TARGET_SPRITE = utils.getInput(jsonblock, "TARGET_SPRITE", options, "null");
+JavascriptTranslation["propertydata_get"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
+  var TARGET_SPRITE = utils.getInput(
+    jsonblock,
+    "TARGET_SPRITE",
+    options,
+    "null",
+  );
   var VARIABLE = utils.getField(jsonblock, "VARIABLE", options, "null");
   if (TARGET_SPRITE == MYSELF_OUTPUT) {
     return `sprite.spriteProperties[${JSON.stringify(VARIABLE)}]`;
@@ -20,8 +38,17 @@ JavascriptTranslation["propertydata_get"] = function (jsonblock, utils, options)
   }
 };
 
-JavascriptTranslation["propertydata_set"] = function (jsonblock, utils, options) {
-  var TARGET_SPRITE = utils.getInput(jsonblock, "TARGET_SPRITE", options, "null");
+JavascriptTranslation["propertydata_set"] = function (
+  jsonblock,
+  utils,
+  options,
+) {
+  var TARGET_SPRITE = utils.getInput(
+    jsonblock,
+    "TARGET_SPRITE",
+    options,
+    "null",
+  );
   var VARIABLE = utils.getField(jsonblock, "VARIABLE", options, "null");
   var VALUE = utils.getInput(jsonblock, "VALUE", options, "null");
   if (TARGET_SPRITE == MYSELF_OUTPUT) {
@@ -36,7 +63,12 @@ JavascriptTranslation["propertydata_changeby"] = function (
   utils,
   options,
 ) {
-  var TARGET_SPRITE = utils.getInput(jsonblock, "TARGET_SPRITE", options, "null");
+  var TARGET_SPRITE = utils.getInput(
+    jsonblock,
+    "TARGET_SPRITE",
+    options,
+    "null",
+  );
   var VARIABLE = utils.getField(jsonblock, "VARIABLE", options, "null");
   var VALUE = utils.getInput(jsonblock, "VALUE", options, "null");
   if (TARGET_SPRITE == MYSELF_OUTPUT) {

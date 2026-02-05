@@ -25,6 +25,6 @@ function getSaveableVariablesGlobal(variables) {
 }
 
 module.exports = {
-    getSaveableVariables,
-    getSaveableVariablesGlobal
+  getSaveableVariables,
+  getSaveableVariablesGlobal,
 };
