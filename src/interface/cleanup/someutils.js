@@ -3,6 +3,8 @@ var createdAnyBlockContextMenus = false;
 var blocks = require("../blocks.js");
 var BlockFlasher = require("./flasher.js");
 var BlockInstance = require("./blockinstance.js");
+let views = [];
+let forward = [];
 function getBlockly() {
   return new Promise((r) => r(window.Blockly));
 }
@@ -120,14 +122,51 @@ function createBlockContextMenu(
     };
   });
 }
+
+function scrollPosFromOffset({ left, top }, metrics) {
+  // New Blockly uses "scrollLeft" and "scrollTop" instead of "contentLeft" and "contentTop"
+  let scrollLeft = metrics.scrollLeft ?? metrics.contentLeft;
+  let scrollTop = metrics.scrollTop ?? metrics.contentTop;
+  return {
+    sx: left - scrollLeft,
+    sy: top - scrollTop,
+  };
+}
+
+function distance(pos, next) {
+  return Math.sqrt(Math.pow(pos.left - next.left, 2) + Math.pow(pos.top - next.top, 2));
+}
+
+function storeView(next, dist) {
+  forward = [];
+  let workspace = blocks.getCurrentWorkspace(),
+    s = workspace.getMetrics();
+
+  let pos = { left: s.viewLeft, top: s.viewTop };
+  if (!next || distance(pos, next) > dist) {
+    views.push(pos);
+  }
+}
+
+function peek() {
+  return views.length > 0 ? views[views.length - 1] : null;
+}
+function getTopOfStackFor(block) {
+  let base = block;
+  while (base.getOutputShape() && base.getSurroundParent()) {
+    base = base.getSurroundParent();
+  }
+  return base;
+}
+
 function scrollBlockIntoView(blockOrId) {
+  var offsetX = 32;
+  var offsetY = 32;
   let workspace = blocks.getCurrentWorkspace();
   /** @type {Blockly.Block} */
   let block; // or is it really a Blockly.BlockSvg?
 
   if (blockOrId instanceof BlockInstance) {
-    // Switch to sprite
-    this.setEditingTarget(blockOrId.targetId);
     // Highlight the block!
     block = workspace.getBlockById(blockOrId.id);
   } else {
@@ -143,7 +182,7 @@ function scrollBlockIntoView(blockOrId) {
    * !Blockly.Block
    */
   let root = block.getRootBlock();
-  let base = this.getTopOfStackFor(block);
+  let base = getTopOfStackFor(block);
   let ePos = base.getRelativeToSurfaceXY(), // Align with the top of the block
     rPos = root.getRelativeToSurfaceXY(), // Align with the left of the block 'stack'
     scale = workspace.scale,
@@ -153,24 +192,24 @@ function scrollBlockIntoView(blockOrId) {
     yy = block.height + y,
     s = workspace.getMetrics();
   if (
-    x < s.viewLeft + this.offsetX - 4 ||
+    x < s.viewLeft + offsetX - 4 ||
     xx > s.viewLeft + s.viewWidth ||
-    y < s.viewTop + this.offsetY - 4 ||
+    y < s.viewTop + offsetY - 4 ||
     yy > s.viewTop + s.viewHeight
   ) {
-    let { sx, sy } = this.navigationHistory.scrollPosFromOffset(
+    let { sx, sy } = scrollPosFromOffset(
       {
-        left: x - this.offsetX,
-        top: y - this.offsetY,
+        left: x - offsetX,
+        top: y - offsetY,
       },
       s,
     );
 
-    this.navigationHistory.storeView(this.navigationHistory.peek(), 64);
+    storeView(peek(), 64);
 
     // workspace.hideChaff(),
     workspace.scrollbar.set(sx, sy);
-    this.navigationHistory.storeView({ left: sx, top: sy }, 64);
+    storeView({ left: sx, top: sy }, 64);
   }
   this.blockly?.hideChaff();
   BlockFlasher.flash(block);
