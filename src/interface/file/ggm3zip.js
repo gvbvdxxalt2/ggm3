@@ -23,7 +23,10 @@ const {
     fromSoundJSON
 } = require("./from-to.js");
 
-var {compileSprite} = require("./spritestuff.js");
+var {
+    compileSprite,
+    saveCurrentSpriteCode
+} = require("./spritestuff.js");
 
 function calculateProjectSaveMax() {
     var max = 0;
