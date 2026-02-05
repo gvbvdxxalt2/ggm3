@@ -2,11 +2,12 @@ var JSZip = require("jszip");
 var engine = require("../curengine.js");
 
 const RESOURCE_FOLDER = "resources";
+const GAME_FILE = "game.json";
 
 var {ProgressMonitor} = require("./progressmonitor.js");
 var {arrayBufferToDataURL, dataURLToArrayBuffer} = require("./dataurl.js");
 
-var {getCostumeData, getSoundData} = require("./asset.js");
+var {getCostumeData, getSoundData, loadCostume, loadSound} = require("./asset.js");
 const {
     toEngineJSON,
     toSpriteJSON,
@@ -27,6 +28,8 @@ function calculateProjectSaveMax() {
     }
     return max;
 }
+
+//Writing a entire game file.
 
 async function saveProjectZip(progress = new ProgressMonitor()) {
     var zip = new JSZip();
@@ -76,15 +79,48 @@ async function saveProjectZip(progress = new ProgressMonitor()) {
         spriteIndex += 1;
     }
 
-    var engineJSON = toEngineJSON();
-    engineJSON.sprites = spriteArray;
+    var engineJson = toEngineJSON();
+    engineJson.sprites = spriteArray;
 
-    zip.file("game.json", JSON.stringify(engineJSON));
+    zip.file(GAME_FILE, JSON.stringify(engineJson));
 
     progress.finish();
     return zip;
 }
 
+async function saveProjectZipBlob(progress = new ProgressMonitor()) {
+    var zip = await saveProjectZip(progress);
+    var blob = await zip.generateAsync({ type: "blob" });
+    progress.finish();
+    return blob;
+}
+
+//Loading an entire game file.
+
+async function loadProjectZip(zipSource, progress = new ProgressMonitor()) {
+    var zip = JSZip.loadAsync(zipSource);
+
+    var gameFile = zip.file(GAME_FILE);
+    if (!gameFile) {
+        throw new Error("Game JSON file doesn't exist in zip file.");
+        return;
+    }
+    try{
+        var engineJson = JSON.parse(await gameFile.async("string"));
+    }catch(e){
+        console.error("Corrupt game JSON: ",e);
+        throw new Error("The project game JSON data is corrupt. Check the console for errors.");
+        return;
+    }
+
+    fromEngineJSON(engineJson);
+
+    for (var spriteJson of engineJson.sprites) {
+        
+    }
+}
+
 module.exports = {
-    saveProjectZip
+    saveProjectZip,
+    saveProjectZipBlob
 };

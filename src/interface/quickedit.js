@@ -184,10 +184,8 @@ if (available()) {
           },
         ]);
       });
-      var zip = await projectSaver.saveProjectZip(monitor);
-      var content = await zip.generateAsync({ type: "blob" });
-      await writeToWritable(writable, content);
-      monitor.finish();
+      var zipBlob = await projectSaver.saveProjectZipBlob(monitor);
+      await writeToWritable(writable, zipBlob);
     } catch (e) {
       console.error(e);
       dialogs.alert("Project save error " + e);
@@ -225,12 +223,10 @@ addAppMenu(
       label: "Save as",
       icon: "icons/export.svg",
       action: async function () {
-        var monitor = new projectSaver.ProgressMonitor();
-        var zip = await projectSaver.saveProjectZip(monitor);
+        var zipBlob = await projectSaver.saveProjectZipBlob(monitor);
         var objectURL = URL.createObjectURL(
-          await zip.generateAsync({ type: "blob" }),
+          zipBlob
         );
-        monitor.finish();
         var a = document.createElement("a");
         a.href = objectURL;
         a.download = "project.ggm3";

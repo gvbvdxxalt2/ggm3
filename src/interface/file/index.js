@@ -1,8 +1,9 @@
 var {ProgressMonitor} = require("./progressmonitor.js");
-var {saveProjectZip} = require("./ggm3zip.js");
+var {saveProjectZip, saveProjectZipBlob} = require("./ggm3zip.js");
 
 module.exports = {
     ProgressMonitor,
-    
-    saveProjectZip
+
+    saveProjectZip,
+    saveProjectZipBlob
 };
