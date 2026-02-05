@@ -77,7 +77,7 @@ async function saveProjectZip(progress = new ProgressMonitor()) {
         for (var file of soundData) {
             
             var arrayBuffer = await dataURLToArrayBuffer(file.dataURL);
-            var filePath = `${RESOURCE_FOLDER}/${file.fileName}`;
+            var filePath = `${RESOURCE_FOLDER}/${spriteIndex}/${RESOURCE_SOUNDS_FOLDER}/${file.fileName}`;
             zip.file(filePath, arrayBuffer);
             progress.current += 1;
             
