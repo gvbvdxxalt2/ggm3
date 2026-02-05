@@ -233,7 +233,7 @@ addAppMenu(
       label: "Save as",
       icon: "icons/export.svg",
       action: async function () {
-        var zipBlob = await projectSaver.saveProjectZipBlob(monitor);
+        var zipBlob = await projectSaver.saveProjectZipBlob();
         var objectURL = URL.createObjectURL(
           zipBlob
         );

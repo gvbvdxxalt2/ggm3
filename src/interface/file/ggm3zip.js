@@ -23,7 +23,7 @@ const {
     fromSoundJSON
 } = require("./from-to.js");
 
-var {compileSprite} = require("./compile.js");
+var {compileSprite} = require("./spritestuff.js");
 
 function calculateProjectSaveMax() {
     var max = 0;
@@ -37,6 +37,8 @@ function calculateProjectSaveMax() {
 //Writing a entire game file.
 
 async function saveProjectZip(progress = new ProgressMonitor()) {
+    saveCurrentSpriteCode(); //Save current code to be safe that its saved.
+
     var zip = new JSZip();
     zip.folder(RESOURCE_FOLDER);
 
