@@ -134,7 +134,9 @@ function scrollPosFromOffset({ left, top }, metrics) {
 }
 
 function distance(pos, next) {
-  return Math.sqrt(Math.pow(pos.left - next.left, 2) + Math.pow(pos.top - next.top, 2));
+  return Math.sqrt(
+    Math.pow(pos.left - next.left, 2) + Math.pow(pos.top - next.top, 2),
+  );
 }
 
 function storeView(next, dist) {
