@@ -154,9 +154,12 @@ function loadCode(spr) {
     if (compiler.isStarterBlock(rootBlock)) {
       try {
         var code = compiler.compileBlock(rootBlock);
-        spr.removeSpriteFunction(rootBlock.id);
-        spr.addFunction(code, rootBlock.id);
-        spr.runFunctionID(rootBlock.id);
+        var allSprs = ([spr]).concat(spr.clones); //Now updates clones
+        for (var cspr of allSprs) {
+          cspr.removeSpriteFunction(rootBlock.id);
+          cspr.addFunction(code, rootBlock.id);
+          cspr.runFunctionID(rootBlock.id);
+        }
       } catch (e) {
         workspace.reportValue(rootBlock.id, "Unable to compile: " + e);
         console.error(`Unable to compile block `, e);
@@ -638,9 +641,12 @@ function compileSpriteXML(spr) {
     if (compiler.isStarterBlock(rootBlock)) {
       try {
         var code = compiler.compileBlock(rootBlock);
-        spr.removeSpriteFunction(rootBlock.id);
-        spr.addFunction(code, rootBlock.id);
-        spr.runFunctionID(rootBlock.id);
+        var allSprs = ([spr]).concat(spr.clones); //Now updates clones
+        for (var cspr of allSprs) {
+          cspr.removeSpriteFunction(rootBlock.id);
+          cspr.addFunction(code, rootBlock.id);
+          cspr.runFunctionID(rootBlock.id);
+        }
       } catch (e) {
         return;
       }

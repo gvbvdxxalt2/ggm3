@@ -48,7 +48,7 @@ var defaultProject = require("./defaultproject.js");
 
 var newFileMenus = [];
 
-var projectSaver = require("./projectzip.js");
+var projectSaver = require("./file");
 
 async function newProject() {
   loadingScreenContainer.hidden = false;
@@ -161,7 +161,8 @@ if (available()) {
     isSaving = true;
     try {
       var writable = await createWritable(fileHandle);
-      var zip = await projectSaver.saveProjectToZip((progressDecimal) => {
+      var monitor = new projectSaver.ProgressMonitor();
+      monitor.on("progress", (progressDecimal) => {
         editFileQuick.textContent = "";
         elements.setInnerJSON(editFileQuick, [
           {
@@ -174,8 +175,19 @@ if (available()) {
           createProgessBarJSON(progressDecimal),
         ]);
       });
+      monitor.on("finish", (progressDecimal) => {
+        editFileQuick.textContent = "";
+        elements.setInnerJSON(editFileQuick, [
+          {
+            element: "span",
+            textContent: "Saving...",
+          },
+        ]);
+      });
+      var zip = await projectSaver.saveProjectZip(monitor);
       var content = await zip.generateAsync({ type: "blob" });
       await writeToWritable(writable, content);
+      monitor.finish();
     } catch (e) {
       console.error(e);
       dialogs.alert("Project save error " + e);
@@ -213,10 +225,12 @@ addAppMenu(
       label: "Save as",
       icon: "icons/export.svg",
       action: async function () {
-        var zip = await projectSaver.saveProjectToZip();
+        var monitor = new projectSaver.ProgressMonitor();
+        var zip = await projectSaver.saveProjectZip(monitor);
         var objectURL = URL.createObjectURL(
           await zip.generateAsync({ type: "blob" }),
         );
+        monitor.finish();
         var a = document.createElement("a");
         a.href = objectURL;
         a.download = "project.ggm3";

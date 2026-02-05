@@ -3,6 +3,7 @@ const twgl = require("twgl.js");
 const Drawable = require("./drawable.js");
 const Sprite = require("./sprite.js");
 const calculateMatrix = require("./calculatematrix.js");
+var EventEmitter = require('eventemitter3');
 
 var CollisionSprite = require("./mask.js");
 
@@ -10,12 +11,17 @@ var SHADERS = require("./shaders.js");
 
 var created = false;
 
-class GGM3Engine {
+class GGM3Engine extends EventEmitter {
+  static SPRITE_CREATED = "SPRITE_CREATED";
+  static SPRITE_DELETED = "SPRITE_DELETED";
+  static OPTIONS_UPDATED = "OPTIONS_UPDATED";
+
   constructor(canvas) {
+    super();
     if (!created) {
       created = true;
     } else {
-      throw new Error("A GGM3Engine was already created.");
+      throw new Error("A GGM3Engine was already created. Use iframes to run multiple games at once.");
     }
     this.canvas = canvas;
     if (!canvas) {
@@ -48,6 +54,39 @@ class GGM3Engine {
     this.gameHeight = 360;
     this.screenScale = 1;
     this.updateCanvasSize();
+  }
+
+  set frameRate(v) {
+    if (this._frameRate !== v) {
+      this._frameRate = v;
+      this.emit(GGM3Engine.OPTIONS_UPDATED);
+    }
+  }
+
+  get frameRate() {
+    return this._frameRate;
+  }
+
+  set gameWidth(v) {
+    if (this._gameWidth !== v) {
+      this._gameWidth = v;
+      this.emit(GGM3Engine.OPTIONS_UPDATED);
+    }
+  }
+
+  get gameWidth() {
+    return this._gameWidth;
+  }
+
+  set gameHeight(v) {
+    if (this._gameHeight !== v) {
+      this._gameHeight = v;
+      this.emit(GGM3Engine.OPTIONS_UPDATED);
+    }
+  }
+
+  get gameHeight() {
+    return this._gameHeight;
   }
 
   setFramerate(v = 60) {
@@ -196,6 +235,7 @@ class GGM3Engine {
     }
     sprite.dispose();
     this.sprites = this.sprites.filter((s) => s.id !== sprite.id);
+    this.emit(GGM3Engine.SPRITE_DELETED, sprite);
   }
 
   emptyProject() {
@@ -207,6 +247,12 @@ class GGM3Engine {
   }
 
   createEmptySprite() {
+    var spr = this.__createEmptySpriteNoEvent();
+    this.emit(GGM3Engine.SPRITE_CREATED, spr);
+    return spr;
+  }
+
+  __createEmptySpriteNoEvent() {
     var spr = new Sprite(this, "Sprite " + (this.sprites.length + 1));
     this.sprites.push(spr);
     this.makeUniqueSpriteNames();
@@ -236,6 +282,7 @@ class GGM3Engine {
       costume.renderImageAtScale();
     });
 
+    this.emit(GGM3Engine.SPRITE_CREATED, newSprite);
     return newSprite;
   }
 
