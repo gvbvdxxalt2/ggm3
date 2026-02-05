@@ -260,7 +260,7 @@ class GGM3Engine extends EventEmitter {
   }
 
   duplicateSprite(fromSprite) {
-    var newSprite = this.createEmptySprite();
+    var newSprite = this.__createEmptySpriteNoEvent();
     newSprite.name = fromSprite.name;
     this.makeUniqueSpriteNames();
 
@@ -272,6 +272,18 @@ class GGM3Engine extends EventEmitter {
     newSprite.size = fromSprite.size;
     newSprite.costumeIndex = fromSprite.costumeIndex;
     newSprite.blocklyXML = fromSprite.blocklyXML;
+    newSprite.alpha = fromSprite.alpha;
+    newSprite.skewX = fromSprite.skewX;
+    newSprite.skewY = fromSprite.skewY;
+
+    for (var variable of Object.keys(newSprite.variables)) {
+      try {
+        newSprite.variables[variable] = JSON.parse(
+          JSON.stringify(fromSprite.variables[variable]),
+        ); //This clones the variable value, including json values.
+      } catch (e) {
+      }
+    }
 
     fromSprite.costumes.forEach(async (fromCostume) => {
       var costume = await newSprite.addCostume(fromCostume.dataURL);
@@ -279,7 +291,14 @@ class GGM3Engine extends EventEmitter {
       costume.rotationCenterX = fromCostume.rotationCenterX;
       costume.rotationCenterY = fromCostume.rotationCenterY;
       costume.preferedScale = fromCostume.preferedScale;
+      costume.willPreload = fromCostume.willPreload;
       costume.renderImageAtScale();
+    });
+
+    fromSprite.sounds.forEach(async (fromSound) => {
+      var sound = await newSprite.addSound(fromSound.src);
+      sound.name = fromSound.name;
+      sound.willPreload = sound.willPreload;
     });
 
     this.emit(GGM3Engine.SPRITE_CREATED, newSprite);

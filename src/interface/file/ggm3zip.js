@@ -113,10 +113,23 @@ async function loadProjectZip(zipSource, progress = new ProgressMonitor()) {
         return;
     }
 
+    //Calculate the amount of assets to be loaded.
+    var max = 0;
+    for (var sprite of engineJson.sprites) {
+        max += sprite.costumes.length;
+        max += sprite.sounds.length;
+    }
+    progress.calculatedMax(max);
+
+    //Load everything
+
     fromEngineJSON(engineJson);
 
     for (var spriteJson of engineJson.sprites) {
-        
+        var sprite = engine.createEmptySprite();
+        for (var costumeJson of spriteJson.costumes) {
+            var 
+        }
     }
 }
 
