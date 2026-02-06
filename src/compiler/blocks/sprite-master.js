@@ -41,13 +41,13 @@ JavascriptTranslation["spritemaster_spriteproperty"] = function (
     options,
     "",
   );
-  window.alert(SPRITE);
   var propertyCode = SpriteMasterConsts.SPRITE_MASTER_CODE[PROPERTY_OPTION];
   if (propertyCode) {
     if (SPRITE == MYSELF_INPUT) {
       return `sprite.${propertyCode}`;
     }
-    return `(spriteMaster.getSpriteSafe(${JSON.stringify(SPRITE)})).${propertyCode}`;
+    var output = `(spriteMaster.getSpriteSafe(${SPRITE})).${propertyCode}`;
+    return output;
   } else {
     return `(0)`;
   }

@@ -12,7 +12,6 @@ class SpriteMaster {
   }
 
   getSpriteSafe(spriteName) {
-    window.alert(spriteName);
     var targetSprite = this.findSpriteByName(spriteName);
     if (!targetSprite) {
       return {};
