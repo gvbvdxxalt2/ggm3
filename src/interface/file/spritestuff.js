@@ -1,6 +1,7 @@
 var {
   compileSpriteXML,
   saveCurrentSpriteCode,
+  compileAllSprites
 } = require("../selectedsprite.js");
 
 function compileSprite(sprite) {
@@ -10,4 +11,5 @@ function compileSprite(sprite) {
 module.exports = {
   compileSprite,
   saveCurrentSpriteCode,
+  compileAllSprites,
 };

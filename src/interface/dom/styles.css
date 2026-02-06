@@ -22,7 +22,7 @@
   /*windowDialogHeader*/
   --popup-dialog-message-size: 16px;
 
-  --loader2-time: 4s;
+  --loader2-time: 2.5s;
 }
 
 .windowDialogContainer {
@@ -717,16 +717,31 @@ body {
 .loader2Container {
   width: 120px;
   height: 120px;
+  position: relative;
 }
 
 .loaderBlock1 {
   animation-name: loaderBlock1Anim;
   animation-duration: var(--loader2-time);
+    background-image: url("loading/blocks1.svg");
 }
 
 .loaderBlock3 {
   animation-name: loaderBlock3Anim;
   animation-duration: var(--loader2-time);
+  background-image: url("loading/blocks3.svg");
+}
+
+.loaderBlock2 {
+  animation-name: loaderBlock2Anim;
+  animation-duration: var(--loader2-time);
+  background-image: url("loading/blocks2.svg");
+}
+
+.loaderBlockIcon {
+  animation-name: loaderBlockIconAnim;
+  animation-duration: var(--loader2-time);
+  background-image: url("loading/three.svg");
 }
 
 .loaderBlock {
@@ -734,11 +749,10 @@ body {
   height: 120px;
   animation-iteration-count: infinite;
 
-  position: relative;
+  position: absolute;
   top: 0;
   left: 0;
 
-  background-image: url("loading/blocks1.svg");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100% 100%;
@@ -752,6 +766,11 @@ body {
     transform: translate(0, -50%) scale(1, 1);
     animation-timing-function: ease-out;
     opacity: 0;
+  }
+  10% {
+    transform: translate(0, 0) scale(1, 1);
+    animation-timing-function: ease-out;
+    opacity: 1;
   }
   15% {
     transform: translate(0, 0) scale(1, 1);
@@ -776,6 +795,11 @@ body {
     animation-timing-function: ease-out;
     opacity: 0;
   }
+  20% {
+    transform: translate(0, 50%) scale(1, 1);
+    animation-timing-function: ease-out;
+    opacity: 0;
+  }
   30% {
     transform: translate(0, 0) scale(1, 1);
     animation-timing-function: ease-out;
@@ -790,6 +814,61 @@ body {
     transform: translate(0, 50%) scale(1, 1);
     animation-timing-function: ease-out;
     opacity: 0;
+  }
+}
+
+@keyframes loaderBlock2Anim {
+  0% {
+    transform: translate(0, 0) scale(2, 2);
+    animation-timing-function: ease-out;
+    opacity: 0;
+  }
+  40% {
+    transform: translate(0, 0) scale(2, 2);
+    animation-timing-function: ease-out;
+    opacity: 0;
+  }
+  45% {
+    transform: translate(0, 0) scale(1, 1);
+    animation-timing-function: ease-out;
+    opacity: 1;
+  }
+  85% {
+    transform: translate(0, 0) scale(1, 1);
+    animation-timing-function: ease-out;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0) scale(2, 2);
+    animation-timing-function: ease-out;
+    opacity: 0;
+  }
+}
+
+@keyframes loaderBlockIconAnim {
+  0% {
+    transform: translate(0, 0) scale(1, 1);
+    animation-timing-function: ease-out;
+  }
+  45% {
+    transform: translate(0, 0) scale(1, 1);
+    animation-timing-function: ease-out;
+    transform-origin: center;
+  }
+  60% {
+    transform-origin: center;
+    transform: translate(0, 0) scale(1.2, 1.2);
+    animation-timing-function: ease-in;
+    filter: drop-shadow(4px 4px 8px rgba(0, 255, 13, 1));
+  }
+  75% {
+    transform-origin: center;
+    transform: translate(0, 0) scale(1, 1);
+    animation-timing-function: ease-out;
+  }
+  100% {
+    transform: translate(0, 0) scale(1, 1);
+    animation-timing-function: ease-out;
   }
 }
 

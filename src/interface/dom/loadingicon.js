@@ -9,6 +9,14 @@ module.exports = {
             {
                 element: "div",
                 className: "loaderBlock3 loaderBlock",
+            },
+            {
+                element: "div",
+                className: "loaderBlock2 loaderBlock",
+            },
+            {
+                element: "div",
+                className: "loaderBlockIcon loaderBlock",
             }
           ]
         };

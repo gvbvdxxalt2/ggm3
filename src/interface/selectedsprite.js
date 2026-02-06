@@ -690,6 +690,55 @@ function compileSpriteXML(spr) {
   div.remove();
 }
 
+function compileAllSprites() {
+  async function compileRoot(rootBlock,spr) {
+    if (!rootBlock) return;
+    // We don't need to stop it since it automatically stops the previous stack when ran.
+    if (compiler.isStarterBlock(rootBlock)) {
+      try {
+        var code = compiler.compileBlock(rootBlock);
+        var allSprs = [spr].concat(spr.clones); //Now updates clones
+        for (var cspr of allSprs) {
+          cspr.removeSpriteFunction(rootBlock.id);
+          cspr.addFunction(code, rootBlock.id);
+          cspr.runFunctionID(rootBlock.id);
+        }
+      } catch (e) {
+        return;
+      }
+    }
+  }
+  var div = document.createElement("div");
+  document.body.append(div);
+  var tempWorkspace = Blockly.inject(div, {
+    comments: true,
+    disable: false,
+    collapse: false,
+    media: "../media/",
+    readOnly: false,
+    rtl: false,
+    scrollbars: false,
+    trashcan: false,
+    sounds: false,
+  });
+
+  for (var spr of engine.sprites) {
+    tempWorkspace.clear();
+
+    if (spr.blocklyXML) {
+      Blockly.Xml.domToWorkspace(spr.blocklyXML, tempWorkspace);
+    }
+
+    var blocks = tempWorkspace.getTopBlocks(true);
+    for (var block of blocks) {
+      compileRoot(block.getRootBlock(), spr);
+    }
+  }
+
+  tempWorkspace.dispose();
+  div.remove();
+}
+
 function saveCurrentSpriteCode() {
   currentSelectedSprite.blocklyXML = Blockly.Xml.workspaceToDom(workspace);
 }
@@ -722,6 +771,7 @@ module.exports = {
   getCurSpriteIndex,
   loadCode,
   compileSpriteXML,
+  compileAllSprites,
   saveCurrentSpriteCode,
   saveScroll,
   scrollToPrevious,

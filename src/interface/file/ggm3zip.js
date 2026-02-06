@@ -28,7 +28,7 @@ const {
   fromSoundJSON,
 } = require("./from-to.js");
 
-var { compileSprite, saveCurrentSpriteCode } = require("./spritestuff.js");
+var { compileSprite, saveCurrentSpriteCode, compileAllSprites } = require("./spritestuff.js");
 
 function calculateProjectSaveMax() {
   var max = 0;
@@ -189,10 +189,9 @@ async function loadProjectZip(zipSource, progress = new ProgressMonitor()) {
 
     //Add sprite properties.
     fromSpriteJSON(sprite, spriteJson);
-
-    //Compile the sprite so that code works.
-    compileSprite(sprite);
   }
+
+  compileAllSprites();
 
   progress.finish();
 }
