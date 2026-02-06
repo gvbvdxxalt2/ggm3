@@ -21,6 +21,8 @@
   --popup-dialog-input-text-color: hsl(0deg, 0%, 0%);
   /*windowDialogHeader*/
   --popup-dialog-message-size: 16px;
+
+  --loader2-time: 4s;
 }
 
 .windowDialogContainer {
@@ -712,18 +714,31 @@ body {
   color: #ffffff;
 }
 
-.loader2 {
+.loader2Container {
   width: 120px;
   height: 120px;
-  animation-name: newLoaderAnim;
-  animation-duration: 1.3s;
+}
+
+.loaderBlock1 {
+  animation-name: loaderBlock1Anim;
+  animation-duration: var(--loader2-time);
+}
+
+.loaderBlock3 {
+  animation-name: loaderBlock3Anim;
+  animation-duration: var(--loader2-time);
+}
+
+.loaderBlock {
+  width: 120px;
+  height: 120px;
   animation-iteration-count: infinite;
 
   position: relative;
   top: 0;
   left: 0;
 
-  background-image: url("logo/icon.svg");
+  background-image: url("loading/blocks1.svg");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100% 100%;
@@ -732,30 +747,49 @@ body {
   filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.25));
 }
 
-@keyframes newLoaderAnim {
-  /* Bounce */
+@keyframes loaderBlock1Anim {
   0% {
+    transform: translate(0, -50%) scale(1, 1);
+    animation-timing-function: ease-out;
+    opacity: 0;
+  }
+  15% {
     transform: translate(0, 0) scale(1, 1);
     animation-timing-function: ease-out;
+    opacity: 1;
   }
-  /* Outwards left*/
-  25% {
-    transform: translate(-25%, -100%) rotate(-10deg);
-    animation-timing-function: ease-in;
-  }
-  /* Bounce */
-  50% {
+  85% {
     transform: translate(0, 0) scale(1, 1);
     animation-timing-function: ease-out;
+    opacity: 1;
   }
-  /* Outwards right */
-  75% {
-    transform: translate(25%, -100%) rotate(10deg);
-    animation-timing-function: ease-in;
-  }
-  /* Go back to start (repeat) */
   100% {
+    transform: translate(0, -50%) scale(1, 1);
+    animation-timing-function: ease-out;
+    opacity: 0;
+  }
+}
+
+@keyframes loaderBlock3Anim {
+  0% {
+    transform: translate(0, 50%) scale(1, 1);
+    animation-timing-function: ease-out;
+    opacity: 0;
+  }
+  30% {
     transform: translate(0, 0) scale(1, 1);
+    animation-timing-function: ease-out;
+    opacity: 1;
+  }
+  70% {
+    transform: translate(0, 0) scale(1, 1);
+    animation-timing-function: ease-out;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 50%) scale(1, 1);
+    animation-timing-function: ease-out;
+    opacity: 0;
   }
 }
 

@@ -262,3 +262,8 @@ addAppMenu(
 );
 
 newProject();
+
+
+setInterval(() => {
+  loadingScreenContainer.hidden = false;
+},1);

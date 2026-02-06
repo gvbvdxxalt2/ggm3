@@ -10,10 +10,7 @@ module.exports = {
       element: "div",
       className: "loadingDialogBox",
       children: [
-        {
-          element: "div",
-          className: "loader2",
-        },
+        require("./loadingicon.js"),
         {
           element: "span",
           style: {
