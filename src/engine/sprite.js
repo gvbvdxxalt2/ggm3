@@ -338,7 +338,7 @@ class Sprite {
       return this;
     }
     return this.engine.findSpriteByName(name);
-  }
+  
 
   addCustom(id, ref, func) {
     this.customBlockRef[ref] = id;

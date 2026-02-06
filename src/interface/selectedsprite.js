@@ -316,7 +316,7 @@ function loadCode(spr) {
               typeof outputThread.output !== "undefined"
             ) {
               //Fix so undefined works.
-              workspace.reportValue(e.blockId, outputThread.output);
+              workspace.reportValue(e.blockId, valueReport(outputThread.output));
             }
           }
         })();
