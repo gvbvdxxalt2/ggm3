@@ -8,7 +8,8 @@ class SpriteMaster {
   }
 
   findSpriteByName(spriteName) {
-    this.sprite.findSpriteByName(spriteName);
+     //I was dumb: forgot to add return
+    return this.sprite.findSpriteByName(spriteName);
   }
 
   getSpriteSafe(spriteName) {
