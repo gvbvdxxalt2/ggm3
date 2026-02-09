@@ -10,10 +10,69 @@ Blockly.Xml.domToWorkspace = function (xml, workspace) {
 
   var width;
   if (workspace.RTL) width = workspace.getWidth();
+  // Clone xml so we can safely rewrite ids without mutating caller state
+  var xmlIn = xml.cloneNode(true);
+
+  // Remap block/comment ids that would collide with existing workspace ids.
+  // This prevents duplicate ids when copying blocks between sprites/workspaces
+  // and avoids compile/runtime issues caused by id collisions.
+  try {
+    var idMap = {};
+    var genId = function () {
+      if (Blockly.utils && Blockly.utils.genUid) return Blockly.utils.genUid();
+      if (Blockly.utils && Blockly.utils.createUuid)
+        return Blockly.utils.createUuid();
+      return "b" + Math.random().toString(36).substring(2, 10);
+    };
+
+    var nodeList = xmlIn.getElementsByTagName("*");
+    for (var ni = 0; ni < nodeList.length; ni++) {
+      var node = nodeList[ni];
+      if (!node.nodeName) continue;
+      var name = node.nodeName.toLowerCase();
+      if (name === "block" || name === "shadow" || name === "comment") {
+        if (node.hasAttribute && node.hasAttribute("id")) {
+          var oldId = node.getAttribute("id");
+          if (!oldId) continue;
+          var collides = false;
+          try {
+            if (workspace.getBlockById && workspace.getBlockById(oldId))
+              collides = true;
+            if (
+              !collides &&
+              workspace.getCommentById &&
+              workspace.getCommentById(oldId)
+            )
+              collides = true;
+          } catch (e) {
+            collides = false;
+          }
+
+          // Also remap if we've already assigned a mapping for this oldId
+          if (collides || idMap[oldId]) {
+            var newId = idMap[oldId] || genId();
+            // Ensure newId doesn't collide either
+            while (
+              (workspace.getBlockById && workspace.getBlockById(newId)) ||
+              (workspace.getCommentById && workspace.getCommentById(newId)) ||
+              Object.values(idMap).indexOf(newId) !== -1
+            ) {
+              newId = genId();
+            }
+            idMap[oldId] = newId;
+            node.setAttribute("id", newId);
+          }
+        }
+      }
+    }
+  } catch (e) {
+    // If remapping fails for any reason, fall back to original xml
+    xmlIn = xml;
+  }
 
   var newBlockIds = [];
   Blockly.Field.startCache();
-  var childCount = xml.childNodes.length;
+  var childCount = xmlIn.childNodes.length;
   var existingGroup = Blockly.Events.getGroup();
   if (!existingGroup) Blockly.Events.setGroup(true);
 
@@ -22,7 +81,7 @@ Blockly.Xml.domToWorkspace = function (xml, workspace) {
   try {
     // --- PASS 1: Create all variables first ---
     for (var i = 0; i < childCount; i++) {
-      var xmlChild = xml.childNodes[i];
+      var xmlChild = xmlIn.childNodes[i];
       if (xmlChild.nodeName && xmlChild.nodeName.toLowerCase() == "variables") {
         Blockly.Xml.domToVariables(xmlChild, workspace);
       }
@@ -30,7 +89,7 @@ Blockly.Xml.domToWorkspace = function (xml, workspace) {
 
     // --- PASS 2: Create blocks and comments ---
     for (var i = 0; i < childCount; i++) {
-      var xmlChild = xml.childNodes[i];
+      var xmlChild = xmlIn.childNodes[i];
       var name = xmlChild.nodeName ? xmlChild.nodeName.toLowerCase() : "";
 
       if (name == "block" || (name == "shadow" && !Blockly.Events.recordUndo)) {
@@ -97,3 +156,51 @@ Blockly.Variables.createVariable_ = function (
   var defaultName = opt_type === "list" ? "my list" : "variable1";
   return realWorkspace.createVariable(defaultName, opt_type, id);
 };
+
+// Wrap domToBlock so single-block imports (like duplication) also avoid id collisions.
+if (Blockly.Xml && Blockly.Xml.domToBlock) {
+  (function () {
+    var _origDomToBlock = Blockly.Xml.domToBlock;
+    Blockly.Xml.domToBlock = function (xmlBlock, workspace) {
+      try {
+        var xmlClone = xmlBlock.cloneNode(true);
+        if (xmlClone.hasAttribute && xmlClone.hasAttribute("id")) {
+          var oldId = xmlClone.getAttribute("id");
+          var collides = false;
+          try {
+            if (workspace.getBlockById && workspace.getBlockById(oldId))
+              collides = true;
+            if (
+              !collides &&
+              workspace.getCommentById &&
+              workspace.getCommentById(oldId)
+            )
+              collides = true;
+          } catch (e) {
+            collides = false;
+          }
+          if (collides) {
+            var genId = function () {
+              if (Blockly.utils && Blockly.utils.genUid)
+                return Blockly.utils.genUid();
+              if (Blockly.utils && Blockly.utils.createUuid)
+                return Blockly.utils.createUuid();
+              return "b" + Math.random().toString(36).substring(2, 10);
+            };
+            var newId = genId();
+            while (
+              (workspace.getBlockById && workspace.getBlockById(newId)) ||
+              (workspace.getCommentById && workspace.getCommentById(newId))
+            ) {
+              newId = genId();
+            }
+            xmlClone.setAttribute("id", newId);
+          }
+        }
+        return _origDomToBlock.call(this, xmlClone, workspace);
+      } catch (e) {
+        return _origDomToBlock.call(this, xmlBlock, workspace);
+      }
+    };
+  })();
+}

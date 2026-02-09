@@ -4,6 +4,7 @@ var FRAGMENT_SHADER_OG = require("./sprite.frag").default;
 var FRAGMENT_SHADER = `
 #define ENABLE_ghost
 #define ENABLE_wavy
+#define ENABLE_ribbon
 #define ENABLE_brightness
 ${FRAGMENT_SHADER_OG}
 `;

@@ -288,7 +288,7 @@ class GGM3Engine extends EventEmitter {
     newSprite.skewX = fromSprite.skewX;
     newSprite.skewY = fromSprite.skewY;
 
-    for (var variable of Object.keys(newSprite.variables)) {
+    for (var variable of Object.keys(fromSprite.variables)) {
       try {
         newSprite.variables[variable] = JSON.parse(
           JSON.stringify(fromSprite.variables[variable]),
@@ -296,7 +296,7 @@ class GGM3Engine extends EventEmitter {
       } catch (e) {}
     }
 
-    for (var variable of Object.keys(newSprite.spriteProperties)) {
+    for (var variable of Object.keys(fromSprite.spriteProperties)) {
       try {
         newSprite.spriteProperties[variable] = JSON.parse(
           JSON.stringify(fromSprite.spriteProperties[variable]),

@@ -44,6 +44,140 @@ function updateSpritesContainer() {
         style: {
           cursor: "grab",
         },
+        eventListeners: [
+          {
+            event: "dragover",
+            func: function (evt) {
+              try {
+                evt.preventDefault();
+                var elm = evt.currentTarget || evt.target;
+                elm.classList.add("sprite-drop-target");
+              } catch (err) {}
+            },
+          },
+          {
+            event: "dragleave",
+            func: function (evt) {
+              try {
+                var elm = evt.currentTarget || evt.target;
+                elm.classList.remove("sprite-drop-target");
+              } catch (err) {}
+            },
+          },
+          {
+            event: "mouseup",
+            func: function (evt) {
+              try {
+                var elm = evt.currentTarget || evt.target;
+                elm.classList.remove("sprite-drop-target");
+              } catch (err) {}
+
+              // Only proceed if a block is being dragged via our global tracker
+              var draggedBlock = null;
+              try {
+                draggedBlock =
+                  window.__ggm3_currentDragBlock || Blockly.selected;
+              } catch (err) {
+                draggedBlock = Blockly.selected;
+              }
+              if (!draggedBlock) return;
+
+              // Ensure the dragged block originates from the visible editor workspace
+              try {
+                if (!draggedBlock.workspace) return;
+                var srcWorkspace = blocks.getCurrentWorkspace();
+                if (draggedBlock.workspace !== srcWorkspace) return;
+              } catch (err) {
+                return;
+              }
+
+              // Prevent dropping into the same sprite or its clones
+              if (i === currentSelectedSpriteIndex) return;
+              if (currentSelectedSprite && currentSelectedSprite.clones) {
+                if (currentSelectedSprite.clones.indexOf(spr) !== -1) return;
+              }
+
+              // Copy the root block into the target sprite using a temp workspace
+              try {
+                var root = draggedBlock.getRootBlock();
+                if (!root) return;
+                var div = document.createElement("div");
+                document.body.append(div);
+                var tempWorkspace = Blockly.inject(div, {
+                  comments: true,
+                  disable: false,
+                  collapse: false,
+                  media: "../media/",
+                  readOnly: false,
+                  rtl: false,
+                  scrollbars: false,
+                  trashcan: false,
+                  sounds: false,
+                });
+
+                // Load existing target sprite XML into temp workspace if present
+                if (spr.blocklyXML) {
+                  Blockly.Xml.domToWorkspace(spr.blocklyXML, tempWorkspace);
+                }
+
+                // Import the dragged block into the temp workspace (ids remapped by domToBlock wrapper)
+                var xmlBlock = Blockly.Xml.blockToDom(root);
+                Blockly.Xml.domToBlock(xmlBlock, tempWorkspace);
+
+                // Copy any variables from source sprite to target sprite that don't exist yet
+                try {
+                  if (
+                    currentSelectedSprite &&
+                    currentSelectedSprite.variables
+                  ) {
+                    for (var varId of Object.keys(
+                      currentSelectedSprite.variables,
+                    )) {
+                      if (!spr.variables[varId]) {
+                        spr.variables[varId] =
+                          currentSelectedSprite.variables[varId];
+                      }
+                    }
+                  }
+                  if (
+                    currentSelectedSprite &&
+                    currentSelectedSprite.spriteProperties
+                  ) {
+                    for (var propName of Object.keys(
+                      currentSelectedSprite.spriteProperties,
+                    )) {
+                      if (!spr.spriteProperties[propName]) {
+                        spr.spriteProperties[propName] =
+                          currentSelectedSprite.spriteProperties[propName];
+                      }
+                    }
+                  }
+                } catch (varErr) {
+                  console.warn(
+                    "Warning: could not copy variables to target sprite:",
+                    varErr,
+                  );
+                }
+
+                // Persist updated blocks back to the sprite
+                spr.blocklyXML = Blockly.Xml.workspaceToDom(tempWorkspace);
+
+                tempWorkspace.dispose();
+                div.remove();
+
+                // Compile the sprite so the new block takes effect (and runs if starter)
+                try {
+                  compileSpriteXML(spr);
+                } catch (e) {}
+
+                // Optional: update UI
+                updateSpritesContainer();
+              } catch (err) {
+                console.error("Error copying block to sprite:", err);
+              }
+            },
+          },
+        ],
         GPWhenCreated: function (elm) {
           if (currentSelectedSpriteIndex == i) {
             elm.setAttribute("selected", "");

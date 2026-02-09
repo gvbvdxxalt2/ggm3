@@ -120,6 +120,12 @@ const originalStartDraggingBlock =
 ScratchBlocks.Gesture.prototype.startDraggingBlock_ = function (...args) {
   let block = this.targetBlock_;
 
+  // Track the currently dragged block globally so other UI (sprite list)
+  // can detect drops and copy blocks across sprites.
+  try {
+    window.__ggm3_currentDragBlock = block;
+  } catch (e) {}
+
   // Scratch uses fake mouse events to implement right click > duplicate
   const isRightClickDuplicate = !(this.mostRecentEvent_ instanceof MouseEvent);
 
@@ -166,6 +172,9 @@ ScratchBlocks.Gesture.prototype.startDraggingBlock_ = function (...args) {
     if (newBlock) {
       block = newBlock;
       this.targetBlock_ = newBlock;
+      try {
+        window.__ggm3_currentDragBlock = newBlock;
+      } catch (e) {}
       if (ScratchBlocks.Events.isEnabled()) {
         ScratchBlocks.Events.fire(
           new ScratchBlocks.Events.BlockCreate(newBlock),
@@ -186,3 +195,14 @@ ScratchBlocks.Gesture.prototype.startDraggingBlock_ = function (...args) {
 
   return originalStartDraggingBlock.call(this, ...args);
 };
+
+// Clear the global drag tracker on mouseup to avoid stale references
+document.addEventListener(
+  "mouseup",
+  function () {
+    try {
+      window.__ggm3_currentDragBlock = null;
+    } catch (e) {}
+  },
+  { capture: true },
+);

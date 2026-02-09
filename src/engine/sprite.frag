@@ -43,6 +43,13 @@ uniform float u_wave_ytime; // Renamed from ytime
 #endif // ENABLE_wavy
 // -----------------------------
 
+// --- ADDED FOR RIBBON EFFECT ---
+#ifdef ENABLE_ribbon
+uniform float u_ribbonShiftX;
+uniform float u_ribbonShiftY;
+#endif // ENABLE_ribbon
+// ---------------------------------
+
 #ifdef DRAW_MODE_line
 varying vec4 v_lineColor;
 varying float v_lineThickness;
@@ -131,6 +138,16 @@ void main()
 	#ifdef ENABLE_mosaic
 	texcoord0 = fract(u_mosaic * texcoord0);
 	#endif // ENABLE_mosaic
+
+	// --- APPLIED RIBBON EFFECT EARLY ---
+	// Apply ribbon effect before pixelate to avoid pixelation artifacts
+	#ifdef ENABLE_ribbon
+	{
+		texcoord0.x = fract(texcoord0.x + u_ribbonShiftX);
+		texcoord0.y = fract(texcoord0.y + u_ribbonShiftY);
+	}
+	#endif // ENABLE_ribbon
+	// --------------------------------
 
 	#ifdef ENABLE_pixelate
 	{
