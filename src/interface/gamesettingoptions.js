@@ -120,16 +120,15 @@ gameSettingOptions.start = function () {
     engine.updateCanvasSize();
   });
 
-  function updateGameSize() {
+  function updateGameInfo() {
     widthInput.value = engine.gameWidth;
     heightInput.value = engine.gameHeight;
+    frameRateInput.value = engine.frameRate;
   }
 
-  engine.on(engine.RESOLUTION_UPDATED, updateGameSize);
-  engine.on(engine.FRAMERATE_CHANGED, () => {
-    frameRateInput.value = engine.frameRate;
-  });
-  updateGameSize();
+  engine.on(engine.RESOLUTION_UPDATED, updateGameInfo);
+  engine.on(engine.FRAMERATE_CHANGED, updateGameInfo);
+  updateGameInfo();
 };
 
 module.exports = gameSettingOptions;
