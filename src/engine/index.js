@@ -71,8 +71,8 @@ class GGM3Engine extends EventEmitter {
     this.changeCursorStyle(this.DEFAULT_CURSOR_STYLE);
   }
 
-  changeCursorStyle (value) {
-    var cursorStyle = value ? ""+value : this.DEFAULT_CURSOR_STYLE;
+  changeCursorStyle(value) {
+    var cursorStyle = value ? "" + value : this.DEFAULT_CURSOR_STYLE;
     if (cursorStyle !== this.cursorStyle) {
       this.cursorStyle = cursorStyle;
       this.canvas.style.cursor = cursorStyle;
