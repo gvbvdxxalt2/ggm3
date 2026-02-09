@@ -19,6 +19,8 @@ class GGM3Engine extends EventEmitter {
   DEFAULT_WIDTH = 640;
   DEFAULT_HEIGHT = 360;
   DEFAULT_FRAMERATE = 60;
+  DEFAULT_CURSOR_STYLE = "default";
+  CURSOR_CHANGED = "CURSOR_CHANGED";
 
   constructor(canvas) {
     super();
@@ -62,6 +64,16 @@ class GGM3Engine extends EventEmitter {
     this.screenScale = 1;
     this.updateCanvasSize();
     this.calculateGLStuff();
+    this.changeCursorStyle(this.DEFAULT_CURSOR_STYLE);
+  }
+
+  changeCursorStyle (value) {
+    var cursorStyle = value ? ""+value : this.DEFAULT_CURSOR_STYLE;
+    if (cursorStyle !== this.cursorStyle) {
+      this.cursorStyle = cursorStyle;
+      this.canvas.style.cursor = cursorStyle;
+      this.emit(this.CURSOR_CHANGED, cursorStyle);
+    }
   }
 
   setWidth(v) {
