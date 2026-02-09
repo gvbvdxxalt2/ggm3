@@ -1,4 +1,4 @@
-precision mediump float;
+precision highp float;
 
 #ifdef DRAW_MODE_silhouette
 uniform vec4 u_silhouetteColor;
