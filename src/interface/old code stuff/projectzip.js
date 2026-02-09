@@ -1,3 +1,5 @@
+//Unused, replaced by ../file/ggm3zip.js
+
 var JSZip = require("jszip");
 var engine = require("./curengine.js");
 var selectedSprite = require("./selectedsprite.js");

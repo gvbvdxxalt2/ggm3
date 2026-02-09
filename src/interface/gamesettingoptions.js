@@ -89,7 +89,7 @@ gameSettingOptions.elements = [
         ...numberInputEventListeners(),
         type: "number",
         min: 1,
-        max: 99999,
+        max: 500,
         value: 5,
         gid: "game-settings-frameRate",
       },
