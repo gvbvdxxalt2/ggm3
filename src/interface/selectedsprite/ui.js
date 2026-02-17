@@ -61,18 +61,35 @@ function init(state, deps) {
             {
               event: "mouseup",
               func: function (evt) {
+                var elm = evt.currentTarget || evt.target;
+                
+                // --- FIX 1: Ignore if clicking buttons ---
+                // If the user clicked "Select", "Delete", etc., stop here.
+                if (evt.target.tagName === "BUTTON") return;
+                // -----------------------------------------
+
                 try {
-                  var elm = evt.currentTarget || evt.target;
                   elm.classList.remove("sprite-drop-target");
                 } catch (err) {}
 
                 var draggedBlock = null;
-                try {
-                  draggedBlock =
-                    window.__ggm3_currentDragBlock || Blockly.selected;
-                } catch (err) {
-                  draggedBlock = Blockly.selected;
+                
+                // --- FIX 2: Strict Drag Check ---
+                // Blockly.selected exists even if you just click a block. 
+                // We must check if a drag is actually IN PROGRESS.
+                // Depending on your Blockly version, use isDragging() or check the gesture.
+                if (Blockly.Gesture && Blockly.Gesture.inProgress) {
+                    // Modern Blockly
+                    draggedBlock = Blockly.selected; 
+                } else if (Blockly.dragMode_ !== 0) { 
+                    // Older Blockly / Internal flag check
+                    draggedBlock = Blockly.selected;
+                } else if (window.__ggm3_currentDragBlock) {
+                    // Your custom drag handler
+                    draggedBlock = window.__ggm3_currentDragBlock;
                 }
+                
+                // If we still don't think we are dragging, STOP.
                 if (!draggedBlock) return;
 
                 try {
