@@ -68,6 +68,7 @@ Blockly.WorkspaceSvg.prototype.registerToolboxCategoryCallback(
             </value>
             <field name="VARIABLE">${getSafeHTML(variable)}</field>
           </block>`);
+      blockElement.setAttribute("id", "property_var_getter_" + varName);
 
       // Add context menu to delete the variable
       blockElement.setAttribute("propertydata-variable-name", variable);

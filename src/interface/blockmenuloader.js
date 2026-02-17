@@ -34,6 +34,9 @@ function loadGlobalVariableBlocks(spr) {
               if (accepted) {
                 engine.removeGlobalVariable(variableName);
 
+                // Refresh toolbox in main workspace
+                mainWorkspace.getToolbox().refreshSelection();
+                
                 // Helper to delete blocks in a workspace
                 function deleteBlocksInWorkspace(workspace) {
                   if (workspace && workspace.getAllBlocks) {
@@ -94,13 +97,9 @@ function loadGlobalVariableBlocks(spr) {
                 div.remove();
 
                 // Refresh toolbox in main workspace
-                if (
-                  mainWorkspace &&
-                  mainWorkspace.getToolbox &&
-                  mainWorkspace.getToolbox()
-                ) {
-                  mainWorkspace.getToolbox().refreshSelection();
-                }
+                mainWorkspace.getToolbox().refreshSelection();
+
+                Blockly.svgResize(mainWorkspace);
               }
             },
           );

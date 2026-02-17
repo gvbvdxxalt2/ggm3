@@ -58,26 +58,29 @@ Blockly.WorkspaceSvg.prototype.registerToolboxCategoryCallback(
       },
     );
 
-    var variables = Object.keys(engine.globalVariables);
+    var variableNames = Array.from(Object.keys(engine.globalVariables));
 
-    for (var variable of variables) {
-      var blockElement = createElementXML(`
-          <block type="globaldata_get">
-            <field name="VARIABLE">${getSafeHTML(variable)}</field>
-          </block>`);
+    xmlList = xmlList.concat(variableNames.map((varName) => {
+      var blockElement = document.createElement("block");
+      blockElement.setAttribute("type","globaldata_get");
+      blockElement.setAttribute("id", "global_var_getter_" + varName);
+
+      var field = document.createElement("field");
+      field.setAttribute("name", "VARIABLE");
+      field.textContent = varName;
+      blockElement.append(field);
 
       // Add context menu to delete the variable
-      blockElement.setAttribute("data-variable-name", variable);
+      blockElement.setAttribute("data-variable-name", varName);
+      return blockElement;
+    }));
 
-      xmlList.push(blockElement);
-    }
-
-    if (variables.length > 0) {
-      var firstVariable = variables[0];
+    if (variableNames.length > 0) {
+      var firstVariable = variableNames[0];
       xmlList.push(
         createElementXML(`
           <block type="globaldata_changeby">
-            <field name="VARIABLE">${getSafeHTML(variable)}</field>
+            <field name="VARIABLE">${getSafeHTML(firstVariable)}</field>
             <value name="VALUE">
                 <shadow type="math_number">
                     <field name="NUM">1</field>
@@ -89,7 +92,7 @@ Blockly.WorkspaceSvg.prototype.registerToolboxCategoryCallback(
       xmlList.push(
         createElementXML(`
           <block type="globaldata_set">
-            <field name="VARIABLE">${getSafeHTML(variable)}</field>
+            <field name="VARIABLE">${getSafeHTML(firstVariable)}</field>
             <value name="VALUE">
                 <shadow type="text">
                     <field name="TEXT">0</field>
